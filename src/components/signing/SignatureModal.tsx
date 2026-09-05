@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export interface SignatureOutput {
-  type: 'draw' | 'type' | 'upload';
+  type: 'draw' | 'type' | 'upload' | 'stamp' | 'passkey';
   value: string;
   fontFamily?: string;
 }

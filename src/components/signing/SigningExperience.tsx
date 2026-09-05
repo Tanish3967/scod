@@ -10,7 +10,9 @@ import {
   AlertCircle,
   FileCheck,
   CreditCard,
-  Lock
+  Lock,
+  Fingerprint,
+  KeyRound
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
 import { DocumentField, Recipient } from '../../types/signflow';
@@ -20,6 +22,7 @@ import { PaymentFieldModal } from './PaymentFieldModal';
 import { MobileQRModal } from './MobileQRModal';
 import { SignSuccessModal } from './SignSuccessModal';
 import { SIGNER_LOCALIZATION, SignerLanguage } from '../../utils/signerLocalization';
+import { authenticateWithPasskey } from '../../utils/passkeyUtils';
 
 export const SigningExperience: React.FC = () => {
   const { activeEnvelope, submitSignerSignature, setActiveView } = useSignFlow();
@@ -41,6 +44,8 @@ export const SigningExperience: React.FC = () => {
   const [showMobileQR, setShowMobileQR] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isPasskeySigning, setIsPasskeySigning] = useState(false);
+  const [passkeyMetadata, setPasskeyMetadata] = useState<any>(null);
 
   if (!activeEnvelope) {
     return (
@@ -70,6 +75,30 @@ export const SigningExperience: React.FC = () => {
     }));
   };
 
+  const handleQuickPasskeySign = async () => {
+    setIsPasskeySigning(true);
+    try {
+      const auth = await authenticateWithPasskey(
+        currentRecipient.name,
+        currentRecipient.email,
+        doc?.sha256Hash || 'sha256-agreement-merkle'
+      );
+      setPasskeyMetadata(auth);
+      setSignatureOutput({
+        type: 'passkey',
+        value: auth.svgBadge
+      });
+      setFieldValues(prev => ({
+        ...prev,
+        signature: auth.svgBadge
+      }));
+    } catch (err) {
+      console.warn('Passkey sign error:', err);
+    } finally {
+      setIsPasskeySigning(false);
+    }
+  };
+
   const handleConfirmPayment = (details: { last4: string; brand: string; amount: number }) => {
     setFieldValues(prev => ({
       ...prev,
@@ -79,12 +108,20 @@ export const SigningExperience: React.FC = () => {
 
   const handleSubmit = () => {
     const signatureData: Recipient['signatureData'] = signatureOutput ? {
-      type: signatureOutput.type,
+      type: signatureOutput.type as any,
       value: signatureOutput.value,
       fontFamily: signatureOutput.fontFamily,
       appliedAt: new Date().toISOString(),
       ipAddress: '198.51.100.82',
-      deviceFingerprint: navigator.userAgent
+      deviceFingerprint: navigator.userAgent,
+      passkeyDetails: passkeyMetadata ? {
+        credentialId: passkeyMetadata.credentialId,
+        authenticatorName: passkeyMetadata.authenticatorName,
+        hardwareEnclave: passkeyMetadata.hardwareEnclave,
+        signatureAlgorithm: passkeyMetadata.signatureAlgorithm,
+        authTimestamp: passkeyMetadata.verifiedAt,
+        securityLevel: passkeyMetadata.securityLevel
+      } : undefined
     } : {
       type: 'draw',
       value: currentRecipient.name,
@@ -139,6 +176,17 @@ export const SigningExperience: React.FC = () => {
             <option value="de">🇩🇪 DE</option>
             <option value="ja">🇯🇵 JA</option>
           </select>
+
+          {/* One-Click Passkey Hardware Signing Action */}
+          <button
+            onClick={handleQuickPasskeySign}
+            disabled={isPasskeySigning}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/30 to-indigo-600/30 hover:from-purple-600/40 hover:to-indigo-600/40 text-purple-200 border border-purple-500/40 text-xs font-semibold shadow-xs transition-all cursor-pointer"
+            title="Authenticate with Touch ID / Face ID / Windows Hello"
+          >
+            <Fingerprint className={`w-3.5 h-3.5 text-purple-400 ${isPasskeySigning ? 'animate-ping' : ''}`} />
+            <span>{isPasskeySigning ? 'Scanning Biometrics...' : 'Passkey (Touch ID)'}</span>
+          </button>
 
           {/* AI Plain-English TL;DR Drawer Button */}
           <button

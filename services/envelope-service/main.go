@@ -55,6 +55,31 @@ func main() {
 		w.Write([]byte(fmt.Sprintf(`{"status":"healthy","service":"envelope-service","version":"2.0.0-scale","grpc_port":9081,"shards_active":16,"cache_tier":"L1+L2","timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))))
 	})
 
+	// Standardized Prometheus Metrics Exporter
+	mux.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		w.Header().Set("Content-Type", "text/plain; version=0.0.4")
+		telemetry := cacheEngine.GetTelemetry()
+		l1Items, _ := telemetry["l1_items_in_ram"].(int)
+		metrics := fmt.Sprintf(`# HELP signflow_envelope_shards_total Total physical consistent hash shards
+# TYPE signflow_envelope_shards_total gauge
+signflow_envelope_shards_total 16
+
+# HELP signflow_cache_l1_items Current hot items in RAM cache
+# TYPE signflow_cache_l1_items gauge
+signflow_cache_l1_items %d
+
+# HELP signflow_envelope_total_stored Total envelopes managed in storage
+# TYPE signflow_envelope_total_stored gauge
+signflow_envelope_total_stored %d
+
+# HELP signflow_service_health Service health status (1 = healthy)
+# TYPE signflow_service_health gauge
+signflow_service_health{service="envelope-service"} 1
+`, l1Items, store.Count())
+		w.Write([]byte(metrics))
+	})
+
 	// Shard Topology Endpoint
 	mux.HandleFunc("/api/v1/shards/topology", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(w)

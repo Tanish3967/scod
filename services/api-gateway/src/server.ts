@@ -76,6 +76,29 @@ app.get('/api/v1/edge/telemetry', (req: any, res: any) => {
   });
 });
 
+// Standardized Prometheus Metrics Exporter
+app.get('/metrics', (req: any, res: any) => {
+  const tele = globalEdgeRateLimiter.getTelemetry();
+  res.setHeader('Content-Type', 'text/plain; version=0.0.4');
+  const metrics = `# HELP signflow_edge_requests_total Total edge ingress HTTP requests evaluated
+# TYPE signflow_edge_requests_total counter
+signflow_edge_requests_total ${tele.total_requests_evaluated || 0}
+
+# HELP signflow_edge_ratelimit_blocked_total Total 429 rate-limited requests
+# TYPE signflow_edge_ratelimit_blocked_total counter
+signflow_edge_ratelimit_blocked_total ${tele.total_rate_limited_requests || 0}
+
+# HELP signflow_edge_active_buckets Current active sliding-window rate limit buckets
+# TYPE signflow_edge_active_buckets gauge
+signflow_edge_active_buckets ${tele.active_rate_limit_buckets || 0}
+
+# HELP signflow_service_health Service health status (1 = healthy)
+# TYPE signflow_service_health gauge
+signflow_service_health{service="api-gateway"} 1
+`;
+  res.send(metrics);
+});
+
 // Proxy helper for forwarding requests
 async function proxyTo(targetUrl: string, req: any, res: any) {
   try {

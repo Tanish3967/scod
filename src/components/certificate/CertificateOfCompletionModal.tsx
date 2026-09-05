@@ -259,6 +259,20 @@ export const CertificateOfCompletionModal: React.FC<{
                       {rec.signatureData?.appliedAt ? 'sig_sha256_9824fa10b9824c0091823abf89201' : 'doc_hash_bound_verified_sha256'}
                     </span>
                   </div>
+
+                  {rec.signatureData?.passkeyDetails && (
+                    <div className="mt-2 p-2.5 rounded-lg bg-indigo-50/80 border border-indigo-200/80 text-[11px] font-mono space-y-1 text-indigo-950">
+                      <div className="flex items-center space-x-1.5 font-bold text-indigo-800">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>FIDO2 / WebAuthn Hardware-Protected Attestation (NIST SP 800-63B AAL3)</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[10px] text-slate-700">
+                        <div>Enclave: <strong>{rec.signatureData.passkeyDetails.hardwareEnclave}</strong></div>
+                        <div>Algorithm: <strong>{rec.signatureData.passkeyDetails.signatureAlgorithm}</strong></div>
+                        <div className="sm:col-span-2 truncate">Credential ID: <span className="text-indigo-600">{rec.signatureData.passkeyDetails.credentialId}</span></div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

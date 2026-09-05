@@ -39,6 +39,33 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
+// Standardized Prometheus Metrics Exporter
+app.get('/metrics', (req: Request, res: Response) => {
+  const tele = globalESPFanoutMesh.getTelemetry();
+  res.setHeader('Content-Type', 'text/plain; version=0.0.4');
+  const metrics = `# HELP signflow_esp_dispatches_total Total transactional recipient notifications dispatched
+# TYPE signflow_esp_dispatches_total counter
+signflow_esp_dispatches_total ${tele.total_dispatches || 0}
+
+# HELP signflow_esp_failovers_total Total automatic circuit breaker failovers
+# TYPE signflow_esp_failovers_total counter
+signflow_esp_failovers_total ${tele.total_failovers || 0}
+
+# HELP signflow_esp_deduplications_total Total duplicate dispatches prevented by 24h idempotency engine
+# TYPE signflow_esp_deduplications_total counter
+signflow_esp_deduplications_total ${tele.total_deduplications || 0}
+
+# HELP signflow_idempotency_keys_active Currently cached 24h idempotency deduplication keys
+# TYPE signflow_idempotency_keys_active gauge
+signflow_idempotency_keys_active ${tele.active_idempotency_keys || 0}
+
+# HELP signflow_service_health Service health status (1 = healthy)
+# TYPE signflow_service_health gauge
+signflow_service_health{service="notification-webhooks"} 1
+`;
+  res.send(metrics);
+});
+
 // 1. Dispatch Webhook Event
 app.post('/api/v1/webhooks/dispatch', (req: Request, res: Response) => {
   const { event = 'envelope.completed', payload = {}, targetUrl = 'https://api.acmeglobal.com/webhook', secret = 'whsec_sample_secret_key' } = req.body;

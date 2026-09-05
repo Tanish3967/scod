@@ -24,7 +24,8 @@ export type AuthType =
   | 'access_code' 
   | 'sms_otp' 
   | 'kba' 
-  | 'idv_biometric';
+  | 'idv_biometric'
+  | 'passkey_webauthn';
 
 export type FieldType = 
   | 'signature' 
@@ -74,12 +75,21 @@ export interface Recipient {
   declinedReason?: string;
   signedAt?: string;
   signatureData?: {
-    type: 'draw' | 'type' | 'upload';
+    type: 'draw' | 'type' | 'upload' | 'stamp' | 'passkey';
     value: string; // dataUrl or font name + text
     fontFamily?: string;
     appliedAt: string;
     ipAddress: string;
     deviceFingerprint: string;
+    passkeyDetails?: {
+      credentialId: string;
+      aaguid?: string;
+      authenticatorName: string;
+      hardwareEnclave: string;
+      signatureAlgorithm: string;
+      authTimestamp: string;
+      securityLevel: 'AAL3_Hardware_Backed' | 'FIDO2_L2';
+    };
   };
   idvVerification?: {
     provider: string;
@@ -88,6 +98,11 @@ export interface Recipient {
     documentType: 'Passport' | 'Drivers_License' | 'National_ID';
     timestamp: string;
     idvRecordId: string;
+  };
+  passkeyAuth?: {
+    credentialId: string;
+    authenticatorType: string;
+    verifiedAt: string;
   };
 }
 
@@ -282,11 +297,19 @@ export interface WebhookLog {
 export interface CustomSignature {
   id: string;
   name: string;
-  type: 'draw' | 'type' | 'upload' | 'stamp';
+  type: 'draw' | 'type' | 'upload' | 'stamp' | 'passkey';
   value: string; // Data URL or text string
   fontFamily?: string;
   inkColor?: string;
   initials?: string;
   isDefault?: boolean;
   createdAt: string;
+  passkeyDetails?: {
+    credentialId: string;
+    authenticatorName: string;
+    hardwareEnclave: string;
+    signatureAlgorithm: string;
+    verifiedAt: string;
+    securityLevel: string;
+  };
 }

@@ -55,6 +55,38 @@ func main() {
 		w.Write([]byte(fmt.Sprintf(`{"status":"healthy","service":"document-processor","version":"2.0.0-scale","grpc_port":9083,"worker_concurrency":64,"timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))))
 	})
 
+	// Standardized Prometheus Metrics Exporter
+	mux.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		w.Header().Set("Content-Type", "text/plain; version=0.0.4")
+		poolStats := workerPool.GetTelemetry()
+		concurrency, _ := poolStats["concurrency_limit"].(int)
+		completed, _ := poolStats["completed_jobs"].(uint64)
+		failed, _ := poolStats["failed_jobs"].(uint64)
+		active, _ := poolStats["active_workers"].(int32)
+		metrics := fmt.Sprintf(`# HELP signflow_pdf_worker_concurrency Parallel Go worker goroutines limit
+# TYPE signflow_pdf_worker_concurrency gauge
+signflow_pdf_worker_concurrency %d
+
+# HELP signflow_pdf_worker_active Active worker goroutines
+# TYPE signflow_pdf_worker_active gauge
+signflow_pdf_worker_active %d
+
+# HELP signflow_pdf_jobs_completed_total Total background rendering and sealing jobs completed
+# TYPE signflow_pdf_jobs_completed_total counter
+signflow_pdf_jobs_completed_total %d
+
+# HELP signflow_pdf_jobs_failed_total Total failed rendering jobs
+# TYPE signflow_pdf_jobs_failed_total counter
+signflow_pdf_jobs_failed_total %d
+
+# HELP signflow_service_health Service health status (1 = healthy)
+# TYPE signflow_service_health gauge
+signflow_service_health{service="document-processor"} 1
+`, concurrency, active, completed, failed)
+		w.Write([]byte(metrics))
+	})
+
 	mux.HandleFunc("/api/v1/documents/process", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(w)
 		if r.Method == http.MethodOptions {

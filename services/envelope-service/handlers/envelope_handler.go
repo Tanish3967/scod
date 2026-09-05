@@ -49,6 +49,12 @@ func (s *EnvelopeStore) loadFromDisk() bool {
 	return false
 }
 
+func (s *EnvelopeStore) Count() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return len(s.envelopes)
+}
+
 func NewEnvelopeStore() *EnvelopeStore {
 	store := &EnvelopeStore{
 		envelopes: make(map[string]*models.Envelope),
