@@ -1,0 +1,147 @@
+name: SignFlow Enterprise CI & 100M-Scale Benchmark Suite
+
+on:
+  push:
+    branches: [ main, 'feature/**' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  # --------------------------------------------------------------------------
+  # 1. Frontend Build & Type Check
+  # --------------------------------------------------------------------------
+  frontend-build:
+    name: 🎨 Frontend (React 19 + TypeScript + Vite)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: TypeScript Verification & Production Build
+        run: npm run build
+
+      - name: Upload Production Web Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: signflow-web-dist
+          path: dist/
+          retention-days: 7
+
+  # --------------------------------------------------------------------------
+  # 2. Go Microservices Matrix Build
+  # --------------------------------------------------------------------------
+  go-microservices:
+    name: 🐹 Go Microservice (${{ matrix.service }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - envelope-service
+          - audit-trail-service
+          - document-processor
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: services/${{ matrix.service }}/go.sum
+
+      - name: Go Vet & Lint
+        working-directory: services/${{ matrix.service }}
+        run: go vet ./...
+
+      - name: Go Build Binary
+        working-directory: services/${{ matrix.service }}
+        run: go build -v -o ../../${{ matrix.service }} .
+
+  # --------------------------------------------------------------------------
+  # 3. TypeScript Microservices Build
+  # --------------------------------------------------------------------------
+  ts-microservices:
+    name: ⚡ TypeScript Microservice (${{ matrix.service }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - api-gateway
+          - notification-webhooks
+          - ai-orchestrator
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Root Dependencies
+        run: npm ci
+
+      - name: Compile Service TypeScript
+        run: npx tsc -p services/${{ matrix.service }}
+
+  # --------------------------------------------------------------------------
+  # 4. 100M-Scale Concurrency & Resiliency Benchmark Suite
+  # --------------------------------------------------------------------------
+  scale-benchmarks:
+    name: 🚀 100M-Scale Architecture Stress & Resilience Verification
+    runs-on: ubuntu-latest
+    needs: [frontend-build, go-microservices, ts-microservices]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Setup Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Compile Go Services for Testing
+        run: |
+          cd services/envelope-service && go build -o ../../envelope_service . && cd ../..
+          cd services/audit-trail-service && go build -o ../../audit_service . && cd ../..
+          cd services/document-processor && go build -o ../../doc_processor . && cd ../..
+          chmod +x envelope_service audit_service doc_processor
+
+      - name: Compile TypeScript Microservices
+        run: |
+          npx tsc -p services/api-gateway
+          npx tsc -p services/notification-webhooks
+          npx tsc -p services/ai-orchestrator
+
+      - name: Run Phase 1 Stress Benchmark (Protobuf & Distributed Tracing)
+        run: node tools/stress_test_phase1.cjs
+
+      - name: Run Phase 2 Benchmark (Consistent Hash Sharding & Multi-Tier Caching)
+        run: node tools/test_phase2_sharding_cache.cjs
+
+      - name: Run Phase 3 Benchmark (Async PDF Worker Pool & Decoupled Sealing Queue)
+        run: node tools/test_phase3_worker_pool.cjs
+
+      - name: Run Phase 4 Benchmark (Edge Ingress Rate Limiting & ESP Fan-Out Mesh)
+        run: node tools/test_phase4_edge_fanout_mesh.cjs
