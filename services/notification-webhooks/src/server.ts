@@ -2,12 +2,13 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import crypto from 'crypto';
 import { sendAgreementEmail, dispatchedEmailsLog } from './email_service';
+import { globalESPFanoutMesh, ESPProvider, FanoutRecipient } from './fanout_mesh';
 
 const app = express();
 const PORT = process.env.PORT || 8085;
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
 
 interface WebhookLogItem {
   id: string;
@@ -26,6 +27,17 @@ const deliveryLogs: WebhookLogItem[] = [];
 function calculateHmac(payloadString: string, secret: string): string {
   return 'sha256=' + crypto.createHmac('sha256', secret).update(payloadString).digest('hex');
 }
+
+// Health probe
+app.get('/health', (req: Request, res: Response) => {
+  res.json({
+    status: 'healthy',
+    service: 'notification-webhooks',
+    version: '2.0.0-scale',
+    timestamp: new Date().toISOString(),
+    mesh_status: 'online'
+  });
+});
 
 // 1. Dispatch Webhook Event
 app.post('/api/v1/webhooks/dispatch', (req: Request, res: Response) => {
@@ -65,7 +77,7 @@ app.get('/api/v1/webhooks/logs', (req: Request, res: Response) => {
   });
 });
 
-// 3. Email Dispatch Endpoint
+// 3. Email Dispatch Endpoint (using Mesh with Automatic Failover)
 app.post('/api/v1/emails/send', async (req: Request, res: Response) => {
   const {
     toEmail = 'signer@example.com',
@@ -76,30 +88,76 @@ app.post('/api/v1/emails/send', async (req: Request, res: Response) => {
     senderOrg = 'Acme Global Inc',
     magicLink = 'http://localhost:5174/?sign=' + envelopeId,
     accessCode,
-    config = { provider: 'sandbox' }
+    provider = 'resend',
+    idempotencyKey
   } = req.body;
 
-  const result = await sendAgreementEmail(
-    toEmail,
-    recipientName,
+  const result = await globalESPFanoutMesh.sendWithFailover(
+    { email: toEmail, name: recipientName, magicLink, accessCode },
     envelopeId,
     envelopeTitle,
     senderName,
     senderOrg,
-    magicLink,
-    accessCode,
-    config
+    provider as ESPProvider,
+    idempotencyKey
   );
 
   res.json({
     success: true,
-    message: `Transactional email sent to ${toEmail}`,
-    emailId: result.id,
-    provider: result.provider
+    message: `Transactional email processed for ${toEmail}`,
+    dispatchResult: result
   });
 });
 
-// 4. Fetch Virtual Signer Inbox Logs
+// 4. Batch Fan-Out Dispatching (Bulk Multi-Recipient with Micro-Batching & Idempotency)
+app.post('/api/v1/emails/fanout', async (req: Request, res: Response) => {
+  const {
+    envelopeId = 'env-batch-fanout',
+    envelopeTitle = 'Enterprise Global Agreement',
+    senderName = 'Legal Operations',
+    senderOrg = 'SignFlow Enterprise',
+    recipients = [],
+    preferredProvider = 'resend',
+    idempotencyKey
+  } = req.body;
+
+  const batchResult = await globalESPFanoutMesh.fanoutBatch({
+    envelopeId,
+    envelopeTitle,
+    senderName,
+    senderOrg,
+    recipients,
+    preferredProvider,
+    idempotencyKey
+  });
+
+  res.json({
+    success: true,
+    ...batchResult
+  });
+});
+
+// 5. Mesh Telemetry & Provider Health
+app.get('/api/v1/mesh/telemetry', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    telemetry: globalESPFanoutMesh.getTelemetry()
+  });
+});
+
+// 6. Circuit Breaker Simulation & Chaos Testing
+app.post('/api/v1/mesh/circuit-breaker/trip', (req: Request, res: Response) => {
+  const { provider = 'resend', state = 'OPEN' } = req.body;
+  globalESPFanoutMesh.setCircuitState(provider as ESPProvider, state);
+
+  res.json({
+    success: true,
+    message: `Circuit breaker for provider [${provider}] set to [${state}]`,
+    telemetry: globalESPFanoutMesh.getTelemetry()
+  });
+});
+
+// 7. Fetch Virtual Signer Inbox Logs
 app.get('/api/v1/emails/inbox', (req: Request, res: Response) => {
   res.json({
     success: true,
@@ -109,5 +167,5 @@ app.get('/api/v1/emails/inbox', (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`[SignFlow Webhook & Notification Service] Listening on http://localhost:${PORT}`);
+  console.log(`[SignFlow Webhook & Notification Service] Listening on http://localhost:${PORT} (Multi-Provider ESP Mesh Online)`);
 });
