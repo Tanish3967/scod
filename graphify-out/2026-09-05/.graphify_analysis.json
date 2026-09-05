@@ -101,6 +101,7 @@
       "src_components_prepare_fieldpalette_fieldpalette",
       "src_components_prepare_fieldpalette_fieldtool",
       "src_components_prepare_recipientconfigpanel",
+      "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
       "src_components_signatures_customsignaturemodal",
       "src_components_signatures_customsignaturemodal_customsignaturemodal",
       "src_components_signatures_customsignaturemodal_customsignaturemodalprops",
@@ -138,11 +139,13 @@
       "src_types_signflow_template",
       "src_types_signflow_webhookendpoint",
       "src_types_signflow_webhooklog",
+      "src_utils_aiengine_detectsmartfields",
       "src_utils_cryptoutils",
       "src_utils_cryptoutils_formattimestamp",
       "src_utils_cryptoutils_generatefullsha256",
       "src_utils_cryptoutils_generatehmacsignature",
       "src_utils_cryptoutils_generateshorthash",
+      "src_utils_cryptoutils_generateuuid",
       "src_utils_cryptoutils_getmockdevicefingerprint",
       "src_utils_cryptoutils_getmockipaddress",
       "src_utils_cryptoutils_sha256",
@@ -172,7 +175,10 @@
       "handlers_audithandler_recordevent",
       "handlers_audithandler_verifyintegrity",
       "handlers_dochandler",
+      "handlers_dochandler_getjobstatus",
+      "handlers_dochandler_getworkerstats",
       "handlers_dochandler_processdocument",
+      "handlers_dochandler_submitasyncjob",
       "handlers_envelopehandler",
       "handlers_envelopehandler_createenvelope",
       "handlers_envelopehandler_getcachetelemetry",
@@ -200,12 +206,6 @@
       "services_audit_trail_service_main_enablecors",
       "services_audit_trail_service_main_main",
       "services_audit_trail_service_main_withaudittracing",
-      "services_document_processor_handlers_doc_handler",
-      "services_document_processor_handlers_doc_handler_newdochandler",
-      "services_document_processor_main",
-      "services_document_processor_main_enablecors",
-      "services_document_processor_main_main",
-      "services_document_processor_main_withdoctracing",
       "services_document_processor_processor_ocr_detector",
       "services_document_processor_processor_ocr_detector_autodetectfields",
       "services_document_processor_processor_ocr_detector_computesha256",
@@ -268,37 +268,6 @@
       "tailwind_merge"
     ],
     "4": [
-      "src_components_ai_aidraftingstudio",
-      "src_components_ai_aidraftingstudio_aidraftingstudio",
-      "src_components_ai_ailegalhub",
-      "src_components_ai_ailegalhub_ailegalhub",
-      "src_components_ai_airiskscanner",
-      "src_components_ai_airiskscanner_airiskscanner",
-      "src_components_ai_contractqabot",
-      "src_components_ai_contractqabot_contractqabot",
-      "src_components_ai_obligationcalendartracker",
-      "src_components_ai_obligationcalendartracker_obligationcalendartracker",
-      "src_components_clm_ainegotiationworkbench",
-      "src_components_clm_ainegotiationworkbench_redlineclause",
-      "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
-      "src_components_signing_signeraidrawer",
-      "src_components_signing_signeraidrawer_signeraidrawer",
-      "src_data_clauselibrary",
-      "src_data_clauselibrary_clause_library",
-      "src_data_clauselibrary_clauseitem",
-      "src_types_signflow_aidraftclausesuggestion",
-      "src_types_signflow_airiskanalysis",
-      "src_types_signflow_airiskfinding",
-      "src_types_signflow_obligationitem",
-      "src_utils_aiengine",
-      "src_utils_aiengine_analyzedocumentrisk",
-      "src_utils_aiengine_answercontractquestion",
-      "src_utils_aiengine_detectsmartfields",
-      "src_utils_aiengine_generatecontractdraft",
-      "src_utils_aiengine_generatesignersummary",
-      "src_utils_cryptoutils_generateuuid"
-    ],
-    "5": [
       "autoprefixer",
       "package",
       "package_devdependencies",
@@ -328,7 +297,7 @@
       "vite",
       "vitejs_plugin_react"
     ],
-    "6": [
+    "5": [
       "cache_cacheentry",
       "cache_cachestatus",
       "cache_multitiercache_getenvelope",
@@ -356,7 +325,61 @@
       "services_envelope_service_statemachine_state_machine_cantransition",
       "services_envelope_service_statemachine_state_machine_validatetransition"
     ],
+    "6": [
+      "src_components_ai_aidraftingstudio",
+      "src_components_ai_aidraftingstudio_aidraftingstudio",
+      "src_components_ai_ailegalhub",
+      "src_components_ai_ailegalhub_ailegalhub",
+      "src_components_ai_airiskscanner",
+      "src_components_ai_airiskscanner_airiskscanner",
+      "src_components_ai_contractqabot",
+      "src_components_ai_contractqabot_contractqabot",
+      "src_components_ai_obligationcalendartracker",
+      "src_components_ai_obligationcalendartracker_obligationcalendartracker",
+      "src_components_clm_ainegotiationworkbench",
+      "src_components_clm_ainegotiationworkbench_redlineclause",
+      "src_components_signing_signeraidrawer",
+      "src_components_signing_signeraidrawer_signeraidrawer",
+      "src_data_clauselibrary",
+      "src_data_clauselibrary_clause_library",
+      "src_data_clauselibrary_clauseitem",
+      "src_types_signflow_aidraftclausesuggestion",
+      "src_types_signflow_airiskanalysis",
+      "src_types_signflow_airiskfinding",
+      "src_types_signflow_obligationitem",
+      "src_utils_aiengine",
+      "src_utils_aiengine_analyzedocumentrisk",
+      "src_utils_aiengine_answercontractquestion",
+      "src_utils_aiengine_generatecontractdraft",
+      "src_utils_aiengine_generatesignersummary"
+    ],
     "7": [
+      "processor_jobstatus",
+      "processor_pdfjob",
+      "processor_workerpool_getjobstatus",
+      "processor_workerpool_gettelemetry",
+      "processor_workerpool_processmessage",
+      "processor_workerpool_startworkers",
+      "processor_workerpool_submitjob",
+      "queue_eventbus_getmetrics",
+      "queue_eventbus_publish",
+      "queue_eventbus_subscribe",
+      "queue_eventtopic",
+      "services_document_processor_handlers_doc_handler",
+      "services_document_processor_handlers_doc_handler_newdochandler",
+      "services_document_processor_main",
+      "services_document_processor_main_enablecors",
+      "services_document_processor_main_main",
+      "services_document_processor_main_withdoctracing",
+      "services_document_processor_processor_worker_pool",
+      "services_document_processor_processor_worker_pool_go_processor_workerpool",
+      "services_document_processor_processor_worker_pool_newworkerpool",
+      "services_document_processor_queue_event_bus",
+      "services_document_processor_queue_event_bus_go_queue_eventbus",
+      "services_document_processor_queue_event_bus_go_queue_eventmessage",
+      "services_document_processor_queue_event_bus_neweventbus"
+    ],
+    "8": [
       "ref_dom",
       "ref_dom_iterable",
       "ref_es2020",
@@ -380,7 +403,7 @@
       "tsconfig_include",
       "tsconfig_json_ref_src"
     ],
-    "8": [
+    "9": [
       "services_ai_orchestrator_package",
       "services_ai_orchestrator_package_dependencies",
       "services_ai_orchestrator_package_dependencies_cors",
@@ -396,7 +419,7 @@
       "services_ai_orchestrator_package_scripts_start",
       "services_ai_orchestrator_package_version"
     ],
-    "9": [
+    "10": [
       "services_api_gateway_package",
       "services_api_gateway_package_dependencies",
       "services_api_gateway_package_dependencies_cors",
@@ -412,7 +435,7 @@
       "services_api_gateway_package_scripts_start",
       "services_api_gateway_package_version"
     ],
-    "10": [
+    "11": [
       "services_notification_webhooks_package",
       "services_notification_webhooks_package_dependencies",
       "services_notification_webhooks_package_dependencies_cors",
@@ -428,7 +451,7 @@
       "services_notification_webhooks_package_scripts_start",
       "services_notification_webhooks_package_version"
     ],
-    "11": [
+    "12": [
       "src_components_signing_mobileqrmodal",
       "src_components_signing_mobileqrmodal_mobileqrmodal",
       "src_components_signing_paymentfieldmodal",
@@ -444,7 +467,7 @@
       "src_utils_signerlocalization_signer_localization",
       "src_utils_signerlocalization_signerlanguage"
     ],
-    "12": [
+    "13": [
       "services_ai_orchestrator_tsconfig",
       "services_ai_orchestrator_tsconfig_compileroptions",
       "services_ai_orchestrator_tsconfig_compileroptions_esmoduleinterop",
@@ -459,7 +482,7 @@
       "services_ai_orchestrator_tsconfig_include",
       "services_ai_orchestrator_tsconfig_json_ref_src"
     ],
-    "13": [
+    "14": [
       "services_api_gateway_tsconfig",
       "services_api_gateway_tsconfig_compileroptions",
       "services_api_gateway_tsconfig_compileroptions_esmoduleinterop",
@@ -474,7 +497,7 @@
       "services_api_gateway_tsconfig_include",
       "services_api_gateway_tsconfig_json_ref_src"
     ],
-    "14": [
+    "15": [
       "services_notification_webhooks_tsconfig",
       "services_notification_webhooks_tsconfig_compileroptions",
       "services_notification_webhooks_tsconfig_compileroptions_esmoduleinterop",
@@ -489,7 +512,7 @@
       "services_notification_webhooks_tsconfig_include",
       "services_notification_webhooks_tsconfig_json_ref_src"
     ],
-    "15": [
+    "16": [
       "services_notification_webhooks_src_email_service",
       "services_notification_webhooks_src_email_service_dispatchedemail",
       "services_notification_webhooks_src_email_service_dispatchedemailslog",
@@ -503,7 +526,7 @@
       "services_notification_webhooks_src_server_deliverylogs",
       "services_notification_webhooks_src_server_webhooklogitem"
     ],
-    "16": [
+    "17": [
       "tools_stress_test_phase1_cjs_tools_stress_test_phase1",
       "tools_stress_test_phase1_cjs_tools_stress_test_phase1_http",
       "tools_stress_test_phase1_cjs_tools_stress_test_phase1_makerequest",
@@ -515,7 +538,7 @@
       "tools_stress_test_phase1_cjs_tools_stress_test_phase1_spawn",
       "tools_stress_test_phase1_cjs_tools_stress_test_phase1_waitforservice"
     ],
-    "17": [
+    "18": [
       "tools_stress_test_phase1_js_tools_stress_test_phase1",
       "tools_stress_test_phase1_js_tools_stress_test_phase1_http",
       "tools_stress_test_phase1_js_tools_stress_test_phase1_makerequest",
@@ -527,7 +550,7 @@
       "tools_stress_test_phase1_js_tools_stress_test_phase1_spawn",
       "tools_stress_test_phase1_js_tools_stress_test_phase1_waitforservice"
     ],
-    "18": [
+    "19": [
       "tools_test_phase2_sharding_cache",
       "tools_test_phase2_sharding_cache_crypto",
       "tools_test_phase2_sharding_cache_gethashkey",
@@ -538,81 +561,90 @@
       "tools_test_phase2_sharding_cache_sleep",
       "tools_test_phase2_sharding_cache_spawn"
     ],
-    "19": [
+    "20": [
+      "tools_test_phase3_worker_pool",
+      "tools_test_phase3_worker_pool_crypto",
+      "tools_test_phase3_worker_pool_http",
+      "tools_test_phase3_worker_pool_makerequest",
+      "tools_test_phase3_worker_pool_runphase3workerpoolsuite",
+      "tools_test_phase3_worker_pool_sleep",
+      "tools_test_phase3_worker_pool_spawn"
+    ],
+    "21": [
       "tools_run_e2e_suite",
       "tools_run_e2e_suite_getjson",
       "tools_run_e2e_suite_postjson",
       "tools_run_e2e_suite_runphase5suite",
       "tools_run_e2e_suite_runphase5suite_test"
     ],
-    "20": [
+    "22": [
       "services_api_gateway_src_server",
       "services_api_gateway_src_server_app",
       "services_api_gateway_src_server_authenticatetoken",
       "services_api_gateway_src_server_proxyto"
     ],
-    "21": [
+    "23": [
       "services_ai_orchestrator_src_server",
       "services_ai_orchestrator_src_server_app",
       "services_ai_orchestrator_src_server_vetted_clauses"
     ],
-    "22": [
+    "24": [
       "tools_send_email_resend_main",
       "tools_send_email_resend_main_main"
     ],
-    "23": [
+    "25": [
       "pkg_github_com_signflow_audit_trail_service"
     ],
-    "24": [
+    "26": [
       "pkg_github_com_signflow_document_processor"
     ],
-    "25": [
+    "27": [
       "pkg_github_com_signflow_envelope_service"
     ],
-    "26": [
+    "28": [
       "pkg_github_com_signflow_send_email_resend"
     ],
-    "27": [
+    "29": [
       "postcss_config"
     ],
-    "28": [
+    "30": [
       "src_counter"
     ],
-    "29": [
+    "31": [
       "src_main_ts_src_main"
     ],
-    "30": [
+    "32": [
       "tailwind_config"
     ],
-    "31": [
+    "33": [
       "vite_config"
     ]
   },
   "cohesion": {
     "0": 0.05759623861298854,
-    "1": 0.06774774774774775,
-    "2": 0.06240084611316764,
+    "1": 0.0656010656010656,
+    "2": 0.06779661016949153,
     "3": 0.06072874493927125,
-    "4": 0.12807881773399016,
-    "5": 0.07142857142857142,
+    "4": 0.07142857142857142,
+    "5": 0.14153846153846153,
     "6": 0.14153846153846153,
-    "7": 0.09090909090909091,
-    "8": 0.14285714285714285,
+    "7": 0.15942028985507245,
+    "8": 0.09090909090909091,
     "9": 0.14285714285714285,
     "10": 0.14285714285714285,
-    "11": 0.21978021978021978,
-    "12": 0.15384615384615385,
+    "11": 0.14285714285714285,
+    "12": 0.21978021978021978,
     "13": 0.15384615384615385,
     "14": 0.15384615384615385,
-    "15": 0.21212121212121213,
-    "16": 0.3111111111111111,
+    "15": 0.15384615384615385,
+    "16": 0.21212121212121213,
     "17": 0.3111111111111111,
-    "18": 0.3333333333333333,
-    "19": 0.6,
-    "20": 0.5,
-    "21": 0.6666666666666666,
-    "22": 1.0,
-    "23": 1.0,
+    "18": 0.3111111111111111,
+    "19": 0.3333333333333333,
+    "20": 0.38095238095238093,
+    "21": 0.6,
+    "22": 0.5,
+    "23": 0.6666666666666666,
     "24": 1.0,
     "25": 1.0,
     "26": 1.0,
@@ -620,7 +652,9 @@
     "28": 1.0,
     "29": 1.0,
     "30": 1.0,
-    "31": 1.0
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0
   },
   "gods": [
     {
@@ -654,14 +688,14 @@
       "degree": 12
     },
     {
-      "id": "services_envelope_service_models_envelope_go_models_envelope",
-      "label": "Envelope",
-      "degree": 11
+      "id": "services_document_processor_processor_worker_pool_go_processor_workerpool",
+      "label": "WorkerPool",
+      "degree": 12
     },
     {
-      "id": "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
-      "label": "MultiTierCache",
-      "degree": 11
+      "id": "services_document_processor_queue_event_bus_go_queue_eventbus",
+      "label": "EventBus",
+      "degree": 12
     },
     {
       "id": "handlers_envelopehandler",
@@ -669,9 +703,9 @@
       "degree": 11
     },
     {
-      "id": "services_ai_orchestrator_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
+      "id": "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
+      "label": "MultiTierCache",
+      "degree": 11
     }
   ],
   "surprises": [

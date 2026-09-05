@@ -76,6 +76,14 @@ app.use('/api/v1/documents', (req, res) => {
   proxyTo(`http://localhost:8083${req.originalUrl}`, req, res);
 });
 
+app.use('/api/v1/jobs', (req, res) => {
+  proxyTo(`http://localhost:8083${req.originalUrl}`, req, res);
+});
+
+app.use('/api/v1/workers', (req, res) => {
+  proxyTo(`http://localhost:8083${req.originalUrl}`, req, res);
+});
+
 app.use('/api/v1/ai', (req, res) => {
   proxyTo(`http://localhost:8084${req.originalUrl}`, req, res);
 });

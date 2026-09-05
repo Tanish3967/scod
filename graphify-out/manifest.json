@@ -48,10 +48,10 @@
     "semantic_hash": "28b6c96a2d58cea1864fb0cb86c19c19"
   },
   "services/api-gateway/src/server.ts": {
-    "mtime": 1788439388.3815718,
-    "seen": 1788586085.9520483,
-    "ast_hash": "1218b8b44c0cb137cf6124ab69419b14",
-    "semantic_hash": "1218b8b44c0cb137cf6124ab69419b14"
+    "mtime": 1788592742.5035598,
+    "seen": 1788592841.687066,
+    "ast_hash": "000dacee9328b721f34f510ced485d15",
+    "semantic_hash": "000dacee9328b721f34f510ced485d15"
   },
   "services/api-gateway/tsconfig.json": {
     "mtime": 1787832696.3992798,
@@ -96,16 +96,16 @@
     "semantic_hash": "415219b04ef26c60c5ec0a5cdd075806"
   },
   "services/document-processor/handlers/doc_handler.go": {
-    "mtime": 1787832674.4996967,
-    "seen": 1788586085.9520483,
-    "ast_hash": "bfa61eb7912f7def1bd0bb728e73df13",
-    "semantic_hash": "bfa61eb7912f7def1bd0bb728e73df13"
+    "mtime": 1788592698.768034,
+    "seen": 1788592841.687066,
+    "ast_hash": "bd03f6d0b0dd6496598f30ebfec2b69a",
+    "semantic_hash": "bd03f6d0b0dd6496598f30ebfec2b69a"
   },
   "services/document-processor/main.go": {
-    "mtime": 1788588054.545041,
-    "seen": 1788588143.9779227,
-    "ast_hash": "d6578b0ab171709861cdffd715c112be",
-    "semantic_hash": "d6578b0ab171709861cdffd715c112be"
+    "mtime": 1788592737.723812,
+    "seen": 1788592841.687066,
+    "ast_hash": "13a642694dc023ee17f3c0231ad1e8f2",
+    "semantic_hash": "13a642694dc023ee17f3c0231ad1e8f2"
   },
   "services/document-processor/processor/ocr_detector.go": {
     "mtime": 1787832666.6700373,
@@ -616,5 +616,23 @@
     "seen": 1788591615.8146982,
     "ast_hash": "b3460db39512c724d77d95a73b3d816f",
     "semantic_hash": "b3460db39512c724d77d95a73b3d816f"
+  },
+  "services/document-processor/processor/worker_pool.go": {
+    "mtime": 1788592687.7707193,
+    "seen": 1788592841.688166,
+    "ast_hash": "9118c1ccedbc3e2db8cd9151f8747dc5",
+    "semantic_hash": "9118c1ccedbc3e2db8cd9151f8747dc5"
+  },
+  "services/document-processor/queue/event_bus.go": {
+    "mtime": 1788592758.1735308,
+    "seen": 1788592841.688166,
+    "ast_hash": "b23af6c4949ccf65be834d0528c1ca1b",
+    "semantic_hash": "b23af6c4949ccf65be834d0528c1ca1b"
+  },
+  "tools/test_phase3_worker_pool.cjs": {
+    "mtime": 1788592792.2900999,
+    "seen": 1788592841.7005436,
+    "ast_hash": "664c1356992909d7b3d959948b5f5f0a",
+    "semantic_hash": "664c1356992909d7b3d959948b5f5f0a"
   }
 }
