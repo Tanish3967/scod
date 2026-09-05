@@ -101,7 +101,6 @@
       "src_components_prepare_fieldpalette_fieldpalette",
       "src_components_prepare_fieldpalette_fieldtool",
       "src_components_prepare_recipientconfigpanel",
-      "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
       "src_components_signatures_customsignaturemodal",
       "src_components_signatures_customsignaturemodal_customsignaturemodal",
       "src_components_signatures_customsignaturemodal_customsignaturemodalprops",
@@ -139,14 +138,11 @@
       "src_types_signflow_template",
       "src_types_signflow_webhookendpoint",
       "src_types_signflow_webhooklog",
-      "src_utils_aiengine_analyzedocumentrisk",
-      "src_utils_aiengine_detectsmartfields",
       "src_utils_cryptoutils",
       "src_utils_cryptoutils_formattimestamp",
       "src_utils_cryptoutils_generatefullsha256",
       "src_utils_cryptoutils_generatehmacsignature",
       "src_utils_cryptoutils_generateshorthash",
-      "src_utils_cryptoutils_generateuuid",
       "src_utils_cryptoutils_getmockdevicefingerprint",
       "src_utils_cryptoutils_getmockipaddress",
       "src_utils_cryptoutils_sha256",
@@ -167,6 +163,70 @@
       "src_utils_localdatabase_saveenvelopetodb"
     ],
     "2": [
+      "go_type_net_http_handler",
+      "go_type_net_http_request",
+      "go_type_net_http_responsewriter",
+      "go_type_sync_rwmutex",
+      "handlers_audithandler",
+      "handlers_audithandler_getaudittrail",
+      "handlers_audithandler_recordevent",
+      "handlers_audithandler_verifyintegrity",
+      "handlers_dochandler",
+      "handlers_dochandler_processdocument",
+      "handlers_envelopehandler",
+      "handlers_envelopehandler_createenvelope",
+      "handlers_envelopehandler_getcachetelemetry",
+      "handlers_envelopehandler_getenvelope",
+      "handlers_envelopehandler_getshardingtopology",
+      "handlers_envelopehandler_listenvelopes",
+      "handlers_envelopehandler_updateenvelopestatus",
+      "handlers_envelopestore",
+      "handlers_envelopestore_loadfromdisk",
+      "handlers_envelopestore_persisttodisk",
+      "ledger_auditevent",
+      "ledger_auditstore_appendevent",
+      "ledger_auditstore_getchain",
+      "ledger_auditstore_verifychainintegrity",
+      "processor_detectedfield",
+      "services_audit_trail_service_crypto_hash_chain",
+      "services_audit_trail_service_crypto_hash_chain_computedocumentchecksum",
+      "services_audit_trail_service_crypto_hash_chain_computenexthash",
+      "services_audit_trail_service_handlers_audit_handler",
+      "services_audit_trail_service_handlers_audit_handler_newaudithandler",
+      "services_audit_trail_service_ledger_audit_store",
+      "services_audit_trail_service_ledger_audit_store_go_ledger_auditstore",
+      "services_audit_trail_service_ledger_audit_store_newauditstore",
+      "services_audit_trail_service_main",
+      "services_audit_trail_service_main_enablecors",
+      "services_audit_trail_service_main_main",
+      "services_audit_trail_service_main_withaudittracing",
+      "services_document_processor_handlers_doc_handler",
+      "services_document_processor_handlers_doc_handler_newdochandler",
+      "services_document_processor_main",
+      "services_document_processor_main_enablecors",
+      "services_document_processor_main_main",
+      "services_document_processor_main_withdoctracing",
+      "services_document_processor_processor_ocr_detector",
+      "services_document_processor_processor_ocr_detector_autodetectfields",
+      "services_document_processor_processor_ocr_detector_computesha256",
+      "services_envelope_service_handlers_envelope_handler",
+      "services_envelope_service_handlers_envelope_handler_newenvelopehandler",
+      "services_envelope_service_handlers_envelope_handler_newenvelopestore",
+      "services_envelope_service_main",
+      "services_envelope_service_main_enablecors",
+      "services_envelope_service_main_main",
+      "services_envelope_service_main_withtracing",
+      "services_envelope_service_sharding_shard_router",
+      "services_envelope_service_sharding_shard_router_gethashkey",
+      "services_envelope_service_sharding_shard_router_go_sharding_shardrouter",
+      "services_envelope_service_sharding_shard_router_jumphash",
+      "services_envelope_service_sharding_shard_router_newshardrouter",
+      "sharding_shardnode",
+      "sharding_shardrouter_gettopologysummary",
+      "sharding_shardrouter_pintenanttoshard",
+      "sharding_shardrouter_routeenvelope"
+    ],
+    "3": [
       "canvas_confetti",
       "clsx",
       "lucide_react",
@@ -207,48 +267,38 @@
       "services_notification_webhooks_package_devdependencies_typescript",
       "tailwind_merge"
     ],
-    "3": [
-      "go_type_net_http_handler",
-      "go_type_net_http_request",
-      "go_type_net_http_responsewriter",
-      "handlers_audithandler",
-      "handlers_audithandler_getaudittrail",
-      "handlers_audithandler_recordevent",
-      "handlers_audithandler_verifyintegrity",
-      "handlers_dochandler",
-      "handlers_dochandler_processdocument",
-      "handlers_envelopehandler",
-      "handlers_envelopehandler_createenvelope",
-      "handlers_envelopehandler_getenvelope",
-      "handlers_envelopehandler_listenvelopes",
-      "handlers_envelopehandler_updateenvelopestatus",
-      "handlers_envelopestore",
-      "handlers_envelopestore_loadfromdisk",
-      "handlers_envelopestore_persisttodisk",
-      "processor_detectedfield",
-      "services_audit_trail_service_handlers_audit_handler",
-      "services_audit_trail_service_handlers_audit_handler_newaudithandler",
-      "services_audit_trail_service_main",
-      "services_audit_trail_service_main_enablecors",
-      "services_audit_trail_service_main_main",
-      "services_audit_trail_service_main_withaudittracing",
-      "services_document_processor_handlers_doc_handler",
-      "services_document_processor_handlers_doc_handler_newdochandler",
-      "services_document_processor_main",
-      "services_document_processor_main_enablecors",
-      "services_document_processor_main_main",
-      "services_document_processor_main_withdoctracing",
-      "services_document_processor_processor_ocr_detector",
-      "services_document_processor_processor_ocr_detector_autodetectfields",
-      "services_document_processor_processor_ocr_detector_computesha256",
-      "services_envelope_service_handlers_envelope_handler",
-      "services_envelope_service_handlers_envelope_handler_newenvelopehandler",
-      "services_envelope_service_handlers_envelope_handler_newenvelopestore",
-      "services_envelope_service_main",
-      "services_envelope_service_main_enablecors",
-      "services_envelope_service_main_main"
-    ],
     "4": [
+      "src_components_ai_aidraftingstudio",
+      "src_components_ai_aidraftingstudio_aidraftingstudio",
+      "src_components_ai_ailegalhub",
+      "src_components_ai_ailegalhub_ailegalhub",
+      "src_components_ai_airiskscanner",
+      "src_components_ai_airiskscanner_airiskscanner",
+      "src_components_ai_contractqabot",
+      "src_components_ai_contractqabot_contractqabot",
+      "src_components_ai_obligationcalendartracker",
+      "src_components_ai_obligationcalendartracker_obligationcalendartracker",
+      "src_components_clm_ainegotiationworkbench",
+      "src_components_clm_ainegotiationworkbench_redlineclause",
+      "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
+      "src_components_signing_signeraidrawer",
+      "src_components_signing_signeraidrawer_signeraidrawer",
+      "src_data_clauselibrary",
+      "src_data_clauselibrary_clause_library",
+      "src_data_clauselibrary_clauseitem",
+      "src_types_signflow_aidraftclausesuggestion",
+      "src_types_signflow_airiskanalysis",
+      "src_types_signflow_airiskfinding",
+      "src_types_signflow_obligationitem",
+      "src_utils_aiengine",
+      "src_utils_aiengine_analyzedocumentrisk",
+      "src_utils_aiengine_answercontractquestion",
+      "src_utils_aiengine_detectsmartfields",
+      "src_utils_aiengine_generatecontractdraft",
+      "src_utils_aiengine_generatesignersummary",
+      "src_utils_cryptoutils_generateuuid"
+    ],
+    "5": [
       "autoprefixer",
       "package",
       "package_devdependencies",
@@ -278,13 +328,15 @@
       "vite",
       "vitejs_plugin_react"
     ],
-    "5": [
-      "go_type_sync_rwmutex",
+    "6": [
+      "cache_cacheentry",
+      "cache_cachestatus",
+      "cache_multitiercache_getenvelope",
+      "cache_multitiercache_gettelemetry",
+      "cache_multitiercache_invalidate",
+      "cache_multitiercache_setenvelope",
+      "go_type_time_duration",
       "go_type_time_time",
-      "ledger_auditevent",
-      "ledger_auditstore_appendevent",
-      "ledger_auditstore_getchain",
-      "ledger_auditstore_verifychainintegrity",
       "models_agreementdocument",
       "models_authtype",
       "models_documentfield",
@@ -294,45 +346,15 @@
       "models_recipient",
       "models_recipientrole",
       "models_signaturedata",
-      "services_audit_trail_service_crypto_hash_chain",
-      "services_audit_trail_service_crypto_hash_chain_computedocumentchecksum",
-      "services_audit_trail_service_crypto_hash_chain_computenexthash",
-      "services_audit_trail_service_ledger_audit_store",
-      "services_audit_trail_service_ledger_audit_store_go_ledger_auditstore",
-      "services_audit_trail_service_ledger_audit_store_newauditstore",
+      "services_envelope_service_cache_tier_cache",
+      "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
+      "services_envelope_service_cache_tier_cache_newmultitiercache",
       "services_envelope_service_models_envelope",
       "services_envelope_service_models_envelope_go_models_envelope",
       "services_envelope_service_models_envelope_go_models_envelopestatus",
       "services_envelope_service_statemachine_state_machine",
       "services_envelope_service_statemachine_state_machine_cantransition",
       "services_envelope_service_statemachine_state_machine_validatetransition"
-    ],
-    "6": [
-      "src_components_ai_aidraftingstudio",
-      "src_components_ai_aidraftingstudio_aidraftingstudio",
-      "src_components_ai_ailegalhub",
-      "src_components_ai_ailegalhub_ailegalhub",
-      "src_components_ai_airiskscanner",
-      "src_components_ai_airiskscanner_airiskscanner",
-      "src_components_ai_contractqabot",
-      "src_components_ai_contractqabot_contractqabot",
-      "src_components_ai_obligationcalendartracker",
-      "src_components_ai_obligationcalendartracker_obligationcalendartracker",
-      "src_components_clm_ainegotiationworkbench",
-      "src_components_clm_ainegotiationworkbench_redlineclause",
-      "src_components_signing_signeraidrawer",
-      "src_components_signing_signeraidrawer_signeraidrawer",
-      "src_data_clauselibrary",
-      "src_data_clauselibrary_clause_library",
-      "src_data_clauselibrary_clauseitem",
-      "src_types_signflow_aidraftclausesuggestion",
-      "src_types_signflow_airiskanalysis",
-      "src_types_signflow_airiskfinding",
-      "src_types_signflow_obligationitem",
-      "src_utils_aiengine",
-      "src_utils_aiengine_answercontractquestion",
-      "src_utils_aiengine_generatecontractdraft",
-      "src_utils_aiengine_generatesignersummary"
     ],
     "7": [
       "ref_dom",
@@ -482,63 +504,98 @@
       "services_notification_webhooks_src_server_webhooklogitem"
     ],
     "16": [
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_http",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_makerequest",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite_executestressburst",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite_executestressburst_worker",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_services",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_sleep",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_spawn",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_waitforservice"
+    ],
+    "17": [
+      "tools_stress_test_phase1_js_tools_stress_test_phase1",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_http",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_makerequest",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite_executestressburst",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite_executestressburst_worker",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_services",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_sleep",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_spawn",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_waitforservice"
+    ],
+    "18": [
+      "tools_test_phase2_sharding_cache",
+      "tools_test_phase2_sharding_cache_crypto",
+      "tools_test_phase2_sharding_cache_gethashkey",
+      "tools_test_phase2_sharding_cache_http",
+      "tools_test_phase2_sharding_cache_jumpconsistenthash",
+      "tools_test_phase2_sharding_cache_makerequest",
+      "tools_test_phase2_sharding_cache_runphase2shardingcachesuite",
+      "tools_test_phase2_sharding_cache_sleep",
+      "tools_test_phase2_sharding_cache_spawn"
+    ],
+    "19": [
       "tools_run_e2e_suite",
       "tools_run_e2e_suite_getjson",
       "tools_run_e2e_suite_postjson",
       "tools_run_e2e_suite_runphase5suite",
       "tools_run_e2e_suite_runphase5suite_test"
     ],
-    "17": [
+    "20": [
       "services_api_gateway_src_server",
       "services_api_gateway_src_server_app",
       "services_api_gateway_src_server_authenticatetoken",
       "services_api_gateway_src_server_proxyto"
     ],
-    "18": [
+    "21": [
       "services_ai_orchestrator_src_server",
       "services_ai_orchestrator_src_server_app",
       "services_ai_orchestrator_src_server_vetted_clauses"
     ],
-    "19": [
+    "22": [
       "tools_send_email_resend_main",
       "tools_send_email_resend_main_main"
     ],
-    "20": [
+    "23": [
       "pkg_github_com_signflow_audit_trail_service"
     ],
-    "21": [
+    "24": [
       "pkg_github_com_signflow_document_processor"
     ],
-    "22": [
+    "25": [
       "pkg_github_com_signflow_envelope_service"
     ],
-    "23": [
+    "26": [
       "pkg_github_com_signflow_send_email_resend"
     ],
-    "24": [
+    "27": [
       "postcss_config"
     ],
-    "25": [
+    "28": [
       "src_counter"
     ],
-    "26": [
+    "29": [
       "src_main_ts_src_main"
     ],
-    "27": [
+    "30": [
       "tailwind_config"
     ],
-    "28": [
+    "31": [
       "vite_config"
     ]
   },
   "cohesion": {
     "0": 0.05759623861298854,
-    "1": 0.06491398896462187,
-    "2": 0.06072874493927125,
-    "3": 0.09716599190283401,
-    "4": 0.07142857142857142,
-    "5": 0.13105413105413105,
-    "6": 0.14333333333333334,
+    "1": 0.06774774774774775,
+    "2": 0.06240084611316764,
+    "3": 0.06072874493927125,
+    "4": 0.12807881773399016,
+    "5": 0.07142857142857142,
+    "6": 0.14153846153846153,
     "7": 0.09090909090909091,
     "8": 0.14285714285714285,
     "9": 0.14285714285714285,
@@ -548,19 +605,22 @@
     "13": 0.15384615384615385,
     "14": 0.15384615384615385,
     "15": 0.21212121212121213,
-    "16": 0.6,
-    "17": 0.5,
-    "18": 0.6666666666666666,
-    "19": 1.0,
-    "20": 1.0,
-    "21": 1.0,
+    "16": 0.3111111111111111,
+    "17": 0.3111111111111111,
+    "18": 0.3333333333333333,
+    "19": 0.6,
+    "20": 0.5,
+    "21": 0.6666666666666666,
     "22": 1.0,
     "23": 1.0,
     "24": 1.0,
     "25": 1.0,
     "26": 1.0,
     "27": 1.0,
-    "28": 1.0
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0
   },
   "gods": [
     {
@@ -594,24 +654,24 @@
       "degree": 12
     },
     {
+      "id": "handlers_envelopehandler",
+      "label": "EnvelopeHandler",
+      "degree": 11
+    },
+    {
+      "id": "services_envelope_service_models_envelope_go_models_envelope",
+      "label": "Envelope",
+      "degree": 11
+    },
+    {
+      "id": "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
+      "label": "MultiTierCache",
+      "degree": 11
+    },
+    {
       "id": "services_ai_orchestrator_tsconfig_compileroptions",
       "label": "compilerOptions",
       "degree": 10
-    },
-    {
-      "id": "services_api_gateway_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
-    },
-    {
-      "id": "services_notification_webhooks_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
-    },
-    {
-      "id": "src_context_signflowcontext_signflowcontexttype",
-      "label": "SignFlowContextType",
-      "degree": 9
     }
   ],
   "surprises": [
@@ -675,22 +735,22 @@
     {
       "type": "bridge_node",
       "question": "Why does `useSignFlow()` connect `useSignFlow` to `SignFlowContext.tsx`, `SigningExperience.tsx`, `aiEngine.ts`?",
-      "why": "High betweenness centrality (0.049) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.040) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
       "question": "Why does `dependencies` connect `dependencies` to `devDependencies`?",
-      "why": "High betweenness centrality (0.019) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.016) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
       "question": "Why does `devDependencies` connect `devDependencies` to `dependencies`?",
-      "why": "High betweenness centrality (0.018) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.015) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
       "question": "What connects `FrameworkDetail`, `VirtualEmail`, `AuditEvent` to the rest of the system?",
-      "why": "134 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "143 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
@@ -700,12 +760,12 @@
     {
       "type": "low_cohesion",
       "question": "Should `SignFlowContext.tsx` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.06491398896462187 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.06774774774774775 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `dependencies` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.06072874493927125 - nodes in this community are weakly interconnected."
+      "question": "Should `net/http.ResponseWriter` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06240084611316764 - nodes in this community are weakly interconnected."
     }
   ]
 }
