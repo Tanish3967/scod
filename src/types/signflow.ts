@@ -4,10 +4,12 @@ export type EnvelopeStatus =
   | 'delivered' 
   | 'viewed' 
   | 'signed' 
+  | 'partially_signed'
   | 'completed' 
   | 'declined' 
   | 'voided' 
-  | 'expired';
+  | 'expired'
+  | 'in_revision';
 
 export type RecipientRole = 
   | 'signer' 
@@ -120,6 +122,11 @@ export interface Envelope {
   updatedAt: string;
   expiresAt: string;
   completedAt?: string;
+  isLocked?: boolean;
+  lockedAt?: string;
+  lockSealHash?: string;
+  certificateAppended?: boolean;
+  version?: number;
   documents: AgreementDocument[];
   fields: DocumentField[];
   recipients: Recipient[];
@@ -270,4 +277,16 @@ export interface WebhookLog {
   statusCode: number;
   payload: Record<string, unknown>;
   signatureHmac: string;
+}
+
+export interface CustomSignature {
+  id: string;
+  name: string;
+  type: 'draw' | 'type' | 'upload' | 'stamp';
+  value: string; // Data URL or text string
+  fontFamily?: string;
+  inkColor?: string;
+  initials?: string;
+  isDefault?: boolean;
+  createdAt: string;
 }

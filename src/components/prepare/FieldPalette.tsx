@@ -76,8 +76,13 @@ export const FieldPalette: React.FC<{
                   return (
                     <button
                       key={tool.type}
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData('text/plain', tool.type);
+                      }}
                       onClick={() => onAddField(tool.type)}
-                      className={`w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all text-left hover:scale-[1.01] active:scale-[0.99] ${tool.color}`}
+                      title={`Drag & drop onto canvas or click to add ${tool.label}`}
+                      className={`w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl border text-xs font-medium transition-all text-left hover:scale-[1.01] active:scale-[0.99] cursor-grab active:cursor-grabbing ${tool.color}`}
                     >
                       <Icon className="w-4 h-4 shrink-0" />
                       <span className="truncate">{tool.label}</span>

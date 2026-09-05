@@ -1,105 +1,188 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
-  LayoutDashboard, 
+  Home, 
+  Mail, 
   FileText, 
-  Edit3, 
-  PenTool, 
+  Users, 
+  UserCheck, 
+  BarChart2, 
   Sparkles, 
-  Stamp, 
-  Copy, 
-  Link as LinkIcon, 
-  ShieldCheck, 
-  Terminal, 
-  BarChart3,
-  Flame
+  Plus, 
+  ChevronDown, 
+  ChevronRight,
+  GitFork,
+  Stamp,
+  Globe,
+  Link as LinkIcon,
+  ShieldCheck,
+  Terminal,
+  Layers,
+  ChevronLeft,
+  Video,
+  Database,
+  Smartphone,
+  UploadCloud,
+  HardDrive
 } from 'lucide-react';
 import { useSignFlow, AppView } from '../../context/SignFlowContext';
 
 export const Sidebar: React.FC = () => {
-  const { activeView, setActiveView, envelopes, notarySessions } = useSignFlow();
+  const { activeView, setActiveView, prepareNewEnvelope } = useSignFlow();
+  const [showMoreTools, setShowMoreTools] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const pendingSigningCount = envelopes.filter(e => e.status === 'sent' || e.status === 'delivered' || e.status === 'viewed').length;
-  const activeRonCount = notarySessions.filter(s => s.status !== 'completed').length;
+  const mainNavItems: { id: AppView; label: string; icon: React.FC<{ className?: string }>; badge?: string }[] = [
+    { id: 'dashboard', label: 'Home', icon: Home },
+    { id: 'envelopes', label: 'Envelopes', icon: Mail },
+    { id: 'templates', label: 'Templates', icon: FileText },
+    { id: 'clm-workbench', label: 'Contacts', icon: UserCheck },
+    { id: 'workflows', label: 'Team', icon: Users },
+    { id: 'analytics', label: 'Reports', icon: BarChart2 },
+    { id: 'ai-hub', label: 'AI Assistant', icon: Sparkles },
+  ];
 
-  const navItems: { id: AppView; label: string; icon: React.FC<{ className?: string }>; badge?: string | number; badgeColor?: string; group?: string }[] = [
-    { id: 'dashboard', label: 'Overview', icon: LayoutDashboard, group: 'Core' },
-    { id: 'envelopes', label: 'Envelopes Vault', icon: FileText, badge: envelopes.length, group: 'Core' },
-    { id: 'prepare', label: 'Document Studio', icon: Edit3, group: 'Core' },
-    { id: 'signing', label: 'Signer Experience', icon: PenTool, badge: pendingSigningCount > 0 ? pendingSigningCount : undefined, badgeColor: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30', group: 'Core' },
-    
-    // AI Section
-    { id: 'ai-hub', label: 'AI Legal Hub', icon: Sparkles, badge: 'AI-Native', badgeColor: 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-sm', group: 'Intelligence' },
-    
-    // Notarization
-    { id: 'notary', label: 'Remote Notary (RON)', icon: Stamp, badge: activeRonCount > 0 ? 'Live' : undefined, badgeColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30', group: 'Intelligence' },
-    
-    // Automation & Scale
-    { id: 'templates', label: 'Templates & Bulk', icon: Copy, group: 'Scale' },
-    { id: 'powerforms', label: 'PowerForms (Links)', icon: LinkIcon, group: 'Scale' },
-    
-    // Enterprise & Trust
-    { id: 'compliance', label: 'Compliance & Audit', icon: ShieldCheck, badge: 'SOC 2', badgeColor: 'bg-slate-800 text-slate-300', group: 'Trust & Admin' },
-    { id: 'admin', label: 'Admin & Webhooks', icon: Terminal, group: 'Trust & Admin' },
+  const advancedTools: { id: AppView; label: string; icon: React.FC<{ className?: string }> }[] = [
+    { id: 'co-browsing', label: 'Live Co-Browsing Room', icon: Video },
+    { id: 'crm-sync', label: 'Salesforce & CRM Sync', icon: Database },
+    { id: 'offline-queue', label: 'Offline Mobile PWA Queue', icon: Smartphone },
+    { id: 'migration', label: 'Legacy DocuSign Importer', icon: UploadCloud },
+    { id: 'prepare', label: 'Document Studio', icon: FileText },
+    { id: 'signing', label: 'Signer Experience', icon: Mail },
+    { id: 'notary', label: 'Remote Notary (RON)', icon: Stamp },
+    { id: 'qes-tsp', label: 'eIDAS QES & TSP', icon: Globe },
+    { id: 'powerforms', label: 'PowerForms (Links)', icon: LinkIcon },
+    { id: 'emails', label: 'Email Dispatcher & Inbox', icon: Mail },
+    { id: 'compliance', label: 'Compliance & Audit', icon: ShieldCheck },
+    { id: 'admin', label: 'Admin & Webhooks', icon: Terminal },
+    { id: 'local-db', label: 'Local Database Vault', icon: HardDrive },
   ];
 
   return (
-    <aside className="w-64 border-r border-slate-800/80 bg-slate-950/95 flex flex-col justify-between p-3 shrink-0 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
-      <div className="space-y-6">
-        {/* Navigation Groups */}
-        {['Core', 'Intelligence', 'Scale', 'Trust & Admin'].map((groupName) => {
-          const groupItems = navItems.filter(item => item.group === groupName);
-          return (
-            <div key={groupName} className="space-y-1">
-              <div className="px-3 text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500">
-                {groupName}
-              </div>
-              <div className="space-y-0.5 mt-1">
-                {groupItems.map(item => {
-                  const Icon = item.icon;
-                  const isActive = activeView === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveView(item.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group ${
-                        isActive
-                          ? 'bg-indigo-600/15 text-indigo-300 border border-indigo-500/30 shadow-sm shadow-indigo-950'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/80'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-2.5">
-                        <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-indigo-400' : 'text-slate-500 group-hover:text-slate-300'}`} />
-                        <span>{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded-md ${item.badgeColor || 'bg-slate-800 text-slate-300'}`}>
-                          {item.badge}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+    <aside className="w-64 border-r border-slate-100 bg-white flex flex-col justify-between p-4 shrink-0 h-[calc(100vh-4rem)] sticky top-16 select-none">
+      <div className="flex-1 flex flex-col min-h-0 space-y-4">
+        {/* SignFlow Brand Logo */}
+        <div className="flex items-center space-x-2.5 px-2 py-1 shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+            <span className="font-display tracking-tight">S</span>
+          </div>
+          <span className="text-base font-bold text-slate-900 tracking-tight font-display">
+            SignFlow
+          </span>
+        </div>
+
+        {/* Primary Action Button: + New Envelope */}
+        <button
+          onClick={prepareNewEnvelope}
+          className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium text-xs shadow-xs flex items-center justify-center space-x-2 transition-all hover:scale-[1.01] shrink-0 cursor-pointer"
+        >
+          <Plus className="w-4 h-4" />
+          <span>New Envelope</span>
+        </button>
+
+        {/* Scrollable Navigation Area */}
+        <div className="flex-1 overflow-y-auto pr-1 space-y-4 scrollbar-thin">
+          {/* Primary Navigation Menu */}
+          <nav className="space-y-0.5 pt-1">
+            {mainNavItems.map(item => {
+              const Icon = item.icon;
+              const isActive = activeView === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveView(item.id)}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-indigo-50 font-semibold text-indigo-700 shadow-2xs'
+                      : 'font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-600' : 'text-slate-500'}`} />
+                    <span>{item.label}</span>
+                  </div>
+                </button>
+              );
+            })}
+
+            {/* More Tools Toggle for Enterprise Features */}
+            <div className="pt-2">
+              <button
+                onClick={() => setShowMoreTools(!showMoreTools)}
+                className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-[11px] font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                <span>MORE FEATURES</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showMoreTools ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showMoreTools && (
+                <div className="space-y-0.5 mt-1 pt-1 border-t border-slate-100">
+                  {advancedTools.map(tool => {
+                    const ToolIcon = tool.icon;
+                    const isActive = activeView === tool.id;
+                    const isLive = tool.id === 'co-browsing';
+
+                    return (
+                      <button
+                        key={tool.id}
+                        onClick={() => setActiveView(tool.id)}
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-[11.5px] transition-all cursor-pointer ${
+                          isActive
+                            ? 'bg-indigo-50 font-semibold text-indigo-700'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2.5 min-w-0">
+                          <ToolIcon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`} />
+                          <span className="truncate">{tool.label}</span>
+                        </div>
+                        {isLive && (
+                          <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold tracking-wide shrink-0">
+                            LIVE
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          );
-        })}
+          </nav>
+        </div>
       </div>
 
-      {/* Security & Health widget */}
-      <div className="pt-3 border-t border-slate-800/80">
-        <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-950/30 via-slate-900/60 to-purple-950/20 border border-indigo-500/20">
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[11px] font-semibold text-slate-200">Legal Validity Active</span>
+      {/* Bottom User & Organization Section */}
+      <div className="pt-3 border-t border-slate-100 space-y-2 shrink-0">
+        {/* User Profile Pill */}
+        <div className="p-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors flex items-center justify-between cursor-pointer">
+          <div className="flex items-center space-x-2.5 min-w-0">
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+              alt="Tanish Khosla"
+              className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-200"
+            />
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-slate-900 truncate">Tanish Khosla</p>
+              <p className="text-[10px] text-slate-500 truncate">tanish@acme.com</p>
             </div>
-            <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-1 py-0.5 rounded border border-emerald-800/40">
-              ESIGN/eIDAS
-            </span>
           </div>
-          <p className="text-[10px] text-slate-400 leading-relaxed">
-            Append-only SHA-256 hash-chaining active across all active envelopes.
-          </p>
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+        </div>
+
+        {/* Organization Box */}
+        <div className="p-2 rounded-xl border border-slate-200/80 bg-white flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors">
+          <span className="text-xs font-semibold text-slate-800">Acme Corp.</span>
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+        </div>
+
+        {/* Collapse toggle */}
+        <div className="flex justify-center pt-1">
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center text-xs transition-colors cursor-pointer"
+            title="Collapse Sidebar"
+          >
+            «
+          </button>
         </div>
       </div>
     </aside>

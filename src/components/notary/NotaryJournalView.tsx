@@ -1,11 +1,32 @@
 import React from 'react';
 import { BookOpen, ShieldCheck, Download, Search, FileText, CheckCircle2 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
+import { downloadCsvFile } from '../../utils/downloadUtils';
 
 export const NotaryJournalView: React.FC = () => {
   const { notaryJournal, notify } = useSignFlow();
 
   const handleExportJournal = () => {
+    const csvRows = [
+      ['Official Electronic Notary Journal', 'Statutory Retention Ledger'],
+      ['Export Date', new Date().toISOString()],
+      [],
+      ['Entry ID', 'Document Title', 'Signer Name', 'Signer Email', 'IDV Method', 'Proof Code', 'Notarial Act', 'Fee', 'Recording Archive ID', 'Signature Hash', 'Timestamp'],
+      ...notaryJournal.map(e => [
+        e.id,
+        e.documentTitle,
+        e.signerName,
+        e.signerEmail,
+        e.idvMethod,
+        e.idvProofCode,
+        e.notarialAct,
+        e.fee,
+        e.recordingArchiveId,
+        e.notarySignatureHash,
+        e.timestamp
+      ])
+    ];
+    downloadCsvFile('SignFlow-Official-Notary-Journal.csv', csvRows);
     notify('success', 'Journal Exported', 'Downloaded signed CSV of electronic notary journal entries.');
   };
 

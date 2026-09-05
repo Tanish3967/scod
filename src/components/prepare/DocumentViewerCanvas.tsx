@@ -34,6 +34,7 @@ export const DocumentViewerCanvas: React.FC<{
   onRemoveField: (fieldId: string) => void;
   selectedFieldId: string | null;
   onSelectFieldId: (fieldId: string | null) => void;
+  onAddFieldAtPosition?: (type: FieldType, x: number, y: number) => void;
 }> = ({
   pages,
   fields,
@@ -43,7 +44,8 @@ export const DocumentViewerCanvas: React.FC<{
   onUpdateField,
   onRemoveField,
   selectedFieldId,
-  onSelectFieldId
+  onSelectFieldId,
+  onAddFieldAtPosition
 }) => {
   const [zoomLevel, setZoomLevel] = useState(100);
 
@@ -126,6 +128,33 @@ export const DocumentViewerCanvas: React.FC<{
       <div className="flex-1 overflow-auto p-6 flex justify-center items-start">
         <div
           style={{ width: `${Math.round(680 * (zoomLevel / 100))}px`, minHeight: '850px' }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            const type = e.dataTransfer.getData('text/plain') as FieldType;
+            if (type && onAddFieldAtPosition) {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const rawX = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+              const rawY = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+              
+              // Magnetic snapping within 10% radius to signature baselines (70%, 75%, 82%)
+              let snappedY = rawY;
+              if (Math.abs(rawY - 70) <= 8) snappedY = 70;
+              else if (Math.abs(rawY - 75) <= 8) snappedY = 75;
+              else if (Math.abs(rawY - 82) <= 8) snappedY = 82;
+
+              let snappedX = rawX;
+              if (Math.abs(rawX - 10) <= 6) snappedX = 10;
+              else if (Math.abs(rawX - 55) <= 6) snappedX = 55;
+
+              const clampedX = Math.max(5, Math.min(65, snappedX));
+              const clampedY = Math.max(5, Math.min(88, snappedY));
+              onAddFieldAtPosition(type, clampedX, clampedY);
+            }
+          }}
           className="bg-white text-slate-900 rounded-lg shadow-2xl p-8 sm:p-12 relative border border-slate-300 select-none transition-all duration-150"
         >
           {/* Document Content Rendering */}

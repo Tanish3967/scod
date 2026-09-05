@@ -1,0 +1,81 @@
+package main
+
+import (
+	"context"
+	"crypto/rand"
+	"encoding/hex"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/signflow/document-processor/handlers"
+)
+
+// Middleware for PDF worker telemetry & tracing
+func withDocTracing(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+
+		correlationID := r.Header.Get("X-Correlation-ID")
+		if correlationID == "" {
+			b := make([]byte, 16)
+			rand.Read(b)
+			correlationID = "doc-trace-" + hex.EncodeToString(b)
+		}
+
+		w.Header().Set("X-Correlation-ID", correlationID)
+		w.Header().Set("X-Worker-Pool", "go-rasterizer-v2")
+
+		ctx := context.WithValue(r.Context(), "correlationID", correlationID)
+		next.ServeHTTP(w, r.WithContext(ctx))
+
+		duration := time.Since(start)
+		if duration > 100*time.Millisecond {
+			log.Printf("[PDF WORKER METRIC] %s %s [%s] processed in %v\n", r.Method, r.URL.Path, correlationID, duration)
+		}
+	})
+}
+
+func main() {
+	handler := handlers.NewDocHandler()
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(fmt.Sprintf(`{"status":"healthy","service":"document-processor","version":"2.0.0-scale","grpc_port":9083,"worker_concurrency":64,"timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))))
+	})
+
+	mux.HandleFunc("/api/v1/documents/process", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
+		if r.Method == http.MethodPost {
+			handler.ProcessDocument(w, r)
+			return
+		}
+		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+	})
+
+	port := ":8083"
+	log.Printf("[SignFlow] High-Throughput PDF Processor listening on http://localhost%s (gRPC ready on :9083)\n", port)
+	
+	server := &http.Server{
+		Addr:         port,
+		Handler:      withDocTracing(mux),
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+		IdleTimeout:  120 * time.Second,
+	}
+
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatalf("Server failed: %v", err)
+	}
+}
+
+func enableCORS(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, X-Correlation-ID, X-Trace-ID")
+}

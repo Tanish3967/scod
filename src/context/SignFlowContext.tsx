@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   Envelope, 
   EnvelopeStatus, 
@@ -11,8 +11,20 @@ import {
   AuditEvent 
 } from '../types/signflow';
 import { INITIAL_ENVELOPES } from '../data/mockEnvelopes';
-import { generateUUID, generateFullSha256, getMockIpAddress, getMockDeviceFingerprint, generateHmacSignature } from '../utils/cryptoUtils';
+import { generateUUID, generateFullSha256, getMockIpAddress, getMockDeviceFingerprint, generateHmacSignature, formatTimestamp } from '../utils/cryptoUtils';
 import { detectSmartFields, analyzeDocumentRisk } from '../utils/aiEngine';
+import { 
+  initLocalDatabase, 
+  saveAllEnvelopesToDB, 
+  saveEnvelopeToDB, 
+  deleteEnvelopeFromDB, 
+  recordAuditEventToDB, 
+  getDatabaseStats, 
+  exportDatabaseJSON, 
+  importDatabaseJSON, 
+  resetDatabaseToDefaults, 
+  DBStats 
+} from '../utils/localDatabase';
 
 export type AppView = 
   | 'dashboard'
@@ -20,12 +32,22 @@ export type AppView =
   | 'prepare'
   | 'signing'
   | 'ai-hub'
+  | 'clm-workbench'
+  | 'workflows'
+  | 'co-browsing'
+  | 'crm-sync'
+  | 'offline-queue'
+  | 'migration'
   | 'notary'
+  | 'qes-tsp'
   | 'templates'
   | 'powerforms'
+  | 'analytics'
   | 'certificate'
+  | 'emails'
   | 'admin'
-  | 'compliance';
+  | 'compliance'
+  | 'local-db';
 
 export interface ToastNotification {
   id: string;
@@ -33,6 +55,20 @@ export interface ToastNotification {
   title: string;
   message: string;
   timestamp: string;
+  createdAt: number;
+  isRead: boolean;
+  category?: 'agreements' | 'ai-risk' | 'compliance' | 'security' | 'system';
+  targetView?: AppView;
+  targetEnvelopeId?: string;
+}
+
+export interface ActiveToast {
+  id: string;
+  type: 'success' | 'info' | 'warning' | 'error' | 'ai';
+  title: string;
+  message: string;
+  createdAt: number;
+  durationMs: number; // 60000ms = 1 min
 }
 
 export interface TenantSettings {
@@ -56,11 +92,22 @@ interface SignFlowContextType {
   environment: 'production' | 'sandbox';
   tenant: TenantSettings;
   notifications: ToastNotification[];
+  activeToasts: ActiveToast[];
+  isNotificationDrawerOpen: boolean;
+  setIsNotificationDrawerOpen: (open: boolean) => void;
   webhooks: WebhookEndpoint[];
   webhookLogs: WebhookLog[];
   notarySessions: NotarySession[];
   notaryJournal: NotaryJournalEntry[];
   selectedCertificateEnvelopeId: string | null;
+  
+  // Local Database Persistence
+  isDbReady: boolean;
+  dbStats: DBStats | null;
+  refreshDbStats: () => Promise<void>;
+  exportDbBackup: () => Promise<string>;
+  importDbBackup: (json: string) => Promise<boolean>;
+  resetDb: () => Promise<void>;
   
   // Actions
   setActiveView: (view: AppView) => void;
@@ -71,6 +118,7 @@ interface SignFlowContextType {
   
   // Envelope actions
   createNewEnvelope: (draftData?: Partial<Envelope>) => Envelope;
+  prepareNewEnvelope: () => void;
   updateEnvelope: (id: string, updates: Partial<Envelope>) => void;
   deleteEnvelope: (id: string) => void;
   sendEnvelope: (id: string) => void;
@@ -86,6 +134,9 @@ interface SignFlowContextType {
   submitSignerSignature: (envelopeId: string, recipientId: string, signatureData: Recipient['signatureData'], fieldValues: Record<string, string>) => void;
   openSigningSession: (envelopeId: string, recipientId?: string) => void;
   openCertificateView: (envelopeId: string) => void;
+  unlockEnvelopeForRevision: (envelopeId: string, reason?: string) => void;
+  recordTamperingAttempt: (envelopeId: string, modificationDetails: string) => void;
+  resendEnvelopeForSigning: (envelopeId: string) => void;
   
   // AI actions
   runAIRiskScan: (envelopeId: string) => void;
@@ -99,8 +150,19 @@ interface SignFlowContextType {
   triggerMockWebhook: (event: string, envelope: Envelope) => void;
   
   // Notification actions
-  notify: (type: ToastNotification['type'], title: string, message: string) => void;
+  notify: (
+    type: ToastNotification['type'], 
+    title: string, 
+    message: string, 
+    category?: ToastNotification['category'],
+    targetView?: AppView,
+    targetEnvelopeId?: string
+  ) => void;
+  dismissToast: (id: string) => void;
   dismissNotification: (id: string) => void;
+  markNotificationAsRead: (id: string) => void;
+  markAllNotificationsAsRead: () => void;
+  clearAllNotifications: () => void;
 }
 
 const SignFlowContext = createContext<SignFlowContextType | undefined>(undefined);
@@ -125,20 +187,143 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     isQESEnabled: true
   });
 
+  const [isNotificationDrawerOpen, setIsNotificationDrawerOpen] = useState(false);
+  const [activeToasts, setActiveToasts] = useState<ActiveToast[]>([]);
+
   const [notifications, setNotifications] = useState<ToastNotification[]>([
     {
       id: 'notif-1',
       type: 'ai',
-      title: 'AI Smart Detection Ready',
-      message: 'Detected 4 required signature blanks on Master Services Agreement #104',
-      timestamp: 'Just now'
+      title: 'High Risk Clause Detected',
+      message: 'Indemnification clause is one-sided. ENV-8921 · NDA – Acme & Globex',
+      timestamp: '2h ago',
+      createdAt: Date.now() - 7200000,
+      isRead: false,
+      category: 'ai-risk',
+      targetView: 'ai-hub'
     },
     {
       id: 'notif-2',
+      type: 'warning',
+      title: 'Missing Compliance Field',
+      message: 'Data Processing Agreement is missing. ENV-8919 · Sales Contract – Q2 Deal',
+      timestamp: '5h ago',
+      createdAt: Date.now() - 18000000,
+      isRead: false,
+      category: 'compliance',
+      targetView: 'prepare',
+      targetEnvelopeId: 'env-qes-9941'
+    },
+    {
+      id: 'notif-3',
+      type: 'warning',
+      title: 'Agreement Expiring Soon',
+      message: 'This agreement expires in 5 days. ENV-8903 · Service Agreement',
+      timestamp: '1d ago',
+      createdAt: Date.now() - 86400000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'envelopes'
+    },
+    {
+      id: 'notif-4',
+      type: 'success',
+      title: 'John Smith Signed Document',
+      message: 'John Smith (john.smith@acme.com) completed signature on NDA – Acme & Globex Corp.',
+      timestamp: 'May 20, 11:08 AM',
+      createdAt: Date.now() - 25000000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'prepare'
+    },
+    {
+      id: 'notif-5',
+      type: 'info',
+      title: 'Envelope Sent to John Smith',
+      message: 'Automated email dispatch delivered with 2FA SMS security challenge.',
+      timestamp: 'May 20, 10:45 AM',
+      createdAt: Date.now() - 27000000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'envelopes'
+    },
+    {
+      id: 'notif-6',
+      type: 'ai',
+      title: 'AI Smart Detection Ready',
+      message: 'Detected 4 required signature blanks on Master Services Agreement #104 (98.2% confidence).',
+      timestamp: 'May 20, 10:42 AM',
+      createdAt: Date.now() - 28000000,
+      isRead: false,
+      category: 'ai-risk',
+      targetView: 'prepare'
+    },
+    {
+      id: 'notif-7',
+      type: 'success',
+      title: 'Template "NDA Standard" Used',
+      message: 'Predefined workflow WF-30091 loaded with 2 signers and conditional review rule.',
+      timestamp: 'May 20, 10:42 AM',
+      createdAt: Date.now() - 28500000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'templates'
+    },
+    {
+      id: 'notif-8',
       type: 'info',
       title: 'Audit Anchor Confirmed',
-      message: 'SHA-256 hash-chain synced with immutable compliance ledger',
-      timestamp: '5m ago'
+      message: 'SHA-256 hash-chain synced with immutable compliance ledger (Block #49821).',
+      timestamp: 'May 19, 04:15 PM',
+      createdAt: Date.now() - 95000000,
+      isRead: false,
+      category: 'compliance',
+      targetView: 'compliance'
+    },
+    {
+      id: 'notif-9',
+      type: 'success',
+      title: 'MSA – Service Agreement Sealed',
+      message: 'All parties have signed. Tamper-evident PDF certificate generated.',
+      timestamp: 'May 19, 04:15 PM',
+      createdAt: Date.now() - 95500000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'certificate',
+      targetEnvelopeId: 'env-ron-7109'
+    },
+    {
+      id: 'notif-10',
+      type: 'info',
+      title: 'Salesforce CRM Synced',
+      message: 'Account Opportunity "Acme Q2 Deal" auto-updated to "Closed-Won".',
+      timestamp: 'May 18, 02:00 PM',
+      createdAt: Date.now() - 170000000,
+      isRead: false,
+      category: 'system',
+      targetView: 'crm-sync'
+    },
+    {
+      id: 'notif-11',
+      type: 'success',
+      title: 'Remote Notary Session Scheduled',
+      message: 'RON Session #RON-8891 scheduled for May 21, 2024 at 10:00 AM PST.',
+      timestamp: 'May 18, 09:30 AM',
+      createdAt: Date.now() - 190000000,
+      isRead: false,
+      category: 'agreements',
+      targetView: 'notary'
+    },
+    {
+      id: 'notif-12',
+      type: 'ai',
+      title: 'AI Playbook Review Completed',
+      message: 'Scan complete: Liability capped at $1.2M. No critical redline flags remaining.',
+      timestamp: 'May 17, 05:20 PM',
+      createdAt: Date.now() - 250000000,
+      isRead: false,
+      category: 'ai-risk',
+      targetView: 'ai-hub'
     }
   ]);
 
@@ -206,21 +391,127 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   ]);
 
+  const [isDbReady, setIsDbReady] = useState(false);
+  const [dbStats, setDbStats] = useState<DBStats | null>(null);
+
+  // Initialize IndexedDB on startup
+  useEffect(() => {
+    initLocalDatabase().then((loaded) => {
+      if (loaded && loaded.length > 0) {
+        setEnvelopes(loaded);
+      }
+      setIsDbReady(true);
+      getDatabaseStats().then(setDbStats);
+    }).catch(err => {
+      console.warn('DB initialization error:', err);
+      setIsDbReady(true);
+    });
+  }, []);
+
+  // Auto-sync envelopes to IndexedDB whenever state updates
+  useEffect(() => {
+    if (isDbReady && envelopes.length > 0) {
+      saveAllEnvelopesToDB(envelopes).then(() => {
+        getDatabaseStats().then(setDbStats);
+      });
+    }
+  }, [envelopes, isDbReady]);
+
+  const refreshDbStats = async () => {
+    const stats = await getDatabaseStats();
+    setDbStats(stats);
+  };
+
+  const exportDbBackup = async (): Promise<string> => {
+    const json = await exportDatabaseJSON();
+    return json;
+  };
+
+  const importDbBackup = async (json: string): Promise<boolean> => {
+    const success = await importDatabaseJSON(json);
+    if (success) {
+      const refreshed = await initLocalDatabase();
+      setEnvelopes(refreshed);
+      await refreshDbStats();
+      notify('success', 'Database Restored', 'All envelopes, templates, and audit logs imported.');
+      return true;
+    } else {
+      notify('error', 'Restore Failed', 'Invalid JSON backup format or corrupted payload.');
+      return false;
+    }
+  };
+
+  const resetDb = async () => {
+    const resetList = await resetDatabaseToDefaults();
+    setEnvelopes(resetList);
+    await refreshDbStats();
+    notify('info', 'Database Reset', 'Reset all local stores to default enterprise seed records.');
+  };
+
   const activeEnvelope = envelopes.find(e => e.id === activeEnvelopeId) || envelopes[0] || null;
 
-  const notify = (type: ToastNotification['type'], title: string, message: string) => {
+  const notify = (
+    type: ToastNotification['type'], 
+    title: string, 
+    message: string,
+    category: ToastNotification['category'] = 'system',
+    targetView?: AppView,
+    targetEnvelopeId?: string
+  ) => {
+    const id = generateUUID();
     const newNotif: ToastNotification = {
-      id: generateUUID(),
+      id,
       type,
       title,
       message,
-      timestamp: 'Just now'
+      timestamp: 'Just now',
+      createdAt: Date.now(),
+      isRead: false,
+      category,
+      targetView,
+      targetEnvelopeId
     };
-    setNotifications(prev => [newNotif, ...prev.slice(0, 9)]);
+
+    // 1. Add to permanent Notification Center History
+    setNotifications(prev => [newNotif, ...prev]);
+
+    // 2. Add to active screen popup toasts (with 1-minute auto-dismiss)
+    const newToast: ActiveToast = {
+      id,
+      type,
+      title,
+      message,
+      createdAt: Date.now(),
+      durationMs: 60000 // 1 minute (60 seconds)
+    };
+    setActiveToasts(prev => [newToast, ...prev.slice(0, 3)]);
+
+    // 3. Auto-remove popup from screen after 1 min (60,000 ms)
+    setTimeout(() => {
+      setActiveToasts(prev => prev.filter(t => t.id !== id));
+    }, 60000);
+  };
+
+  const dismissToast = (id: string) => {
+    setActiveToasts(prev => prev.filter(t => t.id !== id));
   };
 
   const dismissNotification = (id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
+    setActiveToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  const markNotificationAsRead = (id: string) => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+  };
+
+  const markAllNotificationsAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+  };
+
+  const clearAllNotifications = () => {
+    setNotifications([]);
+    setActiveToasts([]);
   };
 
   const updateTenantSettings = (settings: Partial<TenantSettings>) => {
@@ -547,20 +838,40 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     let completionAudit: AuditEvent | null = null;
+    let updatedDocuments = env.documents;
+
     if (allSigned) {
       completionAudit = {
         id: 'aud-' + generateUUID().slice(0, 6),
         timestamp: now,
-        actor: 'SignFlow Trust Engine',
-        action: 'Envelope Completed & Certificate Generated',
-        details: 'All required parties signed. Immutable PDF archive and Certificate of Completion created.',
-        ipAddress: '10.0.0.1 (SignFlow Core Vault)',
+        actor: 'SignFlow Cryptographic Trust Vault',
+        action: 'Document Cryptographically Sealed & Certificate Appended',
+        details: 'All required parties signed. Immutable PDF Certificate of Completion appended to document. Document locked for editing with SHA-256 tamper seal.',
+        ipAddress: '10.0.0.1 (SignFlow Core HSM Node)',
         geo: 'AWS us-east-1 (Delaware Region)',
-        device: 'SignFlow-Engine-v4',
+        device: 'SignFlow-PKI-Engine-v4',
         hashChainPrevious: signingAudit.hashChainCurrent,
         hashChainCurrent: generateFullSha256(),
         complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
       };
+
+      // Automatically append Certificate of Completion page to document
+      if (env.documents?.[0]) {
+        const doc = env.documents[0];
+        const certPageNum = (doc.pages?.length || 0) + 1;
+        const certPage = {
+          pageNumber: certPageNum,
+          title: 'Certificate of Completion & Cryptographic Audit Ledger',
+          content: `### CERTIFICATE OF COMPLETION\n\n**Envelope Title**: ${env.title}\n**Envelope ID**: #COC-${env.id.toUpperCase()}\n**Organization**: ${tenant.organization}\n**Completed Date**: ${formatTimestamp(now)}\n**Document SHA-256 Digest**: ${doc.sha256Hash || 'a3b5c6d7e8f1f9a2b3c4d5e6f7a8b9c0d1e2f3e4b5c6d7e8f9a0b1c2d3e4f5a6b'}\n\n---\n#### 1. SIGNER VERIFICATION EVIDENCE\n${updatedRecipients.map(r => `• **${r.name}** (${r.email}) — Role: ${r.role} | Status: Signed ✓ | Timestamp: ${r.signedAt ? formatTimestamp(r.signedAt) : formatTimestamp(now)} | IP: ${r.signatureData?.ipAddress || '198.51.100.82'} | Auth: ${r.authType || 'Email OTP (2FA)'}`).join('\n')}\n\n---\n#### 2. LEGAL NON-REPUDIATION SEAL\nThis electronic document has been cryptographically sealed and locked. Any alteration to this file breaks the SHA-256 digest and is recorded in the append-only audit trail under US ESIGN Act §101, UETA, & EU eIDAS (No 910/2014).\n\n**STATUS: 🔒 SEALED & IMMUTABLY LOCKED**`
+        };
+
+        updatedDocuments = [
+          {
+            ...doc,
+            pages: [...doc.pages.filter(p => !p.title.includes('Certificate of Completion')), certPage]
+          }
+        ];
+      }
     }
 
     const newAuditTrail = completionAudit 
@@ -571,6 +882,11 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...env,
       status: newStatus,
       completedAt: allSigned ? now : env.completedAt,
+      isLocked: allSigned ? true : env.isLocked,
+      lockedAt: allSigned ? now : env.lockedAt,
+      lockSealHash: allSigned ? generateFullSha256() : env.lockSealHash,
+      certificateAppended: allSigned ? true : env.certificateAppended,
+      documents: updatedDocuments,
       recipients: updatedRecipients,
       fields: updatedFields,
       auditTrail: newAuditTrail,
@@ -579,7 +895,132 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
     triggerMockWebhook(allSigned ? 'envelope.completed' : 'envelope.signed', updatedEnv);
-    notify('success', allSigned ? 'Agreement Fully Completed!' : 'Signature Submitted', allSigned ? 'All parties have signed. Tamper-evident Certificate of Completion generated!' : 'Your signature has been registered and verified.');
+    notify('success', allSigned ? 'Agreement Sealed & Locked!' : 'Signature Registered', allSigned ? 'All parties signed. Certificate of Completion appended to PDF and locked with SHA-256 seal.' : 'Your signature has been registered and verified.');
+  };
+
+  // Unlock Completed/Locked Envelope for Revision & Re-signing
+  const unlockEnvelopeForRevision = (envelopeId: string, reason: string = 'Authorized clause renegotiation & amendments') => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const now = new Date().toISOString();
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+    const nextVersion = (env.version || 1) + 1;
+
+    const unlockAudit: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: 'Tanish Khosla (Envelope Owner / Admin)',
+      action: 'Envelope Unlocked for Revision & Re-signing',
+      details: `Agreement unlocked for editing. Reason: "${reason}". Previous cryptographic seal invalidated. Version bumped to v${nextVersion}.0. All parties will be required to re-sign.`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
+    };
+
+    // Remove appended certificate page so document is ready for live editing
+    const cleanedDocuments = env.documents.map(doc => ({
+      ...doc,
+      pages: doc.pages.filter(p => !p.title.includes('Certificate of Completion'))
+    }));
+
+    // Reset recipient signatures for fresh re-signing
+    const resetRecipients = env.recipients.map(r => ({
+      ...r,
+      status: 'ready' as const,
+      signedAt: undefined,
+      signatureData: undefined
+    }));
+
+    const updatedEnv: Envelope = {
+      ...env,
+      status: 'in_revision',
+      isLocked: false,
+      version: nextVersion,
+      certificateAppended: false,
+      completedAt: undefined,
+      documents: cleanedDocuments,
+      recipients: resetRecipients,
+      auditTrail: [...env.auditTrail, unlockAudit],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    setActiveEnvelopeId(envelopeId);
+    setActiveView('prepare');
+    notify('warning', `Agreement Unlocked (v${nextVersion}.0)`, `Document is now open for editing. Previous signatures invalidated and recorded in audit trail.`);
+  };
+
+  // Record Tampering or Post-Completion Alteration Attempt in Audit Trail
+  const recordTamperingAttempt = (envelopeId: string, modificationDetails: string) => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const now = new Date().toISOString();
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+
+    const tamperAudit: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: 'Security Integrity Sentinel',
+      action: 'Document Alteration Attempt Recorded (Post-Seal Modification)',
+      details: `Field alteration attempted on sealed envelope: "${modificationDetails}". Immutable ledger updated with checksum mismatch alert.`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
+    };
+
+    const updatedEnv: Envelope = {
+      ...env,
+      auditTrail: [...env.auditTrail, tamperAudit],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    notify('error', 'Tampering Event Logged', 'Post-completion alteration detected and permanently recorded in audit trail.');
+  };
+
+  // Re-send Revised Envelope for Signing
+  const resendEnvelopeForSigning = (envelopeId: string) => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const now = new Date().toISOString();
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+
+    const dispatchAudit: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: 'Tanish Khosla (Envelope Owner)',
+      action: 'Revised Agreement Dispatched for Re-signing',
+      details: `Version ${env.version || 2}.0 dispatched to all recipients (${env.recipients.map(r => r.email).join(', ')}) with fresh tokenized signing links.`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
+    };
+
+    const updatedEnv: Envelope = {
+      ...env,
+      status: 'sent',
+      auditTrail: [...env.auditTrail, dispatchAudit],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    triggerMockWebhook('envelope.sent', updatedEnv);
+    notify('success', `Version ${env.version || 2}.0 Dispatched`, 'Sent updated agreement to all signers for re-signing.');
   };
 
   const openSigningSession = (envelopeId: string) => {
@@ -644,6 +1085,13 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     notify('success', 'Webhook Registered', `Endpoint "${name}" will receive event dispatch.`);
   };
 
+  const prepareNewEnvelope = () => {
+    const env = createNewEnvelope();
+    setActiveEnvelopeId(env.id);
+    setActiveView('prepare');
+    notify('info', 'Studio Ready', 'New envelope opened in Document Studio.');
+  };
+
   return (
     <SignFlowContext.Provider
       value={{
@@ -660,12 +1108,19 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         notarySessions,
         notaryJournal,
         selectedCertificateEnvelopeId,
+        isDbReady,
+        dbStats,
+        refreshDbStats,
+        exportDbBackup,
+        importDbBackup,
+        resetDb,
         setActiveView,
         setActiveEnvelopeId,
         setCurrentRole,
         setEnvironment,
         updateTenantSettings,
         createNewEnvelope,
+        prepareNewEnvelope,
         updateEnvelope,
         deleteEnvelope,
         sendEnvelope,
@@ -677,13 +1132,23 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         submitSignerSignature,
         openSigningSession,
         openCertificateView,
+        unlockEnvelopeForRevision,
+        recordTamperingAttempt,
+        resendEnvelopeForSigning,
         runAIRiskScan,
         startNotarySession,
         affixNotarySeal,
         createWebhook,
         triggerMockWebhook,
         notify,
-        dismissNotification
+        dismissNotification,
+        activeToasts,
+        isNotificationDrawerOpen,
+        setIsNotificationDrawerOpen,
+        dismissToast,
+        markNotificationAsRead,
+        markAllNotificationsAsRead,
+        clearAllNotifications
       }}
     >
       {children}

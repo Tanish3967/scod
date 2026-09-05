@@ -19,9 +19,13 @@ import { SignerAIDrawer } from './SignerAIDrawer';
 import { PaymentFieldModal } from './PaymentFieldModal';
 import { MobileQRModal } from './MobileQRModal';
 import { SignSuccessModal } from './SignSuccessModal';
+import { SIGNER_LOCALIZATION, SignerLanguage } from '../../utils/signerLocalization';
 
 export const SigningExperience: React.FC = () => {
   const { activeEnvelope, submitSignerSignature, setActiveView } = useSignFlow();
+
+  const [language, setLanguage] = useState<SignerLanguage>('en');
+  const t = SIGNER_LOCALIZATION[language];
 
   const [signerRecipientId, setSignerRecipientId] = useState<string>(
     activeEnvelope?.recipients[0]?.id || 'rec-01'
@@ -123,14 +127,18 @@ export const SigningExperience: React.FC = () => {
 
         {/* Action Controls & Stepper */}
         <div className="flex items-center space-x-2.5">
-          {/* Mobile QR handoff */}
-          <button
-            onClick={() => setShowMobileQR(true)}
-            className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium transition-colors"
+          {/* Language Switcher */}
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as SignerLanguage)}
+            className="bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-indigo-500"
           >
-            <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Sign on Phone</span>
-          </button>
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="ja">🇯🇵 JA</option>
+          </select>
 
           {/* AI Plain-English TL;DR Drawer Button */}
           <button
@@ -138,7 +146,7 @@ export const SigningExperience: React.FC = () => {
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-xs font-semibold shadow-sm transition-all"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-            <span>Signer AI Summary</span>
+            <span>{t.signerAiSummary}</span>
           </button>
 
           {/* Next Field / Complete Button */}

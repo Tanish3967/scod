@@ -1,0 +1,32 @@
+{
+  "env-demo-001": {
+    "id": "env-demo-001",
+    "title": "Enterprise SaaS Master Agreement",
+    "sender": {
+      "name": "Sarah Jenkins",
+      "email": "sarah.j@signflow.ai",
+      "organization": "Acme Global Inc"
+    },
+    "status": "sent",
+    "createdAt": "2026-09-04T12:09:21.4558109+05:30",
+    "updatedAt": "2026-09-05T12:09:21.4558109+05:30",
+    "expiresAt": "2026-10-05T12:09:21.4558109+05:30",
+    "documents": null,
+    "fields": null,
+    "recipients": [
+      {
+        "id": "rec-1",
+        "name": "David Vance",
+        "email": "d.vance@acme.com",
+        "role": "signer",
+        "routingOrder": 1,
+        "authType": "sms_otp",
+        "status": "ready"
+      }
+    ],
+    "tags": [
+      "Enterprise",
+      "SaaS"
+    ]
+  }
+}
