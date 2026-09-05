@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/signflow/document-processor/handlers"
+	"github.com/signflow/document-processor/processor"
+	"github.com/signflow/document-processor/queue"
 )
 
 // Middleware for PDF worker telemetry & tracing
@@ -38,10 +40,17 @@ func withDocTracing(next http.Handler) http.Handler {
 }
 
 func main() {
-	handler := handlers.NewDocHandler()
+	eventBus := queue.NewEventBus(50000)
+	workerPool := processor.NewWorkerPool(64, eventBus)
+	handler := handlers.NewDocHandler(workerPool, eventBus)
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(fmt.Sprintf(`{"status":"healthy","service":"document-processor","version":"2.0.0-scale","grpc_port":9083,"worker_concurrency":64,"timestamp":"%s"}`, time.Now().UTC().Format(time.RFC3339))))
 	})
@@ -58,9 +67,45 @@ func main() {
 		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
 	})
 
+	mux.HandleFunc("/api/v1/jobs/submit", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
+		if r.Method == http.MethodPost {
+			handler.SubmitAsyncJob(w, r)
+			return
+		}
+		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+	})
+
+	mux.HandleFunc("/api/v1/jobs/", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
+		if r.Method == http.MethodGet {
+			handler.GetJobStatus(w, r)
+			return
+		}
+		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+	})
+
+	mux.HandleFunc("/api/v1/workers/stats", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
+		if r.Method == http.MethodGet {
+			handler.GetWorkerStats(w, r)
+			return
+		}
+		http.Error(w, `{"error":"method not allowed"}`, http.StatusMethodNotAllowed)
+	})
+
 	port := ":8083"
-	log.Printf("[SignFlow] High-Throughput PDF Processor listening on http://localhost%s (gRPC ready on :9083)\n", port)
-	
+	log.Printf("[SignFlow] High-Throughput PDF Processor listening on http://localhost%s (64 async workers, EventBus active)\n", port)
+
 	server := &http.Server{
 		Addr:         port,
 		Handler:      withDocTracing(mux),

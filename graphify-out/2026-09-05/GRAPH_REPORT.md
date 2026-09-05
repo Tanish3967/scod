@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 469 nodes · 874 edges · 29 communities (17 shown, 6 thin omitted)
+- 551 nodes · 1027 edges · 34 communities (22 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1fe9bc96`
+- Built from commit: `60b10154`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,9 +19,10 @@
 - net/http.ResponseWriter
 - dependencies
 - devDependencies
+- MultiTierCache
 - aiEngine.ts
+- WorkerPool
 - compilerOptions
-- envelope.go
 - ai-orchestrator/package.json
 - api-gateway/package.json
 - notification-webhooks/package.json
@@ -30,6 +31,10 @@
 - compilerOptions
 - compilerOptions
 - email_service.ts
+- stress_test_phase1.cjs
+- stress_test_phase1.js
+- test_phase2_sharding_cache.cjs
+- test_phase3_worker_pool.cjs
 - runPhase5Suite
 - api-gateway/src/server.ts
 - ai-orchestrator/src/server.ts
@@ -45,10 +50,10 @@
 4. `compilerOptions` - 16 edges
 5. `openDatabase()` - 13 edges
 6. `downloadCsvFile()` - 12 edges
-7. `compilerOptions` - 10 edges
-8. `compilerOptions` - 10 edges
-9. `compilerOptions` - 10 edges
-10. `SignFlowContextType` - 9 edges
+7. `WorkerPool` - 12 edges
+8. `EventBus` - 12 edges
+9. `EnvelopeHandler` - 11 edges
+10. `MultiTierCache` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `EnvelopePipeline()` --calls--> `useSignFlow()`  [EXTRACTED]
@@ -65,19 +70,19 @@
 ## Import Cycles
 - None detected.
 
-## Communities (29 total, 6 thin omitted)
+## Communities (34 total, 6 thin omitted)
 
 ### Community 0 - "useSignFlow"
 Cohesion: 0.06
-Nodes (51): RFC-4180, App(), MainLayout(), AdminPortal(), ComplianceTrustCenter(), FrameworkDetail, CustomBrandingSettings(), EmailDispatcherConsole() (+43 more)
+Nodes (52): RFC-4180, App(), MainLayout(), AdminPortal(), ComplianceTrustCenter(), FrameworkDetail, CustomBrandingSettings(), EmailDispatcherConsole() (+44 more)
 
 ### Community 1 - "SignFlowContext.tsx"
-Cohesion: 0.06
-Nodes (59): EnvelopePipeline(), RightInspectorPanel(), RightInspectorPanelProps, EnvelopeVaultList(), FIELD_TOOLS, FieldTool, RecipientConfigPanel(), CustomSignatureModal() (+51 more)
+Cohesion: 0.07
+Nodes (58): EnvelopePipeline(), RightInspectorPanel(), RightInspectorPanelProps, EnvelopeVaultList(), FIELD_TOOLS, FieldTool, RecipientConfigPanel(), CustomSignatureModal() (+50 more)
 
 ### Community 2 - "net/http.ResponseWriter"
-Cohesion: 0.08
-Nodes (24): net/http.Request, net/http.ResponseWriter, sync.RWMutex, AuditHandler, DocHandler, EnvelopeHandler, EnvelopeStore, AuditEvent (+16 more)
+Cohesion: 0.07
+Nodes (29): net/http.Handler, net/http.Request, net/http.ResponseWriter, sync.RWMutex, AuditHandler, DocHandler, EnvelopeHandler, EnvelopeStore (+21 more)
 
 ### Community 3 - "dependencies"
 Cohesion: 0.06
@@ -87,37 +92,37 @@ Nodes (39): canvas-confetti, clsx, lucide-react, dependencies, canvas-confetti, 
 Cohesion: 0.07
 Nodes (27): autoprefixer, devDependencies, autoprefixer, postcss, tailwindcss, @tailwindcss/postcss, @types/canvas-confetti, @types/react (+19 more)
 
-### Community 5 - "aiEngine.ts"
+### Community 5 - "MultiTierCache"
+Cohesion: 0.14
+Nodes (19): CacheEntry, CacheStatus, time.Duration, time.Time, AgreementDocument, AuthType, DocumentField, DocumentPage (+11 more)
+
+### Community 6 - "aiEngine.ts"
 Cohesion: 0.14
 Nodes (17): AIDraftingStudio(), AILegalHub(), AIRiskScanner(), ContractQABot(), ObligationCalendarTracker(), RedlineClause, SignerAIDrawer(), CLAUSE_LIBRARY (+9 more)
 
-### Community 6 - "compilerOptions"
+### Community 7 - "WorkerPool"
+Cohesion: 0.16
+Nodes (12): JobStatus, PDFJob, EventTopic, NewDocHandler(), enableCORS(), main(), withDocTracing(), WorkerPool (+4 more)
+
+### Community 8 - "compilerOptions"
 Cohesion: 0.09
 Nodes (21): DOM, DOM.Iterable, ES2020, compilerOptions, allowImportingTsExtensions, isolatedModules, jsx, lib (+13 more)
 
-### Community 7 - "envelope.go"
-Cohesion: 0.24
-Nodes (14): time.Time, AgreementDocument, AuthType, DocumentField, DocumentPage, EnvelopeSender, FieldType, Recipient (+6 more)
-
-### Community 8 - "ai-orchestrator/package.json"
+### Community 9 - "ai-orchestrator/package.json"
 Cohesion: 0.14
 Nodes (13): dependencies, cors, express, description, cors, express, main, name (+5 more)
 
-### Community 9 - "api-gateway/package.json"
+### Community 10 - "api-gateway/package.json"
 Cohesion: 0.14
 Nodes (13): dependencies, cors, express, description, cors, express, main, name (+5 more)
 
-### Community 10 - "notification-webhooks/package.json"
+### Community 11 - "notification-webhooks/package.json"
 Cohesion: 0.14
 Nodes (13): dependencies, cors, express, description, cors, express, main, name (+5 more)
 
-### Community 11 - "SigningExperience.tsx"
+### Community 12 - "SigningExperience.tsx"
 Cohesion: 0.22
 Nodes (8): MobileQRModal(), PaymentFieldModal(), SignatureModal(), SignatureOutput, SignSuccessModal(), LocalizationStrings, SIGNER_LOCALIZATION, SignerLanguage
-
-### Community 12 - "compilerOptions"
-Cohesion: 0.15
-Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, rootDir, skipLibCheck (+4 more)
 
 ### Community 13 - "compilerOptions"
 Cohesion: 0.15
@@ -127,33 +132,53 @@ Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, 
 Cohesion: 0.15
 Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, rootDir, skipLibCheck (+4 more)
 
-### Community 15 - "email_service.ts"
+### Community 15 - "compilerOptions"
+Cohesion: 0.15
+Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, rootDir, skipLibCheck (+4 more)
+
+### Community 16 - "email_service.ts"
 Cohesion: 0.21
 Nodes (9): DispatchedEmail, dispatchedEmailsLog, EmailDispatchOptions, EmailRecipient, generateSignerInviteHtml(), sendAgreementEmail(), app, deliveryLogs (+1 more)
 
-### Community 16 - "runPhase5Suite"
+### Community 17 - "stress_test_phase1.cjs"
+Cohesion: 0.31
+Nodes (9): http, makeRequest(), runPhase1StressSuite(), executeStressBurst(), worker(), SERVICES, sleep(), { spawn } (+1 more)
+
+### Community 18 - "stress_test_phase1.js"
+Cohesion: 0.31
+Nodes (9): http, makeRequest(), runPhase1StressSuite(), executeStressBurst(), worker(), SERVICES, sleep(), { spawn } (+1 more)
+
+### Community 19 - "test_phase2_sharding_cache.cjs"
+Cohesion: 0.33
+Nodes (8): crypto, getHashKey(), http, jumpConsistentHash(), makeRequest(), runPhase2ShardingCacheSuite(), sleep(), { spawn }
+
+### Community 20 - "test_phase3_worker_pool.cjs"
+Cohesion: 0.38
+Nodes (6): crypto, http, makeRequest(), runPhase3WorkerPoolSuite(), sleep(), { spawn }
+
+### Community 21 - "runPhase5Suite"
 Cohesion: 0.60
 Nodes (3): getJson(), postJson(), runPhase5Suite()
 
 ## Knowledge Gaps
-- **134 isolated node(s):** `VirtualEmail`, `AuditEvent`, `ClauseAnnotation`, `Participant`, `NavbarProps` (+129 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 151 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **146 isolated node(s):** `FrameworkDetail`, `VirtualEmail`, `AuditEvent`, `ClauseAnnotation`, `Participant` (+141 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 169 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `useSignFlow()` connect `useSignFlow` to `SignFlowContext.tsx`, `SigningExperience.tsx`, `aiEngine.ts`?**
-  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+  _High betweenness centrality (0.036) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `dependencies` to `devDependencies`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `devDependencies` to `dependencies`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **What connects `VirtualEmail`, `AuditEvent`, `ClauseAnnotation` to the rest of the system?**
-  _134 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **What connects `FrameworkDetail`, `VirtualEmail`, `AuditEvent` to the rest of the system?**
+  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `useSignFlow` be split into smaller, more focused modules?**
-  _Cohesion score 0.05871725383920506 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05759623861298854 - nodes in this community are weakly interconnected._
 - **Should `SignFlowContext.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06426484907497566 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0656010656010656 - nodes in this community are weakly interconnected._
 - **Should `net/http.ResponseWriter` be split into smaller, more focused modules?**
-  _Cohesion score 0.07955596669750231 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06779661016949153 - nodes in this community are weakly interconnected._

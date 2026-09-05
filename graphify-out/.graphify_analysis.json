@@ -75,7 +75,6 @@
       "src_components_workflows_workflowcanvasbuilder",
       "src_components_workflows_workflowcanvasbuilder_workflowcanvasbuilder",
       "src_components_workflows_workflowcanvasbuilder_workflownode",
-      "src_context_signflowcontext_activetoast",
       "src_context_signflowcontext_usesignflow",
       "src_main_tsx_src_main",
       "src_utils_downloadutils",
@@ -111,6 +110,7 @@
       "src_components_templates_bulksendmodal_bulksendmodal",
       "src_components_templates_templatelibraryview",
       "src_context_signflowcontext",
+      "src_context_signflowcontext_activetoast",
       "src_context_signflowcontext_appview",
       "src_context_signflowcontext_signflowcontext",
       "src_context_signflowcontext_signflowcontexttype",
@@ -167,6 +167,67 @@
       "src_utils_localdatabase_saveenvelopetodb"
     ],
     "2": [
+      "go_type_net_http_handler",
+      "go_type_net_http_request",
+      "go_type_net_http_responsewriter",
+      "go_type_sync_rwmutex",
+      "handlers_audithandler",
+      "handlers_audithandler_getaudittrail",
+      "handlers_audithandler_recordevent",
+      "handlers_audithandler_verifyintegrity",
+      "handlers_dochandler",
+      "handlers_dochandler_getjobstatus",
+      "handlers_dochandler_getworkerstats",
+      "handlers_dochandler_processdocument",
+      "handlers_dochandler_submitasyncjob",
+      "handlers_envelopehandler",
+      "handlers_envelopehandler_createenvelope",
+      "handlers_envelopehandler_getcachetelemetry",
+      "handlers_envelopehandler_getenvelope",
+      "handlers_envelopehandler_getshardingtopology",
+      "handlers_envelopehandler_listenvelopes",
+      "handlers_envelopehandler_updateenvelopestatus",
+      "handlers_envelopestore",
+      "handlers_envelopestore_loadfromdisk",
+      "handlers_envelopestore_persisttodisk",
+      "ledger_auditevent",
+      "ledger_auditstore_appendevent",
+      "ledger_auditstore_getchain",
+      "ledger_auditstore_verifychainintegrity",
+      "processor_detectedfield",
+      "services_audit_trail_service_crypto_hash_chain",
+      "services_audit_trail_service_crypto_hash_chain_computedocumentchecksum",
+      "services_audit_trail_service_crypto_hash_chain_computenexthash",
+      "services_audit_trail_service_handlers_audit_handler",
+      "services_audit_trail_service_handlers_audit_handler_newaudithandler",
+      "services_audit_trail_service_ledger_audit_store",
+      "services_audit_trail_service_ledger_audit_store_go_ledger_auditstore",
+      "services_audit_trail_service_ledger_audit_store_newauditstore",
+      "services_audit_trail_service_main",
+      "services_audit_trail_service_main_enablecors",
+      "services_audit_trail_service_main_main",
+      "services_audit_trail_service_main_withaudittracing",
+      "services_document_processor_processor_ocr_detector",
+      "services_document_processor_processor_ocr_detector_autodetectfields",
+      "services_document_processor_processor_ocr_detector_computesha256",
+      "services_envelope_service_handlers_envelope_handler",
+      "services_envelope_service_handlers_envelope_handler_newenvelopehandler",
+      "services_envelope_service_handlers_envelope_handler_newenvelopestore",
+      "services_envelope_service_main",
+      "services_envelope_service_main_enablecors",
+      "services_envelope_service_main_main",
+      "services_envelope_service_main_withtracing",
+      "services_envelope_service_sharding_shard_router",
+      "services_envelope_service_sharding_shard_router_gethashkey",
+      "services_envelope_service_sharding_shard_router_go_sharding_shardrouter",
+      "services_envelope_service_sharding_shard_router_jumphash",
+      "services_envelope_service_sharding_shard_router_newshardrouter",
+      "sharding_shardnode",
+      "sharding_shardrouter_gettopologysummary",
+      "sharding_shardrouter_pintenanttoshard",
+      "sharding_shardrouter_routeenvelope"
+    ],
+    "3": [
       "canvas_confetti",
       "clsx",
       "lucide_react",
@@ -207,48 +268,40 @@
       "services_notification_webhooks_package_devdependencies_typescript",
       "tailwind_merge"
     ],
-    "3": [
-      "go_type_net_http_handler",
-      "go_type_net_http_request",
-      "go_type_net_http_responsewriter",
-      "handlers_audithandler",
-      "handlers_audithandler_getaudittrail",
-      "handlers_audithandler_recordevent",
-      "handlers_audithandler_verifyintegrity",
-      "handlers_dochandler",
-      "handlers_dochandler_processdocument",
-      "handlers_envelopehandler",
-      "handlers_envelopehandler_createenvelope",
-      "handlers_envelopehandler_getenvelope",
-      "handlers_envelopehandler_listenvelopes",
-      "handlers_envelopehandler_updateenvelopestatus",
-      "handlers_envelopestore",
-      "handlers_envelopestore_loadfromdisk",
-      "handlers_envelopestore_persisttodisk",
-      "processor_detectedfield",
-      "services_audit_trail_service_handlers_audit_handler",
-      "services_audit_trail_service_handlers_audit_handler_newaudithandler",
-      "services_audit_trail_service_main",
-      "services_audit_trail_service_main_enablecors",
-      "services_audit_trail_service_main_main",
-      "services_audit_trail_service_main_withaudittracing",
-      "services_document_processor_handlers_doc_handler",
-      "services_document_processor_handlers_doc_handler_newdochandler",
-      "services_document_processor_main",
-      "services_document_processor_main_enablecors",
-      "services_document_processor_main_main",
-      "services_document_processor_main_withdoctracing",
-      "services_document_processor_processor_ocr_detector",
-      "services_document_processor_processor_ocr_detector_autodetectfields",
-      "services_document_processor_processor_ocr_detector_computesha256",
-      "services_envelope_service_handlers_envelope_handler",
-      "services_envelope_service_handlers_envelope_handler_newenvelopehandler",
-      "services_envelope_service_handlers_envelope_handler_newenvelopestore",
-      "services_envelope_service_main",
-      "services_envelope_service_main_enablecors",
-      "services_envelope_service_main_main"
-    ],
     "4": [
+      "services_notification_webhooks_src_email_service",
+      "services_notification_webhooks_src_email_service_dispatchedemail",
+      "services_notification_webhooks_src_email_service_dispatchedemailslog",
+      "services_notification_webhooks_src_email_service_emaildispatchoptions",
+      "services_notification_webhooks_src_email_service_emailrecipient",
+      "services_notification_webhooks_src_email_service_generatesignerinvitehtml",
+      "services_notification_webhooks_src_email_service_sendagreementemail",
+      "services_notification_webhooks_src_fanout_mesh",
+      "services_notification_webhooks_src_fanout_mesh_circuitstate",
+      "services_notification_webhooks_src_fanout_mesh_dispatchresult",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_checkcircuit",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_constructor",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_fanoutbatch",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_gettelemetry",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_initproviders",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_recordfailure",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_recordsuccess",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_sendwithfailover",
+      "services_notification_webhooks_src_fanout_mesh_espfanoutmesh_setcircuitstate",
+      "services_notification_webhooks_src_fanout_mesh_espprovider",
+      "services_notification_webhooks_src_fanout_mesh_fanoutemailpayload",
+      "services_notification_webhooks_src_fanout_mesh_fanoutrecipient",
+      "services_notification_webhooks_src_fanout_mesh_globalespfanoutmesh",
+      "services_notification_webhooks_src_fanout_mesh_idempotencystore",
+      "services_notification_webhooks_src_fanout_mesh_providerhealth",
+      "services_notification_webhooks_src_server",
+      "services_notification_webhooks_src_server_app",
+      "services_notification_webhooks_src_server_calculatehmac",
+      "services_notification_webhooks_src_server_deliverylogs",
+      "services_notification_webhooks_src_server_webhooklogitem"
+    ],
+    "5": [
       "autoprefixer",
       "package",
       "package_devdependencies",
@@ -278,13 +331,15 @@
       "vite",
       "vitejs_plugin_react"
     ],
-    "5": [
-      "go_type_sync_rwmutex",
+    "6": [
+      "cache_cacheentry",
+      "cache_cachestatus",
+      "cache_multitiercache_getenvelope",
+      "cache_multitiercache_gettelemetry",
+      "cache_multitiercache_invalidate",
+      "cache_multitiercache_setenvelope",
+      "go_type_time_duration",
       "go_type_time_time",
-      "ledger_auditevent",
-      "ledger_auditstore_appendevent",
-      "ledger_auditstore_getchain",
-      "ledger_auditstore_verifychainintegrity",
       "models_agreementdocument",
       "models_authtype",
       "models_documentfield",
@@ -294,12 +349,9 @@
       "models_recipient",
       "models_recipientrole",
       "models_signaturedata",
-      "services_audit_trail_service_crypto_hash_chain",
-      "services_audit_trail_service_crypto_hash_chain_computedocumentchecksum",
-      "services_audit_trail_service_crypto_hash_chain_computenexthash",
-      "services_audit_trail_service_ledger_audit_store",
-      "services_audit_trail_service_ledger_audit_store_go_ledger_auditstore",
-      "services_audit_trail_service_ledger_audit_store_newauditstore",
+      "services_envelope_service_cache_tier_cache",
+      "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
+      "services_envelope_service_cache_tier_cache_newmultitiercache",
       "services_envelope_service_models_envelope",
       "services_envelope_service_models_envelope_go_models_envelope",
       "services_envelope_service_models_envelope_go_models_envelopestatus",
@@ -307,7 +359,7 @@
       "services_envelope_service_statemachine_state_machine_cantransition",
       "services_envelope_service_statemachine_state_machine_validatetransition"
     ],
-    "6": [
+    "7": [
       "src_components_ai_aidraftingstudio",
       "src_components_ai_aidraftingstudio_aidraftingstudio",
       "src_components_ai_ailegalhub",
@@ -334,7 +386,33 @@
       "src_utils_aiengine_generatecontractdraft",
       "src_utils_aiengine_generatesignersummary"
     ],
-    "7": [
+    "8": [
+      "processor_jobstatus",
+      "processor_pdfjob",
+      "processor_workerpool_getjobstatus",
+      "processor_workerpool_gettelemetry",
+      "processor_workerpool_processmessage",
+      "processor_workerpool_startworkers",
+      "processor_workerpool_submitjob",
+      "queue_eventbus_getmetrics",
+      "queue_eventbus_publish",
+      "queue_eventbus_subscribe",
+      "queue_eventtopic",
+      "services_document_processor_handlers_doc_handler",
+      "services_document_processor_handlers_doc_handler_newdochandler",
+      "services_document_processor_main",
+      "services_document_processor_main_enablecors",
+      "services_document_processor_main_main",
+      "services_document_processor_main_withdoctracing",
+      "services_document_processor_processor_worker_pool",
+      "services_document_processor_processor_worker_pool_go_processor_workerpool",
+      "services_document_processor_processor_worker_pool_newworkerpool",
+      "services_document_processor_queue_event_bus",
+      "services_document_processor_queue_event_bus_go_queue_eventbus",
+      "services_document_processor_queue_event_bus_go_queue_eventmessage",
+      "services_document_processor_queue_event_bus_neweventbus"
+    ],
+    "9": [
       "ref_dom",
       "ref_dom_iterable",
       "ref_es2020",
@@ -358,7 +436,24 @@
       "tsconfig_include",
       "tsconfig_json_ref_src"
     ],
-    "8": [
+    "10": [
+      "services_api_gateway_src_rate_limiter",
+      "services_api_gateway_src_rate_limiter_edgeratelimiter",
+      "services_api_gateway_src_rate_limiter_edgeratelimiter_checklimit",
+      "services_api_gateway_src_rate_limiter_edgeratelimiter_constructor",
+      "services_api_gateway_src_rate_limiter_edgeratelimiter_gettelemetry",
+      "services_api_gateway_src_rate_limiter_edgeratelimiter_verifyedgetoken",
+      "services_api_gateway_src_rate_limiter_globaledgeratelimiter",
+      "services_api_gateway_src_rate_limiter_ratelimitconfig",
+      "services_api_gateway_src_rate_limiter_tenanttier",
+      "services_api_gateway_src_rate_limiter_tier_configs",
+      "services_api_gateway_src_rate_limiter_windowbucket",
+      "services_api_gateway_src_server",
+      "services_api_gateway_src_server_app",
+      "services_api_gateway_src_server_edgeingressmiddleware",
+      "services_api_gateway_src_server_proxyto"
+    ],
+    "11": [
       "services_ai_orchestrator_package",
       "services_ai_orchestrator_package_dependencies",
       "services_ai_orchestrator_package_dependencies_cors",
@@ -374,7 +469,7 @@
       "services_ai_orchestrator_package_scripts_start",
       "services_ai_orchestrator_package_version"
     ],
-    "9": [
+    "12": [
       "services_api_gateway_package",
       "services_api_gateway_package_dependencies",
       "services_api_gateway_package_dependencies_cors",
@@ -390,7 +485,7 @@
       "services_api_gateway_package_scripts_start",
       "services_api_gateway_package_version"
     ],
-    "10": [
+    "13": [
       "services_notification_webhooks_package",
       "services_notification_webhooks_package_dependencies",
       "services_notification_webhooks_package_dependencies_cors",
@@ -406,7 +501,7 @@
       "services_notification_webhooks_package_scripts_start",
       "services_notification_webhooks_package_version"
     ],
-    "11": [
+    "14": [
       "src_components_signing_mobileqrmodal",
       "src_components_signing_mobileqrmodal_mobileqrmodal",
       "src_components_signing_paymentfieldmodal",
@@ -422,7 +517,7 @@
       "src_utils_signerlocalization_signer_localization",
       "src_utils_signerlocalization_signerlanguage"
     ],
-    "12": [
+    "15": [
       "services_ai_orchestrator_tsconfig",
       "services_ai_orchestrator_tsconfig_compileroptions",
       "services_ai_orchestrator_tsconfig_compileroptions_esmoduleinterop",
@@ -437,7 +532,7 @@
       "services_ai_orchestrator_tsconfig_include",
       "services_ai_orchestrator_tsconfig_json_ref_src"
     ],
-    "13": [
+    "16": [
       "services_api_gateway_tsconfig",
       "services_api_gateway_tsconfig_compileroptions",
       "services_api_gateway_tsconfig_compileroptions_esmoduleinterop",
@@ -452,7 +547,7 @@
       "services_api_gateway_tsconfig_include",
       "services_api_gateway_tsconfig_json_ref_src"
     ],
-    "14": [
+    "17": [
       "services_notification_webhooks_tsconfig",
       "services_notification_webhooks_tsconfig_compileroptions",
       "services_notification_webhooks_tsconfig_compileroptions_esmoduleinterop",
@@ -467,100 +562,139 @@
       "services_notification_webhooks_tsconfig_include",
       "services_notification_webhooks_tsconfig_json_ref_src"
     ],
-    "15": [
-      "services_notification_webhooks_src_email_service",
-      "services_notification_webhooks_src_email_service_dispatchedemail",
-      "services_notification_webhooks_src_email_service_dispatchedemailslog",
-      "services_notification_webhooks_src_email_service_emaildispatchoptions",
-      "services_notification_webhooks_src_email_service_emailrecipient",
-      "services_notification_webhooks_src_email_service_generatesignerinvitehtml",
-      "services_notification_webhooks_src_email_service_sendagreementemail",
-      "services_notification_webhooks_src_server",
-      "services_notification_webhooks_src_server_app",
-      "services_notification_webhooks_src_server_calculatehmac",
-      "services_notification_webhooks_src_server_deliverylogs",
-      "services_notification_webhooks_src_server_webhooklogitem"
+    "18": [
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_http",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_makerequest",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite_executestressburst",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_runphase1stresssuite_executestressburst_worker",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_services",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_sleep",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_spawn",
+      "tools_stress_test_phase1_cjs_tools_stress_test_phase1_waitforservice"
     ],
-    "16": [
+    "19": [
+      "tools_stress_test_phase1_js_tools_stress_test_phase1",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_http",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_makerequest",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite_executestressburst",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_runphase1stresssuite_executestressburst_worker",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_services",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_sleep",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_spawn",
+      "tools_stress_test_phase1_js_tools_stress_test_phase1_waitforservice"
+    ],
+    "20": [
+      "tools_test_phase2_sharding_cache",
+      "tools_test_phase2_sharding_cache_crypto",
+      "tools_test_phase2_sharding_cache_gethashkey",
+      "tools_test_phase2_sharding_cache_http",
+      "tools_test_phase2_sharding_cache_jumpconsistenthash",
+      "tools_test_phase2_sharding_cache_makerequest",
+      "tools_test_phase2_sharding_cache_runphase2shardingcachesuite",
+      "tools_test_phase2_sharding_cache_sleep",
+      "tools_test_phase2_sharding_cache_spawn"
+    ],
+    "21": [
+      "tools_test_phase3_worker_pool",
+      "tools_test_phase3_worker_pool_crypto",
+      "tools_test_phase3_worker_pool_http",
+      "tools_test_phase3_worker_pool_makerequest",
+      "tools_test_phase3_worker_pool_runphase3workerpoolsuite",
+      "tools_test_phase3_worker_pool_sleep",
+      "tools_test_phase3_worker_pool_spawn"
+    ],
+    "22": [
+      "tools_test_phase4_edge_fanout_mesh",
+      "tools_test_phase4_edge_fanout_mesh_crypto",
+      "tools_test_phase4_edge_fanout_mesh_http",
+      "tools_test_phase4_edge_fanout_mesh_makerequest",
+      "tools_test_phase4_edge_fanout_mesh_runphase4edgemeshsuite",
+      "tools_test_phase4_edge_fanout_mesh_sleep",
+      "tools_test_phase4_edge_fanout_mesh_spawn"
+    ],
+    "23": [
       "tools_run_e2e_suite",
       "tools_run_e2e_suite_getjson",
       "tools_run_e2e_suite_postjson",
       "tools_run_e2e_suite_runphase5suite",
       "tools_run_e2e_suite_runphase5suite_test"
     ],
-    "17": [
-      "services_api_gateway_src_server",
-      "services_api_gateway_src_server_app",
-      "services_api_gateway_src_server_authenticatetoken",
-      "services_api_gateway_src_server_proxyto"
-    ],
-    "18": [
+    "24": [
       "services_ai_orchestrator_src_server",
       "services_ai_orchestrator_src_server_app",
       "services_ai_orchestrator_src_server_vetted_clauses"
     ],
-    "19": [
+    "25": [
       "tools_send_email_resend_main",
       "tools_send_email_resend_main_main"
     ],
-    "20": [
+    "26": [
       "pkg_github_com_signflow_audit_trail_service"
     ],
-    "21": [
+    "27": [
       "pkg_github_com_signflow_document_processor"
     ],
-    "22": [
+    "28": [
       "pkg_github_com_signflow_envelope_service"
     ],
-    "23": [
+    "29": [
       "pkg_github_com_signflow_send_email_resend"
     ],
-    "24": [
+    "30": [
       "postcss_config"
     ],
-    "25": [
+    "31": [
       "src_counter"
     ],
-    "26": [
+    "32": [
       "src_main_ts_src_main"
     ],
-    "27": [
+    "33": [
       "tailwind_config"
     ],
-    "28": [
+    "34": [
       "vite_config"
     ]
   },
   "cohesion": {
-    "0": 0.05759623861298854,
-    "1": 0.06491398896462187,
-    "2": 0.06072874493927125,
-    "3": 0.09716599190283401,
-    "4": 0.07142857142857142,
-    "5": 0.13105413105413105,
-    "6": 0.14333333333333334,
-    "7": 0.09090909090909091,
-    "8": 0.14285714285714285,
-    "9": 0.14285714285714285,
-    "10": 0.14285714285714285,
-    "11": 0.21978021978021978,
-    "12": 0.15384615384615385,
-    "13": 0.15384615384615385,
-    "14": 0.15384615384615385,
-    "15": 0.21212121212121213,
-    "16": 0.6,
-    "17": 0.5,
-    "18": 0.6666666666666666,
-    "19": 1.0,
-    "20": 1.0,
-    "21": 1.0,
-    "22": 1.0,
-    "23": 1.0,
-    "24": 1.0,
+    "0": 0.05871725383920506,
+    "1": 0.06360759493670887,
+    "2": 0.06779661016949153,
+    "3": 0.06072874493927125,
+    "4": 0.08817204301075268,
+    "5": 0.07142857142857142,
+    "6": 0.14153846153846153,
+    "7": 0.14333333333333334,
+    "8": 0.15942028985507245,
+    "9": 0.09090909090909091,
+    "10": 0.1523809523809524,
+    "11": 0.14285714285714285,
+    "12": 0.14285714285714285,
+    "13": 0.14285714285714285,
+    "14": 0.21978021978021978,
+    "15": 0.15384615384615385,
+    "16": 0.15384615384615385,
+    "17": 0.15384615384615385,
+    "18": 0.3111111111111111,
+    "19": 0.3111111111111111,
+    "20": 0.3333333333333333,
+    "21": 0.38095238095238093,
+    "22": 0.38095238095238093,
+    "23": 0.6,
+    "24": 0.6666666666666666,
     "25": 1.0,
     "26": 1.0,
     "27": 1.0,
-    "28": 1.0
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0
   },
   "gods": [
     {
@@ -594,24 +728,24 @@
       "degree": 12
     },
     {
-      "id": "services_ai_orchestrator_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
+      "id": "services_document_processor_processor_worker_pool_go_processor_workerpool",
+      "label": "WorkerPool",
+      "degree": 12
     },
     {
-      "id": "services_api_gateway_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
+      "id": "services_document_processor_queue_event_bus_go_queue_eventbus",
+      "label": "EventBus",
+      "degree": 12
     },
     {
-      "id": "services_notification_webhooks_tsconfig_compileroptions",
-      "label": "compilerOptions",
-      "degree": 10
+      "id": "handlers_envelopehandler",
+      "label": "EnvelopeHandler",
+      "degree": 11
     },
     {
-      "id": "src_context_signflowcontext_signflowcontexttype",
-      "label": "SignFlowContextType",
-      "degree": 9
+      "id": "services_envelope_service_cache_tier_cache_go_cache_multitiercache",
+      "label": "MultiTierCache",
+      "degree": 11
     }
   ],
   "surprises": [
@@ -675,37 +809,37 @@
     {
       "type": "bridge_node",
       "question": "Why does `useSignFlow()` connect `useSignFlow` to `SignFlowContext.tsx`, `SigningExperience.tsx`, `aiEngine.ts`?",
-      "why": "High betweenness centrality (0.049) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.032) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
       "question": "Why does `dependencies` connect `dependencies` to `devDependencies`?",
-      "why": "High betweenness centrality (0.019) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.012) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
       "question": "Why does `devDependencies` connect `devDependencies` to `dependencies`?",
-      "why": "High betweenness centrality (0.018) - this node is a cross-community bridge."
+      "why": "High betweenness centrality (0.012) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
       "question": "What connects `FrameworkDetail`, `VirtualEmail`, `AuditEvent` to the rest of the system?",
-      "why": "134 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "why": "157 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
       "question": "Should `useSignFlow` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.05759623861298854 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.05871725383920506 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
       "question": "Should `SignFlowContext.tsx` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.06491398896462187 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.06360759493670887 - nodes in this community are weakly interconnected."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `dependencies` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.06072874493927125 - nodes in this community are weakly interconnected."
+      "question": "Should `net/http.ResponseWriter` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06779661016949153 - nodes in this community are weakly interconnected."
     }
   ]
 }
