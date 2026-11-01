@@ -126,6 +126,17 @@ export async function initLocalDatabase(): Promise<Envelope[]> {
       return INITIAL_ENVELOPES;
     }
 
+    // Merge any missing seed envelopes from INITIAL_ENVELOPES into existing IndexedDB
+    const missingSeedEnvelopes = INITIAL_ENVELOPES.filter(
+      seed => !existingEnvelopes.some(existing => existing.id === seed.id)
+    );
+
+    if (missingSeedEnvelopes.length > 0) {
+      const merged = [...existingEnvelopes, ...missingSeedEnvelopes];
+      await saveAllEnvelopesToDB(merged);
+      return merged;
+    }
+
     return existingEnvelopes;
   } catch (err) {
     console.warn('[SignFlow DB] Falling back to memory storage:', err);

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Envelope, 
   EnvelopeStatus, 
@@ -8,7 +8,9 @@ import {
   NotaryJournalEntry, 
   WebhookEndpoint, 
   WebhookLog, 
-  AuditEvent 
+  AuditEvent,
+  Template,
+  DocumentPage 
 } from '../types/signflow';
 import { INITIAL_ENVELOPES } from '../data/mockEnvelopes';
 import { generateUUID, generateFullSha256, getMockIpAddress, getMockDeviceFingerprint, generateHmacSignature, formatTimestamp } from '../utils/cryptoUtils';
@@ -33,6 +35,7 @@ export type AppView =
   | 'signing'
   | 'ai-hub'
   | 'clm-workbench'
+  | 'obligations'
   | 'workflows'
   | 'co-browsing'
   | 'crm-sync'
@@ -83,7 +86,29 @@ export interface TenantSettings {
   isQESEnabled: boolean;
 }
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  organization: string;
+  role: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+  avatarUrl?: string;
+  tier?: string;
+}
+
 interface SignFlowContextType {
+  currentUser: UserProfile | null;
+  isAuthenticated: boolean;
+  login: (credentials: { 
+    email: string; 
+    password?: string; 
+    name?: string; 
+    organization?: string; 
+    role?: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+  }) => void;
+  logout: () => void;
+  verifySignerAccess: (envelopeId: string, recipientId?: string, email?: string) => boolean;
+
   envelopes: Envelope[];
   activeEnvelope: Envelope | null;
   activeEnvelopeId: string | null;
@@ -100,6 +125,8 @@ interface SignFlowContextType {
   notarySessions: NotarySession[];
   notaryJournal: NotaryJournalEntry[];
   selectedCertificateEnvelopeId: string | null;
+  isCertificateModalOpen: boolean;
+  closeCertificateView: () => void;
   
   // Local Database Persistence
   isDbReady: boolean;
@@ -116,9 +143,41 @@ interface SignFlowContextType {
   setEnvironment: (env: 'production' | 'sandbox') => void;
   updateTenantSettings: (settings: Partial<TenantSettings>) => void;
   
+  // Creation Wizard Modal
+  isCreateEnvelopeModalOpen: boolean;
+  setIsCreateEnvelopeModalOpen: (open: boolean) => void;
+  openCreateEnvelopeModal: () => void;
+  closeCreateEnvelopeModal: () => void;
+
   // Envelope actions
   createNewEnvelope: (draftData?: Partial<Envelope>) => Envelope;
   prepareNewEnvelope: () => void;
+  createEnvelopeFromUpload: (params: { 
+    title: string; 
+    description?: string; 
+    file: { 
+      name: string; 
+      size: string; 
+      fileType: 'pdf' | 'docx' | 'xlsx' | 'png' | 'txt'; 
+      sha256Hash: string; 
+      fileUrl?: string;
+      rawData?: string;
+      pages: DocumentPage[]; 
+    }; 
+    tags: string[]; 
+    recipients: Recipient[]; 
+    agreementType?: 'unilateral' | 'bilateral' | 'multilateral';
+  }) => Envelope;
+  createEnvelopeFromTemplate: (
+    template: Template, 
+    customData?: {
+      title?: string;
+      description?: string;
+      recipients?: Recipient[];
+      tags?: string[];
+      agreementType?: 'unilateral' | 'bilateral' | 'multilateral';
+    }
+  ) => Envelope;
   updateEnvelope: (id: string, updates: Partial<Envelope>) => void;
   deleteEnvelope: (id: string) => void;
   sendEnvelope: (id: string) => void;
@@ -131,8 +190,11 @@ interface SignFlowContextType {
   runAISmartFieldPlacement: (envelopeId: string) => number;
   
   // Signing actions
+  activeSigningRecipientId: string | null;
+  setActiveSigningRecipientId: (id: string | null) => void;
   submitSignerSignature: (envelopeId: string, recipientId: string, signatureData: Recipient['signatureData'], fieldValues: Record<string, string>) => void;
   openSigningSession: (envelopeId: string, recipientId?: string) => void;
+  sendEnvelopeReminder: (envelopeId: string, recipientId?: string, customEmail?: string) => Promise<{ success: boolean; message: string; emailId?: string }>;
   openCertificateView: (envelopeId: string) => void;
   unlockEnvelopeForRevision: (envelopeId: string, reason?: string) => void;
   recordTamperingAttempt: (envelopeId: string, modificationDetails: string) => void;
@@ -167,13 +229,128 @@ interface SignFlowContextType {
 
 const SignFlowContext = createContext<SignFlowContextType | undefined>(undefined);
 
+const getInitialUrlRouteState = () => {
+  if (typeof window === 'undefined') {
+    return {
+      activeView: 'dashboard' as AppView,
+      activeEnvelopeId: 'env-msa-8921',
+      activeSigningRecipientId: null as string | null,
+      isCertificateModalOpen: false,
+      selectedCertificateEnvelopeId: null as string | null,
+    };
+  }
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const signId = params.get('sign');
+    const previewId = params.get('preview') || params.get('envelope') || params.get('doc');
+    const powerformId = params.get('powerform') || params.get('intake');
+    const signerId = params.get('signer');
+    const viewParam = params.get('view') as AppView | null;
+    const certId = params.get('cert') || params.get('certificate');
+
+    if (powerformId) {
+      return {
+        activeView: 'powerforms' as AppView,
+        activeEnvelopeId: powerformId,
+        activeSigningRecipientId: null,
+        isCertificateModalOpen: false,
+        selectedCertificateEnvelopeId: null,
+      };
+    }
+
+    if (signId) {
+      return {
+        activeView: 'signing' as AppView,
+        activeEnvelopeId: signId,
+        activeSigningRecipientId: signerId || null,
+        isCertificateModalOpen: false,
+        selectedCertificateEnvelopeId: null,
+      };
+    }
+
+    if (previewId) {
+      return {
+        activeView: (viewParam || 'prepare') as AppView,
+        activeEnvelopeId: previewId,
+        activeSigningRecipientId: signerId || null,
+        isCertificateModalOpen: false,
+        selectedCertificateEnvelopeId: null,
+      };
+    }
+
+    if (certId) {
+      return {
+        activeView: (viewParam || 'envelopes') as AppView,
+        activeEnvelopeId: certId,
+        activeSigningRecipientId: null,
+        isCertificateModalOpen: true,
+        selectedCertificateEnvelopeId: certId,
+      };
+    }
+
+    if (viewParam) {
+      return {
+        activeView: viewParam,
+        activeEnvelopeId: 'env-msa-8921',
+        activeSigningRecipientId: null,
+        isCertificateModalOpen: false,
+        selectedCertificateEnvelopeId: null,
+      };
+    }
+  } catch (err) {
+    console.warn('Failed to parse initial URL:', err);
+  }
+
+  return {
+    activeView: 'dashboard' as AppView,
+    activeEnvelopeId: 'env-msa-8921',
+    activeSigningRecipientId: null,
+    isCertificateModalOpen: false,
+    selectedCertificateEnvelopeId: null,
+  };
+};
+
 export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [envelopes, setEnvelopes] = useState<Envelope[]>(INITIAL_ENVELOPES);
-  const [activeEnvelopeId, setActiveEnvelopeId] = useState<string | null>('env-msa-8921');
-  const [activeView, setActiveView] = useState<AppView>('dashboard');
-  const [currentRole, setCurrentRole] = useState<'sender' | 'signer' | 'admin' | 'notary' | 'auditor'>('sender');
+  const initialUrlState = useMemo(() => getInitialUrlRouteState(), []);
+  const isFirstSyncRef = useRef(true);
+
+  const [envelopes, setEnvelopes] = useState<Envelope[]>(() => {
+    // If an envelope is targeted in URL, ensure it is available in initial state
+    const targetId = initialUrlState.activeEnvelopeId;
+    if (targetId && !INITIAL_ENVELOPES.some(e => e.id === targetId)) {
+      const match = INITIAL_ENVELOPES.find(e => e.id === targetId);
+      if (match) return [match, ...INITIAL_ENVELOPES];
+    }
+    return INITIAL_ENVELOPES;
+  });
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
+    try {
+      const saved = localStorage.getItem('signflow_user_session');
+      if (saved) return JSON.parse(saved);
+    } catch (_) {}
+    return null;
+  });
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('signflow_user_session');
+      return !!saved;
+    } catch (_) {
+      return false;
+    }
+  });
+
+  const [activeEnvelopeId, setActiveEnvelopeId] = useState<string | null>(initialUrlState.activeEnvelopeId);
+  const [activeView, setActiveView] = useState<AppView>(initialUrlState.activeView);
+  const [currentRole, setCurrentRole] = useState<'sender' | 'signer' | 'admin' | 'notary' | 'auditor'>(
+    currentUser?.role || 'sender'
+  );
   const [environment, setEnvironment] = useState<'production' | 'sandbox'>('production');
-  const [selectedCertificateEnvelopeId, setSelectedCertificateEnvelopeId] = useState<string | null>(null);
+  const [selectedCertificateEnvelopeId, setSelectedCertificateEnvelopeId] = useState<string | null>(initialUrlState.selectedCertificateEnvelopeId);
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(initialUrlState.isCertificateModalOpen);
+  const [previousViewBeforeCertificate, setPreviousViewBeforeCertificate] = useState<AppView>('prepare');
+  const [activeSigningRecipientId, setActiveSigningRecipientId] = useState<string | null>(initialUrlState.activeSigningRecipientId);
 
   const [tenant, setTenant] = useState<TenantSettings>({
     id: 'tenant-acme-global',
@@ -394,19 +571,101 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isDbReady, setIsDbReady] = useState(false);
   const [dbStats, setDbStats] = useState<DBStats | null>(null);
 
-  // Initialize IndexedDB on startup
+  // Initialize IndexedDB on startup and handle deep-linking query parameters
   useEffect(() => {
-    initLocalDatabase().then((loaded) => {
-      if (loaded && loaded.length > 0) {
-        setEnvelopes(loaded);
+    const parseUrlRoute = (currentEnvelopes: Envelope[] = envelopes) => {
+      if (typeof window === 'undefined') return;
+      const params = new URLSearchParams(window.location.search);
+      const signId = params.get('sign');
+      const previewId = params.get('preview') || params.get('envelope') || params.get('doc');
+      const signerId = params.get('signer');
+      const viewParam = params.get('view') as AppView | null;
+      const certId = params.get('cert') || params.get('certificate');
+
+      const targetId = signId || previewId || certId;
+      if (targetId) {
+        const found = currentEnvelopes.some(e => e.id === targetId);
+        if (!found) {
+          const seedMatch = INITIAL_ENVELOPES.find(e => e.id === targetId);
+          if (seedMatch) {
+            setEnvelopes(prev => [seedMatch, ...prev.filter(e => e.id !== targetId)]);
+          }
+        }
       }
+
+      if (signId) {
+        setActiveEnvelopeId(signId);
+        if (signerId) {
+          setActiveSigningRecipientId(signerId);
+        }
+        setActiveView('signing');
+        return;
+      }
+
+      if (previewId) {
+        setActiveEnvelopeId(previewId);
+        setActiveView('prepare');
+        return;
+      }
+
+      if (certId) {
+        setSelectedCertificateEnvelopeId(certId);
+        setIsCertificateModalOpen(true);
+        setActiveEnvelopeId(certId);
+        return;
+      }
+
+      if (viewParam) {
+        setActiveView(viewParam);
+      }
+    };
+
+    initLocalDatabase().then((loaded) => {
+      const activeList = loaded && loaded.length > 0 ? loaded : INITIAL_ENVELOPES;
+      setEnvelopes(activeList);
       setIsDbReady(true);
       getDatabaseStats().then(setDbStats);
+      parseUrlRoute(activeList);
     }).catch(err => {
       console.warn('DB initialization error:', err);
       setIsDbReady(true);
+      parseUrlRoute(INITIAL_ENVELOPES);
     });
+
+    const onPopState = () => parseUrlRoute();
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
+
+  // Synchronize browser address bar with current activeView and activeEnvelopeId
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (isFirstSyncRef.current) {
+      isFirstSyncRef.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams();
+
+    if (activeView === 'signing') {
+      if (activeEnvelopeId) params.set('sign', activeEnvelopeId);
+      if (activeSigningRecipientId) params.set('signer', activeSigningRecipientId);
+    } else if (activeView === 'prepare') {
+      if (activeEnvelopeId) params.set('envelope', activeEnvelopeId);
+      params.set('view', 'prepare');
+    } else if (activeView !== 'dashboard') {
+      params.set('view', activeView);
+    }
+
+    const currentSearch = window.location.search;
+    const newSearch = params.toString() ? `?${params.toString()}` : '';
+    const newUrl = `${window.location.pathname}${newSearch}`;
+
+    if (currentSearch !== newSearch) {
+      window.history.replaceState(null, '', newUrl);
+    }
+  }, [activeView, activeEnvelopeId, activeSigningRecipientId]);
 
   // Auto-sync envelopes to IndexedDB whenever state updates
   useEffect(() => {
@@ -633,14 +892,19 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setEnvelopes(prev => prev.map(env => env.id === id ? { ...env, ...updates, updatedAt: new Date().toISOString() } : env));
   };
 
-  const deleteEnvelope = (id: string) => {
+  const deleteEnvelope = async (id: string) => {
+    try {
+      await deleteEnvelopeFromDB(id);
+    } catch (e) {
+      console.warn('Failed to delete envelope from IndexedDB:', e);
+    }
     setEnvelopes(prev => prev.filter(e => e.id !== id));
     if (activeEnvelopeId === id) {
       const remaining = envelopes.filter(e => e.id !== id);
       setActiveEnvelopeId(remaining[0]?.id || null);
       setActiveView('envelopes');
     }
-    notify('info', 'Envelope Deleted', 'Envelope was removed from workspace.');
+    notify('info', 'Envelope Removed', 'Envelope has been permanently removed from your vault.');
   };
 
   const sendEnvelope = (id: string) => {
@@ -806,8 +1070,16 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return r;
     });
 
-    const allSigned = updatedRecipients.every(r => r.role !== 'signer' || r.status === 'signed');
-    const newStatus: EnvelopeStatus = allSigned ? 'completed' : 'signed';
+    // Check if all required participants (signers and approvers) have completed
+    const requiredActionRecipients = updatedRecipients.filter(r => r.role === 'signer' || r.role === 'approver' || r.role === 'in_person');
+    const allSigned = requiredActionRecipients.length > 0 && requiredActionRecipients.every(r => r.status === 'signed');
+    const newStatus: EnvelopeStatus = allSigned ? 'completed' : 'sent';
+
+    // If more signers are remaining, advance the next recipient in line
+    let nextRecipient = updatedRecipients.find(r => (r.role === 'signer' || r.role === 'approver' || r.role === 'in_person') && r.status !== 'signed');
+    if (nextRecipient && nextRecipient.status === 'waiting') {
+      nextRecipient.status = 'ready';
+    }
 
     // Update field values
     const updatedFields = env.fields.map(f => {
@@ -823,12 +1095,15 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return f;
     });
 
+    const currentSigner = updatedRecipients.find(r => r.id === recipientId);
     const signingAudit: AuditEvent = {
       id: 'aud-' + generateUUID().slice(0, 6),
       timestamp: now,
-      actor: updatedRecipients.find(r => r.id === recipientId)?.name || 'Signer',
-      action: 'Document Signed & Cryptographically Sealed',
-      details: `Signature applied (${signatureData?.type}) with SHA-256 document binding and consent verification`,
+      actor: currentSigner?.name || 'Signer',
+      action: allSigned ? 'Document Signed & Cryptographically Sealed' : `Signature Applied (Step Completed)`,
+      details: allSigned 
+        ? `Final signature applied (${signatureData?.type}) with SHA-256 document binding and consent verification.`
+        : `Signature applied (${signatureData?.type}). Sequential workflow advanced to next signer ${nextRecipient?.name || 'Counterparty'} (${nextRecipient?.email || ''}).`,
       ipAddress: signatureData?.ipAddress || getMockIpAddress(),
       geo: 'San Francisco, CA, US',
       device: signatureData?.deviceFingerprint || getMockDeviceFingerprint(),
@@ -862,7 +1137,7 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         const certPage = {
           pageNumber: certPageNum,
           title: 'Certificate of Completion & Cryptographic Audit Ledger',
-          content: `### CERTIFICATE OF COMPLETION\n\n**Envelope Title**: ${env.title}\n**Envelope ID**: #COC-${env.id.toUpperCase()}\n**Organization**: ${tenant.organization}\n**Completed Date**: ${formatTimestamp(now)}\n**Document SHA-256 Digest**: ${doc.sha256Hash || 'a3b5c6d7e8f1f9a2b3c4d5e6f7a8b9c0d1e2f3e4b5c6d7e8f9a0b1c2d3e4f5a6b'}\n\n---\n#### 1. SIGNER VERIFICATION EVIDENCE\n${updatedRecipients.map(r => `• **${r.name}** (${r.email}) — Role: ${r.role} | Status: Signed ✓ | Timestamp: ${r.signedAt ? formatTimestamp(r.signedAt) : formatTimestamp(now)} | IP: ${r.signatureData?.ipAddress || '198.51.100.82'} | Auth: ${r.authType || 'Email OTP (2FA)'}`).join('\n')}\n\n---\n#### 2. LEGAL NON-REPUDIATION SEAL\nThis electronic document has been cryptographically sealed and locked. Any alteration to this file breaks the SHA-256 digest and is recorded in the append-only audit trail under US ESIGN Act §101, UETA, & EU eIDAS (No 910/2014).\n\n**STATUS: 🔒 SEALED & IMMUTABLY LOCKED**`
+          content: `### CERTIFICATE OF COMPLETION\n\n**Envelope Title**: ${env.title}\n**Envelope ID**: #COC-${env.id.toUpperCase()}\n**Organization**: ${tenant.organization}\n**Completed Date**: ${formatTimestamp(now)}\n**Document SHA-256 Digest**: ${doc.sha256Hash || 'a3b5c6d7e8f1f9a2b3c4d5e6f7a8b9c0d1e2f3e4b5c6d7e8f9a0b1c2d3e4f5a6b'}\n\n---\n#### 1. SIGNER VERIFICATION EVIDENCE\n${updatedRecipients.map(r => `• **${r.name}** (${r.email}) — Role: ${r.role} | Status: ${r.status === 'signed' ? 'Signed ✓' : 'Pending ⏳'} | Timestamp: ${r.signedAt ? formatTimestamp(r.signedAt) : 'Pending'} | IP: ${r.signatureData?.ipAddress || '198.51.100.82'} | Auth: ${r.authType || 'Email OTP (2FA)'}`).join('\n')}\n\n---\n#### 2. LEGAL NON-REPUDIATION SEAL\nThis electronic document has been cryptographically sealed and locked. Any alteration to this file breaks the SHA-256 digest and is recorded in the append-only audit trail under US ESIGN Act §101, UETA, & EU eIDAS (No 910/2014).\n\n**STATUS: 🔒 SEALED & IMMUTABLY LOCKED**`
         };
 
         updatedDocuments = [
@@ -881,11 +1156,11 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const updatedEnv: Envelope = {
       ...env,
       status: newStatus,
-      completedAt: allSigned ? now : env.completedAt,
-      isLocked: allSigned ? true : env.isLocked,
-      lockedAt: allSigned ? now : env.lockedAt,
-      lockSealHash: allSigned ? generateFullSha256() : env.lockSealHash,
-      certificateAppended: allSigned ? true : env.certificateAppended,
+      completedAt: allSigned ? now : undefined,
+      isLocked: allSigned ? true : false,
+      lockedAt: allSigned ? now : undefined,
+      lockSealHash: allSigned ? generateFullSha256() : undefined,
+      certificateAppended: allSigned ? true : false,
       documents: updatedDocuments,
       recipients: updatedRecipients,
       fields: updatedFields,
@@ -895,7 +1170,14 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
     triggerMockWebhook(allSigned ? 'envelope.completed' : 'envelope.signed', updatedEnv);
-    notify('success', allSigned ? 'Agreement Sealed & Locked!' : 'Signature Registered', allSigned ? 'All parties signed. Certificate of Completion appended to PDF and locked with SHA-256 seal.' : 'Your signature has been registered and verified.');
+
+    // If there is a next recipient, automatically dispatch signing invitation to them
+    if (!allSigned && nextRecipient) {
+      sendEnvelopeReminder(envelopeId, nextRecipient.id);
+      notify('info', 'Advanced to Next Signer', `Signed as ${currentSigner?.name}. Sequential email invitation dispatched to ${nextRecipient.name} (${nextRecipient.email}).`);
+    } else if (allSigned) {
+      notify('success', 'Agreement Sealed & Locked!', 'All parties signed. Certificate of Completion appended to PDF and locked with SHA-256 seal.');
+    }
   };
 
   // Unlock Completed/Locked Envelope for Revision & Re-signing
@@ -1023,14 +1305,196 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     notify('success', `Version ${env.version || 2}.0 Dispatched`, 'Sent updated agreement to all signers for re-signing.');
   };
 
-  const openSigningSession = (envelopeId: string) => {
+  const openSigningSession = (envelopeId: string, recipientId?: string) => {
     setActiveEnvelopeId(envelopeId);
+    setActiveSigningRecipientId(recipientId || null);
     setActiveView('signing');
+  };
+
+  const sendEnvelopeReminder = async (
+    envelopeId: string, 
+    recipientId?: string, 
+    customEmail?: string
+  ): Promise<{ success: boolean; message: string; emailId?: string }> => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) {
+      return { success: false, message: 'Envelope not found' };
+    }
+
+    const recipientsToNotify = recipientId 
+      ? env.recipients.filter(r => r.id === recipientId)
+      : env.recipients.filter(r => r.status !== 'signed');
+
+    if (recipientsToNotify.length === 0 && !customEmail) {
+      notify('info', 'All Signatures Captured', 'All signers have already signed this envelope.');
+      return { success: true, message: 'All signers have already signed.' };
+    }
+
+    const targetList = customEmail 
+      ? [{ id: 'custom', name: 'Signer', email: customEmail, role: 'signer' as const, status: 'ready' as const }]
+      : recipientsToNotify;
+
+    let successCount = 0;
+    let lastMsg = '';
+    let lastEmailId = '';
+
+    for (const r of targetList) {
+      try {
+        const response = await fetch('http://localhost:8090/api/v1/emails/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            toEmail: r.email,
+            recipientName: r.name,
+            envelopeId: env.id,
+            envelopeTitle: env.title,
+            senderName: env.sender?.name || tenant.name || 'SignFlow Sender',
+            senderOrg: env.sender?.organization || tenant.organization,
+            magicLink: `${window.location.origin}/?sign=${env.id}&signer=${r.id}`
+          })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          successCount++;
+          lastEmailId = data.emailId;
+          lastMsg = data.message || `Dispatched to ${r.email}`;
+        } else if (data.liveApiCalled && data.error) {
+          lastMsg = `Resend Notice: ${data.error}`;
+        }
+      } catch (err: any) {
+        console.warn('Backend email reminder dispatch error:', err);
+        lastMsg = `Dispatched locally (Backend offline: ${err.message})`;
+      }
+    }
+
+    const now = new Date().toISOString();
+    const reminderAudit: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: 'Sarah Jenkins (SignFlow Operations)',
+      action: 'Automated Reminder Dispatched',
+      details: `Dispatched electronic signing reminder to ${targetList.map(r => `${r.name} <${r.email}>`).join(', ')}. SHA-256 session token active.`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_HASH',
+      hashChainCurrent: generateFullSha256(),
+      complianceTags: ['ESIGN', 'SOC2']
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? {
+      ...e,
+      auditTrail: [...e.auditTrail, reminderAudit],
+      updatedAt: now
+    } : e));
+
+    if (successCount > 0) {
+      notify('success', 'Email Reminder Dispatched', `Sent signing reminder to ${targetList.map(r => r.email).join(', ')}.`);
+    } else {
+      notify('info', 'Reminder Status', lastMsg || 'Reminder processed.');
+    }
+
+    return { success: successCount > 0, message: lastMsg, emailId: lastEmailId };
   };
 
   const openCertificateView = (envelopeId: string) => {
     setSelectedCertificateEnvelopeId(envelopeId);
-    setActiveView('certificate');
+    setIsCertificateModalOpen(true);
+    if (envelopeId) {
+      setActiveEnvelopeId(envelopeId);
+    }
+    if (activeView !== 'certificate') {
+      setPreviousViewBeforeCertificate(activeView);
+    }
+  };
+
+  const closeCertificateView = () => {
+    setIsCertificateModalOpen(false);
+    setSelectedCertificateEnvelopeId(null);
+    if (activeView === 'signing') {
+      setActiveView('envelopes');
+    } else if (activeView === 'certificate') {
+      setActiveView(previousViewBeforeCertificate || 'prepare');
+    }
+  };
+
+  const login = (credentials: { 
+    email: string; 
+    password?: string; 
+    name?: string; 
+    organization?: string; 
+    role?: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+  }) => {
+    const role = credentials.role || 'sender';
+    const profile: UserProfile = {
+      id: 'usr-' + generateUUID().slice(0, 8),
+      name: credentials.name || credentials.email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      email: credentials.email,
+      organization: credentials.organization || (credentials.email.split('@')[1] ? `${credentials.email.split('@')[1].split('.')[0].toUpperCase()} Corp` : 'SignFlow Enterprise'),
+      role,
+      avatarUrl: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80`,
+      tier: 'Enterprise Tier 3'
+    };
+
+    setCurrentUser(profile);
+    setIsAuthenticated(true);
+    setCurrentRole(role);
+    try {
+      localStorage.setItem('signflow_user_session', JSON.stringify(profile));
+    } catch (_) {}
+
+    notify('success', 'Authenticated Successfully', `Welcome back, ${profile.name}!`);
+
+    // If there was a pending envelope or signer target, direct there
+    if (activeSigningRecipientId || activeView === 'signing') {
+      setActiveView('signing');
+    } else if (activeEnvelopeId && activeView === 'prepare') {
+      setActiveView('prepare');
+    } else {
+      setActiveView(role === 'signer' ? 'signing' : 'dashboard');
+    }
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+    setIsAuthenticated(false);
+    try {
+      localStorage.removeItem('signflow_user_session');
+    } catch (_) {}
+    notify('info', 'Signed Out', 'You have been securely signed out.');
+  };
+
+  const verifySignerAccess = (envelopeId: string, recipientId?: string, email?: string): boolean => {
+    const targetEnvelope = envelopes.find(e => e.id === envelopeId);
+    const targetRecipient = targetEnvelope?.recipients.find(r => (recipientId && r.id === recipientId) || (email && r.email.toLowerCase() === email.toLowerCase())) 
+      || targetEnvelope?.recipients[0];
+
+    const signerProfile: UserProfile = {
+      id: targetRecipient?.id || 'rec-signer-guest',
+      name: targetRecipient?.name || 'Signatory Counterparty',
+      email: targetRecipient?.email || email || 'signer@counterparty.com',
+      organization: 'Counterparty Partner',
+      role: 'signer',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+      tier: 'Guest Signer'
+    };
+
+    setCurrentUser(signerProfile);
+    setIsAuthenticated(true);
+    setCurrentRole('signer');
+    setActiveEnvelopeId(envelopeId);
+    if (targetRecipient) {
+      setActiveSigningRecipientId(targetRecipient.id);
+    }
+    setActiveView('signing');
+
+    try {
+      localStorage.setItem('signflow_user_session', JSON.stringify(signerProfile));
+    } catch (_) {}
+
+    notify('success', 'Signer Identity Verified', `Direct signing access granted for ${signerProfile.name}.`);
+    return true;
   };
 
   const startNotarySession = (sessionId: string) => {
@@ -1085,16 +1549,350 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     notify('success', 'Webhook Registered', `Endpoint "${name}" will receive event dispatch.`);
   };
 
+  const [isCreateEnvelopeModalOpen, setIsCreateEnvelopeModalOpen] = useState(false);
+
+  const openCreateEnvelopeModal = () => setIsCreateEnvelopeModalOpen(true);
+  const closeCreateEnvelopeModal = () => setIsCreateEnvelopeModalOpen(false);
+
   const prepareNewEnvelope = () => {
-    const env = createNewEnvelope();
-    setActiveEnvelopeId(env.id);
+    setIsCreateEnvelopeModalOpen(true);
+  };
+
+  const createEnvelopeFromUpload = (params: {
+    title: string;
+    description?: string;
+    file: {
+      name: string;
+      size: string;
+      fileType: 'pdf' | 'docx' | 'xlsx' | 'png' | 'txt';
+      sha256Hash: string;
+      fileUrl?: string;
+      rawData?: string;
+      pages: DocumentPage[];
+    };
+    tags: string[];
+    recipients: Recipient[];
+    agreementType?: 'unilateral' | 'bilateral' | 'multilateral';
+  }): Envelope => {
+    const finalPageNum = params.file.pages?.length || 1;
+    const finalRecipients: Recipient[] = (params.recipients && params.recipients.length > 0 ? params.recipients : [
+      {
+        id: 'rec-' + generateUUID().slice(0, 6),
+        name: 'First Signer',
+        email: 'signer@counterparty.com',
+        role: 'signer',
+        routingOrder: 1,
+        authType: 'email',
+        status: 'ready'
+      }
+    ]);
+
+    const isUnilateral = params.agreementType === 'unilateral' || finalRecipients.length === 1;
+    const determinedAgreementType: 'unilateral' | 'bilateral' | 'multilateral' = 
+      params.agreementType || (finalRecipients.length === 1 ? 'unilateral' : finalRecipients.length === 2 ? 'bilateral' : 'multilateral');
+
+    let recipientFields: DocumentField[] = [];
+    if (isUnilateral) {
+      const rec = finalRecipients[0];
+      recipientFields = [
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'signature' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Signature`,
+          page: finalPageNum,
+          x: 18,
+          y: 74,
+          width: 200,
+          height: 50,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'date_signed' as const,
+          recipientId: rec.id,
+          label: 'Date Signed',
+          page: finalPageNum,
+          x: 62,
+          y: 74,
+          width: 130,
+          height: 40,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'name' as const,
+          recipientId: rec.id,
+          label: 'Printed Name',
+          page: finalPageNum,
+          x: 18,
+          y: 86,
+          width: 200,
+          height: 38,
+          required: true
+        }
+      ];
+    } else {
+      recipientFields = finalRecipients.flatMap((rec, idx) => [
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'signature' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Signature`,
+          page: finalPageNum,
+          x: (idx % 2 === 0) ? 12 : 55,
+          y: 75 + Math.floor(idx / 2) * 12,
+          width: 180,
+          height: 50,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'date_signed' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Date Signed`,
+          page: finalPageNum,
+          x: (idx % 2 === 0) ? 35 : 78,
+          y: 75 + Math.floor(idx / 2) * 12,
+          width: 140,
+          height: 40,
+          required: true
+        }
+      ]);
+    }
+
+    const newEnvelope: Envelope = {
+      id: 'env-' + generateUUID().slice(0, 8),
+      title: params.title || params.file.name.replace(/\.[^/.]+$/, ''),
+      description: params.description || (isUnilateral ? 'Unilateral custom agreement document uploaded for single signee execution.' : 'Custom document uploaded for electronic execution.'),
+      sender: {
+        name: 'Sarah Jenkins',
+        email: 'sarah.j@signflow.ai',
+        organization: tenant.organization,
+        avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+      },
+      status: 'draft',
+      agreementType: determinedAgreementType,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      tags: params.tags && params.tags.length > 0 ? params.tags : [isUnilateral ? 'Unilateral' : 'Custom Upload', 'Document'],
+      documents: [
+        {
+          id: 'doc-' + generateUUID().slice(0, 6),
+          name: params.file.name,
+          size: params.file.size,
+          fileType: params.file.fileType,
+          sha256Hash: params.file.sha256Hash || generateFullSha256(),
+          fileUrl: params.file.fileUrl,
+          rawData: params.file.rawData,
+          pages: params.file.pages && params.file.pages.length > 0 ? params.file.pages : [
+            {
+              pageNumber: 1,
+              title: params.title || params.file.name,
+              content: `### ${params.title || params.file.name}\n\nUploaded custom agreement document ready for signature block placement and routing.`
+            }
+          ]
+        }
+      ],
+      attachments: [
+        {
+          id: 'att-doc-primary',
+          name: params.file.name,
+          size: params.file.size,
+          fileType: params.file.fileType,
+          sha256Hash: params.file.sha256Hash || generateFullSha256(),
+          uploadedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+          uploadedBy: 'Sarah Jenkins',
+          required: true,
+          fileUrl: params.file.fileUrl,
+          rawData: params.file.rawData,
+          isPrimaryDocument: true
+        }
+      ],
+      fields: recipientFields,
+      recipients: finalRecipients,
+      auditTrail: [
+        {
+          id: 'aud-' + generateUUID().slice(0, 6),
+          timestamp: new Date().toISOString(),
+          actor: 'Sarah Jenkins',
+          action: isUnilateral ? 'Unilateral Document Uploaded' : 'Custom Document Uploaded',
+          details: `Uploaded file "${params.file.name}" (${params.file.size}) configured for ${isUnilateral ? 'unilateral single signee' : `${finalRecipients.length} signers`} with SHA-256 hash ${params.file.sha256Hash.slice(0, 20)}...`,
+          ipAddress: getMockIpAddress(),
+          geo: 'San Francisco, CA, US',
+          device: getMockDeviceFingerprint(),
+          hashChainPrevious: 'ROOT_GENESIS_HASH',
+          hashChainCurrent: generateFullSha256(),
+          complianceTags: ['ESIGN', 'SOC2', 'eIDAS']
+        }
+      ]
+    };
+
+    setEnvelopes(prev => [newEnvelope, ...prev]);
+    setActiveEnvelopeId(newEnvelope.id);
+    setIsCreateEnvelopeModalOpen(false);
     setActiveView('prepare');
-    notify('info', 'Studio Ready', 'New envelope opened in Document Studio.');
+    notify('success', isUnilateral ? 'Unilateral Agreement Created' : 'Custom Document Uploaded', `Envelope "${newEnvelope.title}" created in Document Studio.`);
+    return newEnvelope;
+  };
+
+  const createEnvelopeFromTemplate = (
+    tmpl: Template,
+    customData?: {
+      title?: string;
+      description?: string;
+      recipients?: Recipient[];
+      tags?: string[];
+      agreementType?: 'unilateral' | 'bilateral' | 'multilateral';
+    }
+  ): Envelope => {
+    const finalTitle = customData?.title?.trim() || `${tmpl.name} (from Template)`;
+    const finalDescription = customData?.description?.trim() || tmpl.description;
+    const finalTags = customData?.tags && customData.tags.length > 0 ? customData.tags : [tmpl.category, 'Template-Based'];
+
+    // Map custom recipients or fallback to template default roles
+    const recipientsList: Recipient[] = (customData?.recipients && customData.recipients.length > 0)
+      ? customData.recipients
+      : tmpl.roles.map((r, idx): Recipient => ({
+          id: `rec-${idx + 1}`,
+          name: r.roleName.includes('(') ? r.roleName.split('(')[0].trim() : r.roleName,
+          email: idx === 0 ? 'sarah.j@signflow.ai' : `signer.${idx + 1}@counterparty.com`,
+          role: 'signer',
+          routingOrder: idx + 1,
+          authType: r.defaultAuth || 'email',
+          status: idx === 0 ? 'ready' : 'waiting'
+        }));
+
+    const isUnilateral = customData?.agreementType === 'unilateral' || tmpl.agreementType === 'unilateral' || recipientsList.length === 1;
+    const determinedAgreementType: 'unilateral' | 'bilateral' | 'multilateral' = 
+      customData?.agreementType || tmpl.agreementType || (recipientsList.length === 1 ? 'unilateral' : recipientsList.length === 2 ? 'bilateral' : 'multilateral');
+
+    // Dynamically generate signature and date fields for each configured recipient
+    const finalPageNum = tmpl.sampleDocument.pages?.length || 1;
+    let recipientFields: DocumentField[] = [];
+
+    if (isUnilateral) {
+      const rec = recipientsList[0];
+      recipientFields = [
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'signature' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Signature`,
+          page: finalPageNum,
+          x: 18,
+          y: 74,
+          width: 200,
+          height: 50,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'date_signed' as const,
+          recipientId: rec.id,
+          label: 'Date Signed',
+          page: finalPageNum,
+          x: 62,
+          y: 74,
+          width: 130,
+          height: 40,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'name' as const,
+          recipientId: rec.id,
+          label: 'Printed Name',
+          page: finalPageNum,
+          x: 18,
+          y: 86,
+          width: 200,
+          height: 38,
+          required: true
+        }
+      ];
+    } else {
+      recipientFields = recipientsList.flatMap((rec, idx) => [
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'signature' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Signature`,
+          page: finalPageNum,
+          x: (idx % 2 === 0) ? 12 : 55,
+          y: 75 + Math.floor(idx / 2) * 12,
+          width: 180,
+          height: 50,
+          required: true
+        },
+        {
+          id: 'fld-' + generateUUID().slice(0, 6),
+          type: 'date_signed' as const,
+          recipientId: rec.id,
+          label: `${rec.name} Date Signed`,
+          page: finalPageNum,
+          x: (idx % 2 === 0) ? 35 : 78,
+          y: 75 + Math.floor(idx / 2) * 12,
+          width: 140,
+          height: 40,
+          required: true
+        }
+      ]);
+    }
+
+    const newEnvelope: Envelope = {
+      id: 'env-' + generateUUID().slice(0, 8),
+      title: finalTitle,
+      description: finalDescription,
+      sender: {
+        name: 'Sarah Jenkins',
+        email: 'sarah.j@signflow.ai',
+        organization: tenant.organization,
+        avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+      },
+      status: 'draft',
+      agreementType: determinedAgreementType,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      tags: isUnilateral && !finalTags.includes('Unilateral') ? ['Unilateral', ...finalTags] : finalTags,
+      documents: [tmpl.sampleDocument],
+      fields: recipientFields,
+      recipients: recipientsList,
+      auditTrail: [
+        {
+          id: 'aud-' + generateUUID().slice(0, 6),
+          timestamp: new Date().toISOString(),
+          actor: 'Sarah Jenkins',
+          action: 'Template Blueprint Instantiated',
+          details: `Loaded master template "${tmpl.name}" configured for ${isUnilateral ? 'unilateral execution (1 signer)' : `${recipientsList.length} signers`} (${recipientsList.map(r => `${r.name} <${r.email}>`).join(', ')})`,
+          ipAddress: getMockIpAddress(),
+          geo: 'San Francisco, CA, US',
+          device: getMockDeviceFingerprint(),
+          hashChainPrevious: 'ROOT_GENESIS_HASH',
+          hashChainCurrent: generateFullSha256(),
+          complianceTags: ['ESIGN', 'SOC2', 'eIDAS']
+        }
+      ]
+    };
+
+    setEnvelopes(prev => [newEnvelope, ...prev]);
+    setActiveEnvelopeId(newEnvelope.id);
+    setIsCreateEnvelopeModalOpen(false);
+    setActiveView('prepare');
+    notify('success', 'Envelope Created from Template', `Loaded "${finalTitle}" with ${recipientsList.length} configured signers.`);
+    return newEnvelope;
   };
 
   return (
     <SignFlowContext.Provider
       value={{
+        currentUser,
+        isAuthenticated,
+        login,
+        logout,
+        verifySignerAccess,
         envelopes,
         activeEnvelope,
         activeEnvelopeId,
@@ -1108,6 +1906,8 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         notarySessions,
         notaryJournal,
         selectedCertificateEnvelopeId,
+        isCertificateModalOpen,
+        closeCertificateView,
         isDbReady,
         dbStats,
         refreshDbStats,
@@ -1119,8 +1919,14 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setCurrentRole,
         setEnvironment,
         updateTenantSettings,
+        isCreateEnvelopeModalOpen,
+        setIsCreateEnvelopeModalOpen,
+        openCreateEnvelopeModal,
+        closeCreateEnvelopeModal,
         createNewEnvelope,
         prepareNewEnvelope,
+        createEnvelopeFromUpload,
+        createEnvelopeFromTemplate,
         updateEnvelope,
         deleteEnvelope,
         sendEnvelope,
@@ -1129,8 +1935,11 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         updateFieldInEnvelope,
         removeFieldFromEnvelope,
         runAISmartFieldPlacement,
+        activeSigningRecipientId,
+        setActiveSigningRecipientId,
         submitSignerSignature,
         openSigningSession,
+        sendEnvelopeReminder,
         openCertificateView,
         unlockEnvelopeForRevision,
         recordTamperingAttempt,

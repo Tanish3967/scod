@@ -3,6 +3,116 @@ import { generateFullSha256 } from '../utils/cryptoUtils';
 
 export const INITIAL_ENVELOPES: Envelope[] = [
   {
+    id: 'env-unilateral-ip-771',
+    title: 'Unilateral Employee IP & Confidentiality Undertaking',
+    description: 'Unilateral single-signatory IP assignment, inventions undertaking, and trade secret covenant.',
+    sender: {
+      name: 'Sarah Jenkins',
+      email: 'sarah.j@signflow.ai',
+      organization: 'SignFlow Enterprise Cloud',
+      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+    },
+    status: 'sent',
+    agreementType: 'unilateral',
+    createdAt: '2026-08-27T11:00:00Z',
+    updatedAt: '2026-08-27T11:00:00Z',
+    expiresAt: '2026-09-27T23:59:59Z',
+    tags: ['Unilateral', 'HR & Hiring', 'IP Assignment'],
+    requiresPayment: false,
+    documents: [
+      {
+        id: 'doc-ip-01',
+        name: 'Unilateral_Employee_IP_Undertaking.pdf',
+        size: '420 KB',
+        fileType: 'pdf',
+        sha256Hash: '9f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9088',
+        pages: [
+          {
+            pageNumber: 1,
+            title: 'Unilateral IP Undertaking & Inventions Assignment',
+            content: `### UNILATERAL INTELLECTUAL PROPERTY ASSIGNMENT & UNDERTAKING
+
+The undersigned employee / contractor ("Signatory") hereby executes this Unilateral Undertaking in favor of **SignFlow Technologies Inc.** ("Company"):
+
+#### 1. ASSIGNMENT OF ALL PROPRIETARY RIGHTS
+I hereby grant, convey, and irrevocably assign to the Company all worldwide right, title, and interest in and to any and all inventions, proprietary software, design systems, algorithms, models, and know-how authored or conceived during my engagement.
+
+#### 2. SOLE SIGNATORY LEGAL EFFECT
+This is a unilateral instrument. Signature below by the Signatory immediately anchors this undertaking into the Company\'s cryptographic SHA-256 Merkle audit trail and binds the Signatory to all covenants herein.`
+          }
+        ]
+      }
+    ],
+    fields: [
+      {
+        id: 'fld-uni-01',
+        type: 'signature',
+        label: 'Signatory Signature',
+        recipientId: 'rec-uni-01',
+        page: 1,
+        x: 18,
+        y: 74,
+        width: 42,
+        height: 10,
+        required: true,
+        aiSuggested: true,
+        aiConfidence: 0.99
+      },
+      {
+        id: 'fld-uni-02',
+        type: 'date_signed',
+        label: 'Date Signed',
+        recipientId: 'rec-uni-01',
+        page: 1,
+        x: 65,
+        y: 74,
+        width: 25,
+        height: 8,
+        required: true,
+        aiSuggested: true,
+        aiConfidence: 0.98
+      },
+      {
+        id: 'fld-uni-03',
+        type: 'name',
+        label: 'Printed Name',
+        recipientId: 'rec-uni-01',
+        page: 1,
+        x: 18,
+        y: 86,
+        width: 42,
+        height: 7,
+        required: true
+      }
+    ],
+    recipients: [
+      {
+        id: 'rec-uni-01',
+        name: 'Marcus Vance',
+        email: 'marcus.vance@counterparty.com',
+        role: 'signer',
+        routingOrder: 1,
+        authType: 'email',
+        status: 'ready'
+      }
+    ],
+    auditTrail: [
+      {
+        id: 'aud-uni-001',
+        timestamp: '2026-08-27T11:00:00Z',
+        actor: 'Sarah Jenkins (sarah.j@signflow.ai)',
+        action: 'Unilateral Envelope Created',
+        details: 'Uploaded Unilateral_Employee_IP_Undertaking.pdf configured for single signee execution',
+        ipAddress: '198.51.100.24',
+        geo: 'San Francisco, CA, US',
+        device: 'Chrome 124 / macOS',
+        hashChainPrevious: 'GENESIS_ROOT_HASH_000000000000000000000000000000000000000000000000',
+        hashChainCurrent: generateFullSha256(),
+        complianceTags: ['ESIGN', 'SOC2']
+      }
+    ]
+  },
+  {
     id: 'env-msa-8921',
     title: 'Master Services Agreement & SOW #104',
     description: 'Enterprise consulting and software architecture agreement with Acme Corp.',
@@ -13,6 +123,7 @@ export const INITIAL_ENVELOPES: Envelope[] = [
       avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
     },
     status: 'sent',
+    agreementType: 'bilateral',
     createdAt: '2026-08-26T10:15:00Z',
     updatedAt: '2026-08-27T08:30:00Z',
     expiresAt: '2026-09-25T23:59:59Z',

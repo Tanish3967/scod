@@ -94,7 +94,6 @@ export const CertificateOfCompletionModal: React.FC<{
 
   const handleClose = () => {
     onClose();
-    setActiveView('envelopes');
   };
 
   return (
@@ -319,7 +318,7 @@ export const CertificateOfCompletionModal: React.FC<{
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to Envelopes Vault</span>
+            <span>Close Certificate</span>
           </button>
 
           <div className="flex items-center space-x-2">

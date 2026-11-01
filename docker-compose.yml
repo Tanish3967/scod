@@ -7,50 +7,17 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_GATEWAY_URL=http://localhost:8080
+      - VITE_API_GATEWAY_URL=http://localhost:8090
     depends_on:
-      - api-gateway
+      - unified-backend
 
-  # 2. TypeScript API Gateway & BFF (Port 8080)
-  api-gateway:
-    build: ./services/api-gateway
+  # 2. SignFlow Unified Backend Service Engine (Port 8090)
+  unified-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     ports:
-      - "8080:8080"
+      - "8090:8090"
     environment:
-      - PORT=8080
-    depends_on:
-      - envelope-service
-      - audit-trail-service
-      - document-processor
-      - ai-orchestrator
-      - notification-webhooks
-
-  # 3. Go Envelope & Routing Service (Port 8081)
-  envelope-service:
-    build: ./services/envelope-service
-    ports:
-      - "8081:8081"
-
-  # 4. Go Audit Trail & Hash-Chaining Service (Port 8082)
-  audit-trail-service:
-    build: ./services/audit-trail-service
-    ports:
-      - "8082:8082"
-
-  # 5. Go Document Processing Worker (Port 8083)
-  document-processor:
-    build: ./services/document-processor
-    ports:
-      - "8083:8083"
-
-  # 6. TypeScript AI Orchestrator & RAG Service (Port 8084)
-  ai-orchestrator:
-    build: ./services/ai-orchestrator
-    ports:
-      - "8084:8084"
-
-  # 7. TypeScript Notification & Webhooks Service (Port 8085)
-  notification-webhooks:
-    build: ./services/notification-webhooks
-    ports:
-      - "8085:8085"
+      - PORT=8090
+      - NODE_ENV=production

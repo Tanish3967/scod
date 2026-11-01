@@ -132,6 +132,7 @@ app.post('/api/v1/emails/send', async (req: Request, res: Response) => {
   res.json({
     success: true,
     message: `Transactional email processed for ${toEmail}`,
+    emailId: result.messageId,
     dispatchResult: result
   });
 });

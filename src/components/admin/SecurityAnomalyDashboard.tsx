@@ -25,21 +25,23 @@ export const SecurityAnomalyDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-2 text-rose-400">
+      <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start space-x-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 shadow-xs">
             <ShieldAlert className="w-5 h-5" />
-            <h2 className="text-lg font-display font-bold text-white tracking-tight">
+          </div>
+          <div>
+            <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">
               Trust & Safety / Anomaly Detection
             </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              Machine learning monitors velocity abuse, suspicious bulk sends, and device fingerprint collisions.
+            </p>
           </div>
-          <p className="text-xs text-slate-300 mt-1">
-            Machine learning monitors velocity abuse, suspicious bulk sends, and device fingerprint collisions.
-          </p>
         </div>
 
-        <span className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/40 text-xs font-mono">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-mono font-semibold self-start sm:self-auto">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span>Integrity Score: 99.8%</span>
         </span>
       </div>
@@ -48,23 +50,23 @@ export const SecurityAnomalyDashboard: React.FC = () => {
         {anomalies.map(anom => (
           <div
             key={anom.id}
-            className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+            className="p-4 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
           >
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
-                <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold border border-slate-200">
                   {anom.type}
                 </span>
-                <span className="font-bold text-white">{anom.actor}</span>
+                <span className="font-bold text-slate-900 font-display">{anom.actor}</span>
               </div>
-              <p className="text-slate-400 text-[11px]">{anom.description}</p>
+              <p className="text-slate-600 text-[11.5px]">{anom.description}</p>
             </div>
 
             <div className="flex items-center space-x-3 text-right shrink-0">
-              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/40">
+              <span className="text-[10px] font-mono text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                 {anom.status}
               </span>
-              <span className="text-[10px] text-slate-500 font-mono">{anom.timestamp}</span>
+              <span className="text-[10px] text-slate-400 font-mono">{anom.timestamp}</span>
             </div>
           </div>
         ))}

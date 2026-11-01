@@ -21,15 +21,30 @@ import { NotarySessionView } from './components/notary/NotarySessionView';
 import { QESTSPVerificationView } from './components/compliance/QESTSPVerificationView';
 import { TemplateLibraryView } from './components/templates/TemplateLibraryView';
 import { PowerFormsView } from './components/templates/PowerFormsView';
+import { PowerFormPublicView } from './components/powerforms/PowerFormPublicView';
+import { ObligationTrackerHub } from './components/clm/ObligationTrackerHub';
 import { AnalyticsFunnelExplorer } from './components/analytics/AnalyticsFunnelExplorer';
 import { EmailDispatcherConsole } from './components/admin/EmailDispatcherConsole';
 import { CertificateOfCompletionModal } from './components/certificate/CertificateOfCompletionModal';
+import { CreateEnvelopeModal } from './components/envelopes/CreateEnvelopeModal';
 import { AdminPortal } from './components/admin/AdminPortal';
 import { ComplianceTrustCenter } from './components/admin/ComplianceTrustCenter';
 import { LocalDatabaseManagerView } from './components/database/LocalDatabaseManagerView';
+import { AuthView } from './components/auth/AuthView';
 
 const MainLayout: React.FC = () => {
-  const { activeView, setActiveView, selectedCertificateEnvelopeId, activeEnvelopeId } = useSignFlow();
+  const { 
+    isAuthenticated,
+    activeView, 
+    setActiveView, 
+    selectedCertificateEnvelopeId, 
+    activeEnvelopeId,
+    activeSigningRecipientId,
+    isCreateEnvelopeModalOpen,
+    closeCreateEnvelopeModal,
+    isCertificateModalOpen,
+    closeCertificateView
+  } = useSignFlow();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // Keyboard shortcut ⌘K / Ctrl+K
@@ -44,11 +59,29 @@ const MainLayout: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // If unauthenticated (no active session or invited guest), show Auth & Identity Gateway
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-950 font-sans">
+        <AuthView 
+          pendingEnvelopeId={activeEnvelopeId} 
+          pendingSignerId={activeSigningRecipientId} 
+        />
+        <NotificationToast />
+      </div>
+    );
+  }
+
   // Full-screen signing experience
   if (activeView === 'signing') {
     return (
       <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
         <SigningExperience />
+        <CertificateOfCompletionModal
+          isOpen={isCertificateModalOpen}
+          onClose={closeCertificateView}
+          envelopeId={selectedCertificateEnvelopeId || activeEnvelopeId || ''}
+        />
         <NotificationToast />
       </div>
     );
@@ -61,7 +94,7 @@ const MainLayout: React.FC = () => {
         {/* Top Window Bar with Traffic Lights and Navbar */}
         <div className="flex items-center border-b border-slate-100 bg-white">
           {/* Traffic Lights */}
-          <div className="flex items-center space-x-2 px-5 py-4 border-r border-slate-100 w-64 shrink-0">
+          <div className="flex items-center space-x-2 px-4 py-4 border-r border-slate-100 shrink-0">
             <span className="w-3 h-3 rounded-full bg-rose-500 shadow-2xs inline-block" />
             <span className="w-3 h-3 rounded-full bg-amber-500 shadow-2xs inline-block" />
             <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-2xs inline-block" />
@@ -84,6 +117,7 @@ const MainLayout: React.FC = () => {
             {activeView === 'ai-hub' && <div className="p-8 max-w-6xl mx-auto"><AILegalHub /></div>}
             {activeView === 'clm-workbench' && <div className="p-8 max-w-6xl mx-auto"><AINegotiationWorkbench /></div>}
             {activeView === 'workflows' && <div className="p-8 max-w-6xl mx-auto"><WorkflowCanvasBuilder /></div>}
+            {activeView === 'obligations' && <ObligationTrackerHub />}
             {activeView === 'co-browsing' && <div className="p-8 max-w-6xl mx-auto"><CoBrowsingRoomView /></div>}
             {activeView === 'crm-sync' && <div className="p-8 max-w-6xl mx-auto"><CRMMapperView /></div>}
             {activeView === 'offline-queue' && <div className="p-8 max-w-6xl mx-auto"><OfflineSigningQueueView /></div>}
@@ -91,27 +125,30 @@ const MainLayout: React.FC = () => {
             {activeView === 'notary' && <div className="p-8 max-w-6xl mx-auto"><NotarySessionView /></div>}
             {activeView === 'qes-tsp' && <div className="p-8 max-w-6xl mx-auto"><QESTSPVerificationView /></div>}
             {activeView === 'templates' && <div className="p-8 max-w-6xl mx-auto"><TemplateLibraryView /></div>}
-            {activeView === 'powerforms' && <div className="p-8 max-w-6xl mx-auto"><PowerFormsView /></div>}
+            {activeView === 'powerforms' && <PowerFormPublicView powerFormId={activeEnvelopeId || undefined} onExit={() => setActiveView('dashboard')} />}
             {activeView === 'analytics' && <div className="p-8 max-w-6xl mx-auto"><AnalyticsFunnelExplorer /></div>}
             {activeView === 'emails' && <div className="p-8 max-w-6xl mx-auto"><EmailDispatcherConsole /></div>}
             {activeView === 'compliance' && <div className="p-8 max-w-6xl mx-auto"><ComplianceTrustCenter /></div>}
             {activeView === 'admin' && <div className="p-8 max-w-6xl mx-auto"><AdminPortal /></div>}
             {activeView === 'local-db' && <div className="p-8 max-w-6xl mx-auto"><LocalDatabaseManagerView /></div>}
-            {activeView === 'certificate' && (
-              <CertificateOfCompletionModal
-                isOpen={true}
-                onClose={() => setActiveView('envelopes')}
-                envelopeId={selectedCertificateEnvelopeId || activeEnvelopeId || ''}
-              />
-            )}
+            {activeView === 'certificate' && <div className="p-8 max-w-6xl mx-auto"><DocumentPrepStudio /></div>}
           </main>
         </div>
       </div>
 
       {/* Global Modals & Notifications */}
+      <CreateEnvelopeModal
+        isOpen={isCreateEnvelopeModalOpen}
+        onClose={closeCreateEnvelopeModal}
+      />
       <GlobalSearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
+      />
+      <CertificateOfCompletionModal
+        isOpen={isCertificateModalOpen || activeView === 'certificate'}
+        onClose={closeCertificateView}
+        envelopeId={selectedCertificateEnvelopeId || activeEnvelopeId || ''}
       />
       <NotificationCenterDrawer />
       <NotificationToast />

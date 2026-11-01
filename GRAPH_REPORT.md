@@ -10,9 +10,9 @@
 
 | Metric | Value |
 | :--- | :--- |
-| **Total Graph Nodes** | 469 nodes |
-| **Total Graph Edges** | 874 edges |
-| **Detected Communities** | 29 clusters (17 primary architectural modules) |
+| **Total Graph Nodes** | 802 nodes |
+| **Total Graph Edges** | 1,339 edges |
+| **Detected Communities** | 63 clusters (38 primary architectural modules) |
 | **Extraction Integrity** | 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS |
 | **Import Cycles** | **0 (Clean DAG architecture)** |
 | **Token Cost** | 0 tokens (Deterministic AST Engine) |
@@ -42,6 +42,8 @@ The most connected nodes representing the core abstractions and state backbones 
 
 - [`EnvelopePipeline()`](file:///c:/Users/KIIT/Desktop/scod/src/components/dashboard/EnvelopePipeline.tsx) $\rightarrow$ [`useSignFlow()`](file:///c:/Users/KIIT/Desktop/scod/src/context/SignFlowContext.tsx) `[EXTRACTED]`
 - [`RightInspectorPanel()`](file:///c:/Users/KIIT/Desktop/scod/src/components/dashboard/RightInspectorPanel.tsx) $\rightarrow$ [`useSignFlow()`](file:///c:/Users/KIIT/Desktop/scod/src/context/SignFlowContext.tsx) `[EXTRACTED]`
+- [`parseUploadedFile()`](file:///c:/Users/KIIT/Desktop/scod/src/utils/documentParser.ts) $\rightarrow$ [`rasterizePdfToPages()`](file:///c:/Users/KIIT/Desktop/scod/src/utils/pdfRasterizer.ts) `[EXTRACTED]`
+- [`CreateEnvelopeModal()`](file:///c:/Users/KIIT/Desktop/scod/src/components/envelopes/CreateEnvelopeModal.tsx) $\rightarrow$ [`parseUploadedFile()`](file:///c:/Users/KIIT/Desktop/scod/src/utils/documentParser.ts) `[EXTRACTED]`
 - [`RightInspectorPanelProps`](file:///c:/Users/KIIT/Desktop/scod/src/components/dashboard/RightInspectorPanel.tsx) $\rightarrow$ [`Envelope`](file:///c:/Users/KIIT/Desktop/scod/src/types/signflow.ts) `[EXTRACTED]`
 - [`FieldTool`](file:///c:/Users/KIIT/Desktop/scod/src/components/prepare/FieldPalette.tsx) $\rightarrow$ [`FieldType`](file:///c:/Users/KIIT/Desktop/scod/src/types/signflow.ts) `[EXTRACTED]`
 - [`MainLayout()`](file:///c:/Users/KIIT/Desktop/scod/src/App.tsx) $\rightarrow$ [`useSignFlow()`](file:///c:/Users/KIIT/Desktop/scod/src/context/SignFlowContext.tsx) `[EXTRACTED]`
@@ -119,3 +121,8 @@ The most connected nodes representing the core abstractions and state backbones 
    - Interactive framework controls modal detailing technical security safeguards for SOC 2, ISO 27001, eIDAS, and FDA 21 CFR Part 11.
    - Standalone SHA-256 cryptographic proof validator with quick sample hash testing chips.
    - 1-Click downloadable compliance package bundle.
+
+9. **Client-Side High-DPI Vector Document Rasterizer** ([`pdfRasterizer.ts`](file:///c:/Users/KIIT/Desktop/scod/src/utils/pdfRasterizer.ts) & [`documentParser.ts`](file:///c:/Users/KIIT/Desktop/scod/src/utils/documentParser.ts)):
+   - Client-side zero-latency PDF vector rendering via `pdfjs-dist` producing 1.5x scale crisp PNG Data URLs (`imageUrl`) for visual document canvas presentation.
+   - Preserves raw stream text extraction for AI Legal Analysis, RAG Q&A, and SHA-256 Merkle chain cryptographic tamper tracking.
+   - Seamlessly integrated across `CreateEnvelopeModal`, `DocumentPrepStudio`, `DocumentViewerCanvas`, and `SigningExperience`.

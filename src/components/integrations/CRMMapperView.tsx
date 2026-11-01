@@ -103,17 +103,19 @@ export const CRMMapperView: React.FC = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Header */}
-      <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-2 text-indigo-400">
+      <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-start space-x-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 shadow-xs">
             <Database className="w-5 h-5" />
-            <h2 className="text-lg font-display font-bold text-white tracking-tight">
+          </div>
+          <div>
+            <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">
               CRM & ERP Bi-Directional Webhook Integration Hub
             </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              Trigger envelope routing automatically from CRM pipeline stages and attach executed agreements back to deal records.
+            </p>
           </div>
-          <p className="text-xs text-slate-300 mt-1">
-            Trigger envelope routing automatically from CRM pipeline stages and attach executed agreements back to deal records.
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
@@ -123,11 +125,11 @@ export const CRMMapperView: React.FC = () => {
               onClick={() => setSelectedCRM(crm)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold capitalize transition-all cursor-pointer ${
                 selectedCRM === crm
-                  ? crm === 'salesforce' ? 'bg-blue-600 text-white shadow-md' :
-                    crm === 'hubspot' ? 'bg-orange-600 text-white shadow-md' :
-                    crm === 'zapier' ? 'bg-amber-600 text-white shadow-md' :
-                    'bg-purple-600 text-white shadow-md'
-                  : 'bg-slate-800 text-slate-400 hover:text-white'
+                  ? crm === 'salesforce' ? 'bg-blue-600 text-white shadow-xs' :
+                    crm === 'hubspot' ? 'bg-orange-600 text-white shadow-xs' :
+                    crm === 'zapier' ? 'bg-amber-600 text-white shadow-xs' :
+                    'bg-purple-600 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
               {crm}
@@ -139,21 +141,21 @@ export const CRMMapperView: React.FC = () => {
       {/* 2-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Stage Triggers */}
-        <div className="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 shadow-xl space-y-4 text-xs">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white">1. Automated Pipeline Stage Triggers</h3>
-            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-800/40">
+        <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-4 text-xs">
+          <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+            <h3 className="text-sm font-bold text-slate-900 font-display">1. Automated Pipeline Stage Triggers</h3>
+            <span className="text-[10px] font-mono text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200 font-semibold">
               Webhook Active
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <div>
-              <label className="text-slate-400 block mb-1 font-medium">Trigger Stage in {selectedCRM.toUpperCase()}</label>
+              <label className="text-slate-700 block mb-1 font-semibold">Trigger Stage in {selectedCRM.toUpperCase()}</label>
               <select
                 value={triggerStage}
                 onChange={(e) => setTriggerStage(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 font-medium focus:outline-none focus:border-indigo-500"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium focus:bg-white focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Proposal / Price Quote">Proposal / Price Quote (Draft NDA)</option>
                 <option value="Negotiation / Review">Negotiation / Review (Auto-Draft MSA)</option>
@@ -162,30 +164,30 @@ export const CRMMapperView: React.FC = () => {
               </select>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2.5">
-              <div className="flex items-center space-x-2 text-slate-200 font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2.5">
+              <div className="flex items-center space-x-2 text-slate-800 font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Post-Signature Automation Rules</span>
               </div>
-              <label className="flex items-center space-x-2 text-[11.5px] text-slate-300">
-                <input type="checkbox" defaultChecked className="rounded text-indigo-600 bg-slate-900 border-slate-700" />
+              <label className="flex items-center space-x-2.5 text-[11.5px] text-slate-600 cursor-pointer">
+                <input type="checkbox" defaultChecked className="rounded text-indigo-600 focus:ring-indigo-500" />
                 <span>Update CRM Deal stage to "Closed Won" when all recipients complete</span>
               </label>
-              <label className="flex items-center space-x-2 text-[11.5px] text-slate-300">
-                <input type="checkbox" defaultChecked className="rounded text-indigo-600 bg-slate-900 border-slate-700" />
+              <label className="flex items-center space-x-2.5 text-[11.5px] text-slate-600 cursor-pointer">
+                <input type="checkbox" defaultChecked className="rounded text-indigo-600 focus:ring-indigo-500" />
                 <span>Attach signed PDF and Certificate of Completion to CRM Files</span>
               </label>
-              <label className="flex items-center space-x-2 text-[11.5px] text-slate-300">
-                <input type="checkbox" defaultChecked className="rounded text-indigo-600 bg-slate-900 border-slate-700" />
-                <span>Write SHA-256 Merkle tamper digest to CRM custom field `SignFlow_Hash__c`</span>
+              <label className="flex items-center space-x-2.5 text-[11.5px] text-slate-600 cursor-pointer">
+                <input type="checkbox" defaultChecked className="rounded text-indigo-600 focus:ring-indigo-500" />
+                <span>Write SHA-256 Merkle tamper digest to CRM custom field <code className="font-mono text-indigo-600 bg-indigo-50 px-1 py-0.5 rounded">SignFlow_Hash__c</code></span>
               </label>
             </div>
 
-            <div className="flex items-center space-x-2 pt-2">
+            <div className="flex items-center space-x-2.5 pt-2">
               <button
                 onClick={handleTestCRMSync}
                 disabled={isTestingSync}
-                className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-xs hover:shadow-md flex items-center justify-center space-x-2 transition-all cursor-pointer"
               >
                 {isTestingSync ? (
                   <>
@@ -202,9 +204,9 @@ export const CRMMapperView: React.FC = () => {
 
               <button
                 onClick={() => setShowPayloadInspector(true)}
-                className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"
               >
-                <Code className="w-3.5 h-3.5 text-indigo-400" />
+                <Code className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Inspect Payload</span>
               </button>
             </div>
@@ -212,16 +214,16 @@ export const CRMMapperView: React.FC = () => {
         </div>
 
         {/* Right: Field Mappings Table */}
-        <div className="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-1 border-b border-slate-100">
             <div>
-              <h3 className="text-sm font-bold text-white">2. Real-Time Field Mapping Schema</h3>
-              <p className="text-xs text-slate-400">Map counterparty and deal attributes into agreement fields</p>
+              <h3 className="text-sm font-bold text-slate-900 font-display">2. Real-Time Field Mapping Schema</h3>
+              <p className="text-xs text-slate-500">Map counterparty and deal attributes into agreement fields</p>
             </div>
             
             <button
               onClick={() => setShowAddMappingModal(true)}
-              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-semibold flex items-center space-x-1 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/60 text-xs font-semibold flex items-center space-x-1 transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add Field</span>
@@ -230,24 +232,24 @@ export const CRMMapperView: React.FC = () => {
 
           <div className="space-y-2.5 max-h-[340px] overflow-y-auto pr-1">
             {fieldMappings.map((m) => (
-              <div key={m.id} className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between text-xs hover:border-slate-700 transition-colors">
+              <div key={m.id} className="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-xs hover:border-slate-200 transition-colors">
                 <div className="space-y-0.5 min-w-0">
-                  <span className="font-mono text-[10px] text-slate-400 font-bold block">{m.crmField}</span>
-                  <span className="font-semibold text-slate-200 truncate">{m.sampleVal}</span>
+                  <span className="font-mono text-[10px] text-slate-500 font-bold block">{m.crmField}</span>
+                  <span className="font-semibold text-slate-800 truncate">{m.sampleVal}</span>
                 </div>
 
-                <div className="flex items-center space-x-1 text-slate-500 mx-2 shrink-0">
-                  <ArrowRight className="w-3.5 h-3.5 text-indigo-400" />
+                <div className="flex items-center space-x-1 text-slate-400 mx-2 shrink-0">
+                  <ArrowRight className="w-3.5 h-3.5 text-indigo-600" />
                 </div>
 
                 <div className="text-right space-y-0.5 min-w-0">
-                  <span className="font-mono text-[10px] text-indigo-400 font-bold block truncate">{m.signFlowField}</span>
-                  <span className="text-[10px] text-emerald-400 font-medium">Mapped & Verified</span>
+                  <span className="font-mono text-[10px] text-indigo-700 font-bold block truncate">{m.signFlowField}</span>
+                  <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 inline-block">Mapped & Verified</span>
                 </div>
 
                 <button
                   onClick={() => handleDeleteMapping(m.id)}
-                  className="p-1.5 ml-2 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+                  className="p-1.5 ml-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer shrink-0"
                   title="Remove mapping"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -260,34 +262,34 @@ export const CRMMapperView: React.FC = () => {
 
       {/* Add Field Mapping Modal */}
       {showAddMappingModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <h3 className="text-base font-bold text-white">Add CRM Field Mapping</h3>
-              <button onClick={() => setShowAddMappingModal(false)} className="text-slate-400 hover:text-white cursor-pointer">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-xs">
+          <div className="w-full max-w-md bg-white border border-slate-200/80 rounded-3xl shadow-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-base font-bold text-slate-900 font-display">Add CRM Field Mapping</h3>
+              <button onClick={() => setShowAddMappingModal(false)} className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleAddMapping} className="space-y-3 text-xs">
+            <form onSubmit={handleAddMapping} className="space-y-3.5 text-xs">
               <div>
-                <label className="text-slate-300 block mb-1 font-medium">CRM Source Object & Field Name</label>
+                <label className="text-slate-700 block mb-1 font-semibold">CRM Source Object & Field Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Account.BillingAddress, Lead.Company"
                   value={newCrmField}
                   onChange={(e) => setNewCrmField(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 font-mono text-[11px] focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-mono text-[11px] focus:bg-white focus:outline-none focus:border-indigo-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1 font-medium">SignFlow Destination Target</label>
+                <label className="text-slate-700 block mb-1 font-semibold">SignFlow Destination Target</label>
                 <select
                   value={newSignFlowField}
                   onChange={(e) => setNewSignFlowField(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 font-mono text-[11px] focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-mono text-[11px] focus:bg-white focus:outline-none focus:border-indigo-500 cursor-pointer"
                 >
                   <option value="Document.CompanyName">Document.CompanyName</option>
                   <option value="Document.BillingAddress">Document.BillingAddress</option>
@@ -299,27 +301,27 @@ export const CRMMapperView: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1 font-medium">Sample Value for Simulation</label>
+                <label className="text-slate-700 block mb-1 font-semibold">Sample Value for Simulation</label>
                 <input
                   type="text"
                   placeholder="e.g. 100 Enterprise Way, Suite 400"
                   value={newSampleVal}
                   onChange={(e) => setNewSampleVal(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
-              <div className="pt-2 flex justify-end space-x-2">
+              <div className="pt-2 flex justify-end space-x-2 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setShowAddMappingModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs cursor-pointer"
                 >
                   Save Mapping
                 </button>
@@ -331,30 +333,30 @@ export const CRMMapperView: React.FC = () => {
 
       {/* Webhook Payload Inspector Modal */}
       {showPayloadInspector && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-xs">
+          <div className="w-full max-w-2xl bg-white border border-slate-200/80 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center space-x-2">
-                <Code className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-base font-bold text-white">Live Webhook JSON Payload</h3>
+                <Code className="w-5 h-5 text-indigo-600" />
+                <h3 className="text-base font-bold text-slate-900 font-display">Live Webhook JSON Payload</h3>
               </div>
-              <button onClick={() => setShowPayloadInspector(false)} className="text-slate-400 hover:text-white cursor-pointer">
+              <button onClick={() => setShowPayloadInspector(false)} className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-500">
               This payload is transmitted via HMAC-SHA256 signed POST webhook to your configured endpoint upon agreement execution.
             </p>
 
-            <div className="flex-1 bg-slate-950 rounded-2xl p-4 overflow-auto font-mono text-[11px] text-emerald-400 leading-relaxed border border-slate-800">
+            <div className="flex-1 bg-slate-900 rounded-2xl p-4 overflow-auto font-mono text-[11px] text-emerald-400 leading-relaxed border border-slate-800 shadow-inner">
               <pre>{samplePayloadJson}</pre>
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 border-t border-slate-100">
               <button
                 onClick={() => setShowPayloadInspector(false)}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-xs cursor-pointer"
               >
                 Close Inspector
               </button>

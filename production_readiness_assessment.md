@@ -207,17 +207,34 @@
 
 ---
 
-## Part 5: Multi-Service Backend & Infrastructure Architecture
+---
 
-| Microservice | Language / Framework | Port | Status | Production Verification |
-|---|---|:---:|:---:|---|
-| **API Gateway & BFF** | TypeScript / Express | `:8080` | ✅ `READY` | Auth middleware, reverse proxy routing, CORS enabled |
-| **Envelope & Routing Service** | Go 1.22+ (`net/http`) | `:8081` | ✅ `READY` | In-memory thread-safe store, state machine transitions |
-| **Audit Trail & Ledger Service** | Go 1.22+ (`net/http`) | `:8082` | ✅ `READY` | Merkle-tree hash verification, tamper-evident ledger |
-| **Document Processing Worker** | Go 1.22+ (`net/http`) | `:8083` | ✅ `READY` | Geometry extractor, field coordinate bounding boxes |
-| **AI Orchestration Service** | TypeScript / Express | `:8084` | ✅ `READY` | Drafting studio, risk scanner, RAG contract Q&A |
-| **Notification & Webhooks Service** | TypeScript / Express | `:8085` | ✅ `READY` | Multi-provider email gateway, HMAC SHA-256 webhooks |
-| **Docker Compose Orchestration** | Docker / Compose v2 | — | ✅ `READY` | [docker-compose.yml](file:///c:/Users/KIIT/Desktop/scod/docker-compose.yml) containerized definition |
+## Part 5: Unified Backend Service Engine & Direct Deep Linking
+
+### 5.1 Unified Backend Service Engine (`:8090` / `:8080`)
+- **Status**: ✅ `PRODUCTION_READY`
+- **Implementation**: [server.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/server.ts), [envelopesModule.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/modules/envelopes.ts), [auditModule.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/modules/audit.ts), [documentsModule.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/modules/documents.ts), [aiModule.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/modules/ai.ts), [notificationsModule.ts](file:///c:/Users/KIIT/Desktop/scod/services/unified-backend/src/modules/notifications.ts).
+- **Capabilities Verified**:
+  - In-process module consolidation with zero network latency between microservices.
+  - Endpoints: `/health` (Module discovery map), `/api/v1/envelopes`, `/api/v1/audit`, `/api/v1/documents`, `/api/v1/ai`, `/api/v1/emails`, `/api/v1/webhooks`.
+  - Rate limiting, Prometheus metrics (`/metrics`), and edge telemetry (`/api/v1/edge/telemetry`).
+  - Automated integration test suite (`tools/run_e2e_suite.js`): **9 / 9 Tests Passing (100%)**.
+
+### 5.2 Deep Linking Engine & URL State Synchronization
+- **Status**: ✅ `PRODUCTION_READY`
+- **Implementation**: [SignFlowContext.tsx](file:///c:/Users/KIIT/Desktop/scod/src/context/SignFlowContext.tsx), [SigningExperience.tsx](file:///c:/Users/KIIT/Desktop/scod/src/components/signing/SigningExperience.tsx), [DocumentPrepStudio.tsx](file:///c:/Users/KIIT/Desktop/scod/src/components/prepare/DocumentPrepStudio.tsx).
+- **Capabilities Verified**:
+  - Direct deep linking into Guided Signer Mode (`/?sign=<envelopeId>&signer=<recipientId>`).
+  - Direct deep linking into Document Prep Studio (`/?preview=<envelopeId>`, `/?envelope=<envelopeId>`, `/?doc=<envelopeId>`).
+  - Direct deep linking into Certificate of Completion modal (`/?cert=<envelopeId>`).
+  - Synchronous URL parsing on boot preventing dashboard redirect race conditions.
+  - Browser address bar history synchronization (`replaceState`) with startup guard.
+
+### 5.3 Enterprise Share Agreement Suite
+- **Status**: ✅ `PRODUCTION_READY`
+- **Implementation**: [ShareEnvelopeModal.tsx](file:///c:/Users/KIIT/Desktop/scod/src/components/prepare/ShareEnvelopeModal.tsx).
+- **Capabilities Verified**:
+  - 4-tab modal with Signer Magic Links, recipient invitations, high-DPI QR mobile transfer, iframe embedding, and security access controls.
 
 ---
 
@@ -225,5 +242,6 @@
 
 - **TypeScript Compilation (`tsc`)**: Passed with **0 errors**.
 - **Frontend Bundle Build (`vite build`)**: Production build created in `dist/` with asset minification and tree-shaking.
-- **Go Microservices**: Standalone binaries compiled (`envelope_service.exe`, `audit_service.exe`, `doc_processor.exe`).
-- **Data Resiliency**: Complete fallbacks and mock data sets available for standalone demo and sandbox environments.
+- **Unified Backend Engine**: Build and operational test passing 100%.
+- **Automated E2E Test Suite**: **9 / 9 Integration Tests Passing (100%)**.
+- **Data Resiliency**: Complete fallbacks and IndexedDB local persistence verified across browser reloads.

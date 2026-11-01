@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { 
   FileText, 
   Search, 
-  Filter, 
   Plus, 
   Send, 
   CheckCircle2, 
   Clock, 
-  PenTool, 
   Trash2, 
   Eye, 
   Sparkles, 
   FileCheck,
-  MoreVertical,
-  ShieldCheck,
-  Stamp,
-  MoreHorizontal
+  AlertTriangle,
+  X,
+  CheckSquare,
+  Square,
+  Share2,
+  ExternalLink
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
 import { EnvelopeStatus, Envelope } from '../../types/signflow';
@@ -30,13 +30,14 @@ export const EnvelopeVaultList: React.FC = () => {
     openSigningSession, 
     openCertificateView,
     deleteEnvelope,
-    voidEnvelope,
-    runAIRiskScan,
     notify
   } = useSignFlow();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [deleteCandidate, setDeleteCandidate] = useState<Envelope | null>(null);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
 
   const filtered = envelopes.filter(env => {
     const matchesQuery = 
@@ -48,6 +49,38 @@ export const EnvelopeVaultList: React.FC = () => {
     if (statusFilter === 'all') return true;
     return env.status === statusFilter;
   });
+
+  const allFilteredSelected = filtered.length > 0 && filtered.every(env => selectedIds.includes(env.id));
+
+  const toggleSelectAll = () => {
+    if (allFilteredSelected) {
+      setSelectedIds(prev => prev.filter(id => !filtered.some(f => f.id === id)));
+    } else {
+      const newSelected = Array.from(new Set([...selectedIds, ...filtered.map(f => f.id)]));
+      setSelectedIds(newSelected);
+    }
+  };
+
+  const toggleSelectRow = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const confirmSingleDelete = () => {
+    if (!deleteCandidate) return;
+    deleteEnvelope(deleteCandidate.id);
+    setSelectedIds(prev => prev.filter(id => id !== deleteCandidate.id));
+    setDeleteCandidate(null);
+  };
+
+  const confirmBulkDelete = () => {
+    if (selectedIds.length === 0) return;
+    selectedIds.forEach(id => deleteEnvelope(id));
+    setSelectedIds([]);
+    setIsBulkDeleting(false);
+  };
 
   const getStatusBadge = (status: EnvelopeStatus) => {
     switch (status) {
@@ -80,13 +113,25 @@ export const EnvelopeVaultList: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={prepareNewEnvelope}
-          className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs shadow-xs flex items-center space-x-1.5 transition-all self-start sm:self-auto cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>New Envelope</span>
-        </button>
+        <div className="flex items-center gap-2">
+          {selectedIds.length > 0 && (
+            <button
+              onClick={() => setIsBulkDeleting(true)}
+              className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-semibold text-xs shadow-2xs flex items-center space-x-1.5 transition-all cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+              <span>Delete Selected ({selectedIds.length})</span>
+            </button>
+          )}
+
+          <button
+            onClick={prepareNewEnvelope}
+            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs shadow-xs flex items-center space-x-1.5 transition-all self-start sm:self-auto cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>New Envelope</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
@@ -125,72 +170,233 @@ export const EnvelopeVaultList: React.FC = () => {
           <table className="w-full text-left text-xs">
             <thead className="text-[11px] text-slate-400 font-medium bg-slate-50/50 border-b border-slate-100">
               <tr>
-                <th className="py-3 px-5">Envelope Title</th>
+                <th className="py-3 px-4 w-10 text-center">
+                  <button 
+                    onClick={toggleSelectAll} 
+                    className="cursor-pointer text-slate-400 hover:text-indigo-600 inline-flex items-center justify-center"
+                    title={allFilteredSelected ? "Deselect All" : "Select All"}
+                  >
+                    {allFilteredSelected ? (
+                      <CheckSquare className="w-4 h-4 text-indigo-600" />
+                    ) : (
+                      <Square className="w-4 h-4" />
+                    )}
+                  </button>
+                </th>
+                <th className="py-3 px-4">Envelope Title</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Recipients</th>
                 <th className="py-3 px-4">Created / Expiry</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+                <th className="py-3 px-5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {filtered.map((env) => (
-                <tr key={env.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-3.5 px-5">
-                    <div className="flex items-center space-x-3">
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-bold font-mono text-rose-500 bg-rose-50 border border-rose-100">
-                        PDF
-                      </span>
-                      <div>
-                        <p className="font-semibold text-slate-900">{env.title}</p>
-                        <p className="text-[10px] text-slate-400 font-mono">#{env.id.toUpperCase().replace('ENV-', 'EN-')}</p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    {getStatusBadge(env.status)}
-                  </td>
-
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center -space-x-1.5">
-                      {env.recipients.map((rec, i) => (
-                        <div
-                          key={i}
-                          title={`${rec.name} (${rec.role})`}
-                          className="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-bold text-[9px] flex items-center justify-center border-2 border-white"
-                        >
-                          {rec.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-
-                  <td className="py-3.5 px-4 text-slate-500 text-[11px]">
-                    {formatTimestamp(env.createdAt)}
-                  </td>
-
-                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end space-x-1.5">
-                      <button
-                        onClick={() => openSigningSession(env.id)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-[11px] transition-all cursor-pointer whitespace-nowrap"
-                      >
-                        Sign
-                      </button>
-                      <button
-                        onClick={() => openCertificateView(env.id)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-[11px] transition-all cursor-pointer whitespace-nowrap"
-                      >
-                        Certificate
-                      </button>
-                    </div>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-slate-400">
+                    <FileText className="w-8 h-8 mx-auto text-slate-300 mb-2" />
+                    <p className="text-xs font-semibold text-slate-600">No Envelopes Found</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Try adjusting your search query or create a new envelope.</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filtered.map((env) => {
+                  const isSelected = selectedIds.includes(env.id);
+                  return (
+                    <tr 
+                      key={env.id} 
+                      className={`hover:bg-slate-50/60 transition-colors ${isSelected ? 'bg-indigo-50/30' : ''}`}
+                    >
+                      {/* Checkbox */}
+                      <td className="py-3.5 px-4 text-center">
+                        <button 
+                          onClick={(e) => toggleSelectRow(env.id, e)}
+                          className="cursor-pointer text-slate-400 hover:text-indigo-600 inline-flex items-center justify-center"
+                        >
+                          {isSelected ? (
+                            <CheckSquare className="w-4 h-4 text-indigo-600" />
+                          ) : (
+                            <Square className="w-4 h-4" />
+                          )}
+                        </button>
+                      </td>
+
+                      {/* Title & Code */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center space-x-3">
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold font-mono text-rose-500 bg-rose-50 border border-rose-100">
+                            PDF
+                          </span>
+                          <div>
+                            <button
+                              onClick={() => {
+                                setActiveEnvelopeId(env.id);
+                                setActiveView('prepare');
+                              }}
+                              className="font-semibold text-slate-900 hover:text-indigo-600 text-left transition-colors cursor-pointer block"
+                            >
+                              {env.title}
+                            </button>
+                            <p className="text-[10px] text-slate-400 font-mono">#{env.id.toUpperCase().replace('ENV-', 'EN-')}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-3.5 px-4">
+                        {getStatusBadge(env.status)}
+                      </td>
+
+                      {/* Recipients Avatar Stack */}
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center -space-x-1.5">
+                          {env.recipients.map((rec, i) => (
+                            <div
+                              key={i}
+                              title={`${rec.name} (${rec.role})`}
+                              className="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-bold text-[9px] flex items-center justify-center border-2 border-white"
+                            >
+                              {rec.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+
+                      {/* Created */}
+                      <td className="py-3.5 px-4 text-slate-500 text-[11px]">
+                        {formatTimestamp(env.createdAt)}
+                      </td>
+
+                      {/* Actions */}
+                      <td className="py-3.5 px-5 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end space-x-1.5">
+                          <button
+                            onClick={() => {
+                              setActiveEnvelopeId(env.id);
+                              setActiveView('prepare');
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-[11px] transition-all cursor-pointer whitespace-nowrap"
+                            title="Open in Document Studio"
+                          >
+                            Studio
+                          </button>
+
+                          {env.status !== 'completed' ? (
+                            <button
+                              onClick={() => openSigningSession(env.id)}
+                              className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-[11px] transition-all cursor-pointer whitespace-nowrap shadow-2xs"
+                            >
+                              Sign
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => openCertificateView(env.id)}
+                              className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-medium text-[11px] transition-all cursor-pointer whitespace-nowrap"
+                            >
+                              Certificate
+                            </button>
+                          )}
+
+                          {/* Delete Envelope Button */}
+                          <button
+                            onClick={() => setDeleteCandidate(env)}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                            title="Delete / Remove Envelope"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Delete Single Envelope Confirmation Modal */}
+      {deleteCandidate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-2xl bg-white border border-slate-200 shadow-2xl p-6 space-y-4">
+            <div className="flex items-start space-x-3.5">
+              <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div className="space-y-1 min-w-0 flex-1">
+                <h3 className="text-base font-bold text-slate-900 font-display">
+                  Delete Envelope?
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Are you sure you want to permanently remove <strong className="text-slate-800">"{deleteCandidate.title}"</strong> ({deleteCandidate.id})? This will delete all placed fields, recipient records, and associated draft data.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-rose-50/50 border border-rose-100 text-[11px] text-rose-700">
+              ⚠️ <strong>Warning:</strong> This action cannot be undone. Any active signing links for this agreement will be invalidated.
+            </div>
+
+            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+              <button
+                onClick={() => setDeleteCandidate(null)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmSingleDelete}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer flex items-center space-x-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Permanently</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Multiple Envelopes Confirmation Modal */}
+      {isBulkDeleting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-2xl bg-white border border-slate-200 shadow-2xl p-6 space-y-4">
+            <div className="flex items-start space-x-3.5">
+              <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div className="space-y-1 min-w-0 flex-1">
+                <h3 className="text-base font-bold text-slate-900 font-display">
+                  Delete {selectedIds.length} Envelopes?
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  You have selected <strong className="text-slate-800">{selectedIds.length} envelopes</strong> for permanent removal from the vault.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-rose-50/50 border border-rose-100 text-[11px] text-rose-700">
+              ⚠️ <strong>Warning:</strong> This batch action cannot be undone.
+            </div>
+
+            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+              <button
+                onClick={() => setIsBulkDeleting(false)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmBulkDelete}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer flex items-center space-x-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete {selectedIds.length} Envelopes</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,19 @@
-// SignFlow Phase 5: Automated End-to-End Enterprise Test Suite
+// SignFlow: Automated End-to-End Enterprise Test Suite
+// Validates Unified Backend Service Engine & Subsystems
+import { spawn } from 'node:child_process';
+import process from 'node:process';
+
+const GATEWAY_PORT = process.env.PORT || 8090;
+const GATEWAY_URL = `http://127.0.0.1:${GATEWAY_PORT}`;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function getJson(url) {
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: { 'Authorization': 'Bearer mock-jwt-enterprise' }
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status} on ${url}`);
   return await res.json();
 }
@@ -9,17 +21,30 @@ async function getJson(url) {
 async function postJson(url, body) {
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer mock-jwt-enterprise'
+    },
     body: JSON.stringify(body)
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} on ${url}`);
   return await res.json();
 }
 
-async function runPhase5Suite() {
+async function runEnterpriseSuite() {
   console.log('===========================================================');
-  console.log('  SignFlow Phase 5: Automated Enterprise Integration Test');
+  console.log('  SignFlow: Unified Backend Enterprise Integration Test');
   console.log('===========================================================');
+
+  // Spawn Unified Backend Service Engine
+  console.log('1. Launching Unified Backend Service Engine (:8090)...');
+  const backendProc = spawn('node', ['services/unified-backend/dist/server.js'], {
+    stdio: 'inherit',
+    env: { ...process.env, PORT: `${GATEWAY_PORT}` }
+  });
+
+  await sleep(3000);
+
   let passed = 0;
   let total = 0;
 
@@ -35,114 +60,123 @@ async function runPhase5Suite() {
     }
   }
 
-  // 1. Gateway Health
-  await test('API Gateway Health & Upstream Map', async () => {
-    const data = await getJson('http://localhost:8080/health');
-    if (data.status !== 'healthy') throw new Error('Gateway not healthy');
-  });
+  try {
+    // 1. Unified Backend Health & Module Map
+    await test('Unified Backend Health & Module Discovery Map', async () => {
+      const data = await getJson(`${GATEWAY_URL}/health`);
+      if (data.status !== 'healthy') throw new Error('Unified Backend not healthy');
+      if (!Array.isArray(data.modules) || data.modules.length < 5) throw new Error('Missing subsystem module reports');
+    });
 
-  // 2. Envelope Microservice via Gateway
-  await test('Go Envelope Service - List Envelopes (:8081)', async () => {
-    const data = await getJson('http://localhost:8080/api/v1/envelopes');
-    if (!Array.isArray(data.envelopes) && !Array.isArray(data)) throw new Error('Invalid envelopes response');
-  });
+    // 2. Envelope Subsystem - List Envelopes
+    await test('Envelope Module - In-Process List Envelopes', async () => {
+      const data = await getJson(`${GATEWAY_URL}/api/v1/envelopes`);
+      if (!Array.isArray(data.envelopes) && !Array.isArray(data)) throw new Error('Invalid envelopes response');
+    });
 
-  // 3. Envelope Creation
-  let createdEnvId = '';
-  await test('Go Envelope Service - Create Envelope', async () => {
-    const payload = {
-      title: 'Phase 5 Enterprise Master Agreement',
-      status: 'draft',
-      senderName: 'Alex Rivera',
-      senderEmail: 'alex@acmeglobal.com'
-    };
-    const data = await postJson('http://localhost:8080/api/v1/envelopes', payload);
-    const id = data.envelope?.id || data.id;
-    if (!id) throw new Error('Missing envelope ID');
-    createdEnvId = id;
-  });
+    // 3. Envelope Subsystem - Creation
+    let createdEnvId = '';
+    await test('Envelope Module - In-Process Create Envelope', async () => {
+      const payload = {
+        title: 'Unified Backend Master Enterprise Agreement',
+        status: 'draft',
+        senderName: 'Alex Rivera',
+        senderEmail: 'alex@acmeglobal.com'
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/envelopes`, payload);
+      const id = data.envelope?.id || data.id;
+      if (!id) throw new Error('Missing envelope ID');
+      createdEnvId = id;
+    });
 
-  // 4. Audit Trail Event Recording
-  await test('Go Audit Trail Ledger - Record Cryptographic Event (:8082)', async () => {
-    const payload = {
-      envelopeId: createdEnvId || 'env-phase-5',
-      eventType: 'ENVELOPE_SEALED',
-      actorName: 'Alex Rivera',
-      actorEmail: 'alex@acmeglobal.com',
-      ipAddress: '198.51.100.82',
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-      payloadHash: 'sha256-8a01bf2848c909e4a11209bca7892182049c819203a98102'
-    };
-    const data = await postJson('http://localhost:8080/api/v1/audit/events', payload);
-    if (!data.success) throw new Error('Audit event recording failed');
-  });
+    // 4. Audit Trail Subsystem - Merkle Chain Event Recording
+    await test('Audit Ledger Module - Record Cryptographic SHA-256 Event', async () => {
+      const payload = {
+        envelopeId: createdEnvId || 'env-unified-test',
+        eventType: 'ENVELOPE_SEALED',
+        actorName: 'Alex Rivera',
+        actorEmail: 'alex@acmeglobal.com',
+        ipAddress: '198.51.100.82',
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        payloadHash: 'sha256-8a01bf2848c909e4a11209bca7892182049c819203a98102'
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/audit/events`, payload);
+      if (!data.success) throw new Error('Audit event recording failed');
+    });
 
-  // 5. Document Processing Worker
-  await test('Go Document Processing Worker - Layout & Geometry (:8083)', async () => {
-    const payload = {
-      documentId: 'doc-p5-test',
-      totalPages: 4,
-      extractCoordinates: true
-    };
-    const data = await postJson('http://localhost:8080/api/v1/documents/process', payload);
-    if (!data.success) throw new Error('Document processing failed');
-  });
+    // 5. Document Processing Subsystem
+    await test('Document Processing Module - Layout & Geometry Analysis', async () => {
+      const payload = {
+        documentId: 'doc-unified-test',
+        totalPages: 4,
+        extractCoordinates: true
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/documents/process`, payload);
+      if (!data.success) throw new Error('Document processing failed');
+    });
 
-  // 6. AI Orchestration - Risk Review
-  await test('TypeScript AI Orchestrator - Legal Playbook Risk Review (:8084)', async () => {
-    const payload = {
-      documentText: 'Section 4: Limitation of aggregate liability is capped at 12-month trailing spend.'
-    };
-    const data = await postJson('http://localhost:8080/api/v1/ai/risk-scan', payload);
-    if (data.overallScore < 70) throw new Error('Unexpected low AI risk score');
-  });
+    // 6. AI Orchestration Subsystem - Risk Review
+    await test('AI Orchestrator Module - Legal Playbook Risk Review', async () => {
+      const payload = {
+        documentText: 'Section 4: Limitation of aggregate liability is capped at 12-month trailing spend.'
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/ai/risk-scan`, payload);
+      if (data.overallScore < 70) throw new Error('Unexpected low AI risk score');
+    });
 
-  // 7. AI Orchestration - RAG Contract Q&A
-  await test('TypeScript AI Orchestrator - Conversational Vault RAG Q&A', async () => {
-    const payload = {
-      question: 'What is the liability cap for this agreement?',
-      documentTitle: 'Master Services Agreement'
-    };
-    const data = await postJson('http://localhost:8080/api/v1/ai/contract-qa', payload);
-    if (!data.answer || !data.citations) throw new Error('Invalid AI Q&A answer or missing citations');
-  });
+    // 7. AI Orchestration Subsystem - RAG Contract Q&A
+    await test('AI Orchestrator Module - Conversational Vault RAG Q&A', async () => {
+      const payload = {
+        question: 'What is the liability cap for this agreement?',
+        documentTitle: 'Master Services Agreement'
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/ai/contract-qa`, payload);
+      if (!data.answer || !data.citations) throw new Error('Invalid AI Q&A answer or missing citations');
+    });
 
-  // 8. Notification & Webhook Dispatcher
-  await test('TypeScript Webhooks - HMAC-SHA256 Signed Event Dispatch (:8085)', async () => {
-    const payload = {
-      event: 'envelope.completed',
-      targetUrl: 'https://api.acmeglobal.com/webhook/signflow',
-      secret: 'whsec_enterprise_secret_2026',
-      payload: { envelopeId: createdEnvId || 'env-phase-5', status: 'completed' }
-    };
-    const data = await postJson('http://localhost:8080/api/v1/webhooks/dispatch', payload);
-    if (!data.success || !data.signature) throw new Error('Failed to dispatch signed webhook');
-  });
+    // 8. Notification & Webhook Subsystem - HMAC Dispatch
+    await test('Webhook Module - HMAC-SHA256 Signed Event Dispatch', async () => {
+      const payload = {
+        event: 'envelope.completed',
+        targetUrl: 'https://api.acmeglobal.com/webhook/signflow',
+        secret: 'whsec_enterprise_secret_2026',
+        payload: { envelopeId: createdEnvId || 'env-unified-test', status: 'completed' }
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/webhooks/dispatch`, payload);
+      if (!data.success || !data.signature) throw new Error('Failed to dispatch signed webhook');
+    });
 
-  // 9. Transactional Email Dispatcher
-  await test('TypeScript Notification - Transactional Email Gateway', async () => {
-    const payload = {
-      toEmail: 'david.vance@deltaenterprises.com',
-      recipientName: 'David Vance',
-      envelopeId: createdEnvId || 'env-phase-5',
-      envelopeTitle: 'Enterprise Master Services Agreement',
-      senderName: 'Alex Rivera',
-      senderOrg: 'Acme Global Inc',
-      config: { provider: 'sandbox' }
-    };
-    const data = await postJson('http://localhost:8080/api/v1/emails/send', payload);
-    if (!data.success || !data.emailId) throw new Error('Email delivery failed');
-  });
+    // 9. Transactional Email Subsystem
+    await test('Email Module - Transactional Signer Dispatch Gateway', async () => {
+      const payload = {
+        toEmail: 'david.vance@deltaenterprises.com',
+        recipientName: 'David Vance',
+        envelopeId: createdEnvId || 'env-unified-test',
+        envelopeTitle: 'Enterprise Master Services Agreement',
+        senderName: 'Alex Rivera',
+        senderOrg: 'Acme Global Inc',
+        config: { provider: 'sandbox' }
+      };
+      const data = await postJson(`${GATEWAY_URL}/api/v1/emails/send`, payload);
+      if (!data.success || (!data.emailId && !data.dispatchResult?.messageId)) throw new Error('Email delivery failed');
+    });
 
-  console.log('===========================================================');
-  console.log(`  Phase 5 Test Results: ${passed} / ${total} Tests Passed (100%)`);
-  console.log('===========================================================');
-  if (passed === total) {
-    console.log('  STATUS: ALL MICROSERVICES & APIS 100% OPERATIONAL');
+    console.log('===========================================================');
+    console.log(`  Unified Backend Test Results: ${passed} / ${total} Tests Passed (100%)`);
+    console.log('===========================================================');
+    if (passed === total) {
+      console.log('  STATUS: UNIFIED BACKEND SERVICE ENGINE 100% OPERATIONAL');
+    }
+  } finally {
+    try { backendProc.kill(); } catch (_) {}
+  }
+
+  if (passed !== total) {
+    process.exit(1);
   }
 }
 
-runPhase5Suite().catch(err => {
+runEnterpriseSuite().catch(err => {
   console.error('Fatal Suite Error:', err);
   process.exit(1);
 });

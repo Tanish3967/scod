@@ -40,22 +40,24 @@ export const ObligationCalendarTracker: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-2 text-emerald-400">
+      <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start space-x-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs">
             <Calendar className="w-5 h-5" />
-            <h2 className="text-lg font-display font-bold text-white tracking-tight">
+          </div>
+          <div>
+            <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">
               Obligation & Key-Date Extraction
             </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              AI automatically extracts renewal notice dates, payment terms, and deliverable milestones upon contract completion.
+            </p>
           </div>
-          <p className="text-xs text-slate-300 mt-1">
-            AI automatically extracts renewal notice dates, payment terms, and deliverable milestones upon contract completion.
-          </p>
         </div>
 
         <button
           onClick={handleSyncCalendar}
-          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-lg shadow-emerald-600/30 flex items-center space-x-1.5 transition-all self-start sm:self-auto"
+          className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-xs hover:shadow-md flex items-center space-x-1.5 transition-all self-start sm:self-auto cursor-pointer"
         >
           <Bell className="w-3.5 h-3.5" />
           <span>Sync with Google / Outlook</span>
@@ -63,15 +65,15 @@ export const ObligationCalendarTracker: React.FC = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex space-x-2 border-b border-slate-800 pb-2 text-xs">
+      <div className="flex space-x-2 border-b border-slate-200/80 pb-2.5 text-xs overflow-x-auto no-scrollbar">
         {(['all', 'payment', 'renewal', 'deliverable'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveFilter(tab)}
-            className={`px-3 py-1.5 rounded-lg font-medium capitalize transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl font-semibold capitalize transition-all cursor-pointer ${
               activeFilter === tab
-                ? 'bg-indigo-600 text-white'
-                : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200/80'
             }`}
           >
             {tab} Obligations
@@ -88,59 +90,59 @@ export const ObligationCalendarTracker: React.FC = () => {
           return (
             <div
               key={ob.id}
-              className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 hover:border-slate-700 transition-all space-y-3"
+              className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 hover:shadow-md transition-all space-y-3.5"
             >
               <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2.5">
                   <div className={`p-2 rounded-xl border ${
                     isPayment 
-                      ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' 
-                      : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                      ? 'bg-purple-50 text-purple-600 border-purple-100' 
+                      : 'bg-emerald-50 text-emerald-600 border-emerald-100'
                   }`}>
                     {isPayment ? <DollarSign className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{ob.title}</h4>
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    <h4 className="text-xs font-bold text-slate-900">{ob.title}</h4>
+                    <span className="text-[10px] text-slate-400 font-mono font-medium">
                       Due: {ob.dueDate}
                     </span>
                   </div>
                 </div>
 
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/40 uppercase font-mono">
+                <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase font-mono font-bold">
                   {ob.status}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 text-xs text-slate-300">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1.5 text-xs text-slate-600">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Contract:</span>
-                  <span className="font-semibold text-slate-200 truncate max-w-[200px]">{ob.envelopeTitle}</span>
+                  <span className="text-slate-400 font-medium">Contract:</span>
+                  <span className="font-semibold text-slate-800 truncate max-w-[200px]">{ob.envelopeTitle}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Responsible Party:</span>
-                  <span className="text-indigo-300">{ob.responsibleParty}</span>
+                  <span className="text-slate-400 font-medium">Responsible Party:</span>
+                  <span className="text-indigo-600 font-semibold">{ob.responsibleParty}</span>
                 </div>
                 {ob.amount && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Amount:</span>
-                    <span className="font-mono font-bold text-white">{ob.amount}</span>
+                    <span className="text-slate-400 font-medium">Amount:</span>
+                    <span className="font-mono font-bold text-slate-900">{ob.amount}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Clause Reference:</span>
-                  <span className="font-mono text-[11px] text-slate-400">{ob.clauseReference}</span>
+                  <span className="text-slate-400 font-medium">Clause Reference:</span>
+                  <span className="font-mono text-[11px] text-slate-500 font-medium">{ob.clauseReference}</span>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-1 text-[11px]">
-                <span className="text-emerald-400 flex items-center">
-                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                <span className="text-emerald-600 font-medium flex items-center">
+                  <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                   Auto-reminder 14 days prior
                 </span>
                 <button
                   onClick={() => notify('info', 'Task Created', `Added task for ${ob.title}`)}
-                  className="text-indigo-400 hover:text-indigo-300 font-medium"
+                  className="text-indigo-600 hover:text-indigo-800 font-semibold cursor-pointer transition-colors"
                 >
                   Create Task →
                 </button>

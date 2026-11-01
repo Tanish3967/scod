@@ -10,6 +10,10 @@ app.use(express.json({ limit: '50mb' }));
 
 // Edge Ingress Token Verification & Multi-Tenant Rate Limiting Middleware
 const edgeIngressMiddleware = (req: any, res: any, next: any) => {
+  if (req.path === '/health' || req.path === '/metrics' || req.path === '/api/v1/edge/telemetry') {
+    return next();
+  }
+
   const authHeader = req.headers['authorization'];
   const tokenResult = globalEdgeRateLimiter.verifyEdgeToken(authHeader);
 

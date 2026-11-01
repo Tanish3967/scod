@@ -33,6 +33,17 @@ function makeRequest(url, options = {}) {
   });
 }
 
+async function makeRequestWithRetry(url, options = {}, retries = 6, delay = 600) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await makeRequest(url, options);
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await sleep(delay);
+    }
+  }
+}
+
 // Visual SVG generator verification
 function generatePasskeySignatureSvg(userName, hardwareEnclave) {
   const timestamp = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -106,27 +117,27 @@ async function runP1FeatureSuite() {
   console.log('\n3. Harvesting Prometheus Metrics (/metrics) across Mesh Nodes:');
 
   // Node A: Envelope Service (:8081/metrics)
-  const envMetrics = await makeRequest('http://localhost:8081/metrics');
+  const envMetrics = await makeRequestWithRetry('http://localhost:8081/metrics');
   console.log(`\n   ▶ [Go :8081] Envelope Service Prometheus Exporter (HTTP ${envMetrics.statusCode}):`);
   console.log(envMetrics.body.trim().split('\n').map(l => '     ' + l).join('\n'));
 
   // Node B: Audit Trail Service (:8082/metrics)
-  const auditMetrics = await makeRequest('http://localhost:8082/metrics');
+  const auditMetrics = await makeRequestWithRetry('http://localhost:8082/metrics');
   console.log(`\n   ▶ [Go :8082] Audit Trail Merkle Service Prometheus Exporter (HTTP ${auditMetrics.statusCode}):`);
   console.log(auditMetrics.body.trim().split('\n').map(l => '     ' + l).join('\n'));
 
   // Node C: Document Processor (:8083/metrics)
-  const docMetrics = await makeRequest('http://localhost:8083/metrics');
+  const docMetrics = await makeRequestWithRetry('http://localhost:8083/metrics');
   console.log(`\n   ▶ [Go :8083] PDF Worker Pool Prometheus Exporter (HTTP ${docMetrics.statusCode}):`);
   console.log(docMetrics.body.trim().split('\n').map(l => '     ' + l).join('\n'));
 
   // Node D: API Gateway (:8090/metrics)
-  const gwMetrics = await makeRequest('http://localhost:8090/metrics');
+  const gwMetrics = await makeRequestWithRetry('http://localhost:8090/metrics');
   console.log(`\n   ▶ [TS :8090] Edge API Gateway Prometheus Exporter (HTTP ${gwMetrics.statusCode}):`);
   console.log(gwMetrics.body.trim().split('\n').map(l => '     ' + l).join('\n'));
 
   // Node E: Notification Webhooks (:8085/metrics)
-  const notifyMetrics = await makeRequest('http://localhost:8085/metrics');
+  const notifyMetrics = await makeRequestWithRetry('http://localhost:8085/metrics');
   console.log(`\n   ▶ [TS :8085] Notification ESP Mesh Prometheus Exporter (HTTP ${notifyMetrics.statusCode}):`);
   console.log(notifyMetrics.body.trim().split('\n').map(l => '     ' + l).join('\n'));
 

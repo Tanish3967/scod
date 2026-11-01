@@ -98,6 +98,15 @@ signflow_service_health{service="envelope-service"} 1
 		handler.GetCacheTelemetry(w, r)
 	})
 
+	// Velocity Funnel Analytics Endpoint
+	mux.HandleFunc("/api/v1/analytics/funnel", func(w http.ResponseWriter, r *http.Request) {
+		enableCORS(w)
+		if r.Method == http.MethodOptions {
+			return
+		}
+		handler.GetVelocityFunnel(w, r)
+	})
+
 	// Envelope routes
 	mux.HandleFunc("/api/v1/envelopes", func(w http.ResponseWriter, r *http.Request) {
 		enableCORS(w)

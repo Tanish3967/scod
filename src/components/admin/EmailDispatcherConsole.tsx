@@ -35,7 +35,7 @@ export const EmailDispatcherConsole: React.FC = () => {
   const { notify, openSigningSession } = useSignFlow();
 
   // Email Config State
-  const [provider, setProvider] = useState<'sandbox' | 'resend' | 'sendgrid' | 'smtp'>('resend');
+  const [provider, setProvider] = useState<'sandbox' | 'resend' | 'sendgrid' | 'smtp'>('sandbox');
   const [apiKey, setApiKey] = useState('');
   const [fromEmail, setFromEmail] = useState('onboarding@resend.dev');
   const [fromName, setFromName] = useState('SignFlow Agreements');
@@ -98,48 +98,47 @@ export const EmailDispatcherConsole: React.FC = () => {
 
     try {
       let resendMessageId = '';
+      let deliveryNotice = '';
+      let backendDelivered = false;
 
-      if (provider === 'resend' && apiKey) {
-        // Direct call to Resend API
-        const response = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            from: fromEmail || 'onboarding@resend.dev',
-            to: [testRecipientEmail],
-            subject: `Please Sign: Commercial Digital Agreement from ${fromName}`,
-            html: `
-              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-                <h2 style="color: #0f172a;">SignFlow Secure Agreement</h2>
-                <p>Hello <strong>${testRecipientName}</strong>,</p>
-                <p>You have received an agreement to review and sign electronically:</p>
-                <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                  <strong style="color: #0f172a;">Enterprise Commercial Agreement</strong><br>
-                  <span style="font-size: 12px; color: #64748b;">SHA-256 Audit Trail • Legally Binding under ESIGN/eIDAS</span>
-                </div>
-                <p style="text-align: center; margin: 30px 0;">
-                  <a href="http://localhost:5174/?sign=env-demo-001" style="background: #0f172a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Review & Sign Agreement</a>
-                </p>
-                <p style="font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 15px;">
-                  Sent via SignFlow & Resend API.
-                </p>
-              </div>
-            `,
-          }),
-        });
+      // Call Unified Backend Email Service
+      const response = await fetch('http://localhost:8090/api/v1/emails/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          toEmail: testRecipientEmail,
+          recipientName: testRecipientName,
+          envelopeId: 'env-demo-001',
+          envelopeTitle: 'Commercial Digital Agreement',
+          senderName: fromName,
+          senderOrg: 'SignFlow Enterprise Cloud',
+          magicLink: `${window.location.origin}/?sign=env-demo-001`,
+          provider,
+          apiKey,
+          fromEmail,
+          fromName
+        }),
+      });
 
-        const resData = await response.json();
-        if (response.ok && resData.id) {
-          resendMessageId = resData.id;
-          setLastResendId(resData.id);
+      const resData = await response.json();
+
+      if (resData.success) {
+        backendDelivered = true;
+        resendMessageId = resData.emailId || '';
+        setLastResendId(resData.emailId || null);
+        if (resData.liveApiCalled) {
+          deliveryNotice = `Delivered via Resend REST API (ID: ${resData.emailId})`;
+          notify('success', 'Email Delivered via Resend', `Resend successfully accepted message for ${testRecipientEmail}. (ID: ${resData.emailId})`);
         } else {
-          console.warn('Resend response:', resData);
-          if (resData.message) {
-            notify('warning', 'Resend Notice', resData.message);
-          }
+          deliveryNotice = 'Delivered (Sandbox / Local Dispatch)';
+          notify('success', 'Email Processed', `Message generated and logged for ${testRecipientEmail}`);
+        }
+      } else {
+        if (resData.error) {
+          deliveryNotice = `Resend Error: ${resData.error}`;
+          notify('warning', 'Resend Notice', resData.error);
         }
       }
 
@@ -150,20 +149,37 @@ export const EmailDispatcherConsole: React.FC = () => {
         from: `${fromName} <${fromEmail}>`,
         subject: `Please Sign: Commercial Digital Agreement from ${fromName}`,
         htmlContent: '',
-        sentAt: resendMessageId ? `Sent via Resend (ID: ${resendMessageId.slice(0, 8)}...)` : 'Just now',
+        sentAt: deliveryNotice || 'Just now',
         envelopeId: 'env-demo-001',
         envelopeTitle: 'Commercial Digital Agreement',
-        magicLink: `http://localhost:5174/?sign=env-demo-001`,
-        status: 'Delivered'
+        magicLink: `${window.location.origin}/?sign=env-demo-001`,
+        status: backendDelivered ? 'Delivered' : 'Pending API Config'
       };
 
       setInboxEmails(prev => [newMsg, ...prev]);
       setSelectedEmailId(newMsg.id);
       setIsSending(false);
-      notify('success', 'Email Sent Successfully!', `Resend accepted message for ${testRecipientEmail}. Check your Spam / Promotions folder!`);
     } catch (err: any) {
+      console.warn('Backend email dispatch error:', err);
       setIsSending(false);
-      notify('info', 'Sandbox Email Logged', `Generated email for ${testRecipientEmail}`);
+
+      const newMsg: VirtualEmail = {
+        id: 'msg-' + Math.random().toString(36).substring(2, 8),
+        to: testRecipientEmail,
+        recipientName: testRecipientName,
+        from: `${fromName} <${fromEmail}>`,
+        subject: `Please Sign: Commercial Digital Agreement from ${fromName}`,
+        htmlContent: '',
+        sentAt: 'Just now (Sandbox)',
+        envelopeId: 'env-demo-001',
+        envelopeTitle: 'Commercial Digital Agreement',
+        magicLink: `${window.location.origin}/?sign=env-demo-001`,
+        status: 'Delivered (Local)'
+      };
+
+      setInboxEmails(prev => [newMsg, ...prev]);
+      setSelectedEmailId(newMsg.id);
+      notify('info', 'Sandbox Email Logged', `Generated email for ${testRecipientEmail} (Local Sandbox).`);
     }
   };
 

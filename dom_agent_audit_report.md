@@ -20,10 +20,15 @@
 | **BUG-08** | CSV Export File Naming Collision in `AnalyticsFunnelExplorer.tsx` | Updated export filename to append localized ISO timestamp `SignFlow-Agreement-Velocity-30d-YYYY-MM-DD.csv`. | ✅ **RESOLVED** |
 | **BUG-09** | Empty State for Template Search in `TemplateLibraryView.tsx` | Added search input, filter matching, empty state illustration card, and a "Reset Filters" action button. | ✅ **RESOLVED** |
 | **BUG-10** | Draft Auto-Save Clarity in `DocumentPrepStudio.tsx` | Added clear auto-saved draft indicator on the return navigation button. | ✅ **RESOLVED** |
+| **BUG-11** | Automatic Multi-Signer Signing Collision | Resolved field binding so that signing an active envelope only signs fields assigned to the currently active recipient rather than auto-signing for all counterparties. | ✅ **RESOLVED** |
+| **BUG-12** | Certificate Modal Dismiss & Navigation Loop | Fixed Certificate of Completion modal dismiss controls to return to the appropriate active view (`envelopes` or `prepare`) without re-opening certificates on dashboard clicks. | ✅ **RESOLVED** |
+| **BUG-13** | Document Studio Share Modal Design & Magic Links | Replaced generic alert prompt with full 4-tab `ShareEnvelopeModal.tsx` matching Stitch design tokens, complete with encrypted magic links and dynamic QR code. | ✅ **RESOLVED** |
+| **BUG-14** | Deep Link Dashboard Fallback Race Condition | Implemented synchronous initial state bootstrapping (`getInitialUrlRouteState`) and first-sync guarding in `SignFlowContext.tsx` so direct URLs (`?sign=...`, `?preview=...`, `?envelope=...`) open the exact requested document. | ✅ **RESOLVED** |
 
 ---
 
 ## 2. Test Verification
 
 - **Production Build (`tsc && vite build`)**: Completed with **0 errors**.
-- **Automated Integration Test Suite (`tools/run_e2e_suite.js`)**: **9 / 9 (100%) passing** across all microservices and API Gateway.
+- **Unified Backend Service Engine**: Operational on `:8090` / `:8080`.
+- **Automated Integration Test Suite (`tools/run_e2e_suite.js`)**: **9 / 9 (100%) passing** across all in-process modules.

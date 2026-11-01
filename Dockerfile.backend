@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY services/unified-backend/package*.json ./services/unified-backend/
+
+RUN npm install
+
+COPY services/unified-backend/ ./services/unified-backend/
+COPY tsconfig.json ./
+
+RUN npm run backend:build
+
+EXPOSE 8090
+
+CMD ["node", "services/unified-backend/dist/server.js"]

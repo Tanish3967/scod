@@ -12,6 +12,7 @@ import {
   Trash2, 
   Check, 
   FileCheck,
+  Search,
   X 
 } from 'lucide-react';
 import { MOCK_TEMPLATES } from '../../data/mockTemplates';
@@ -116,40 +117,42 @@ export const TemplateLibraryView: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Header */}
-      <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center space-x-2 text-indigo-400">
+      {/* Header Banner */}
+      <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start space-x-3.5">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 shadow-xs">
             <Copy className="w-5 h-5" />
-            <h2 className="text-lg font-display font-bold text-white tracking-tight">
+          </div>
+          <div>
+            <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">
               Master Agreement Template Library
             </h2>
+            <p className="text-xs text-slate-500 mt-1">
+              Standardized, reusable agreements with predefined roles, auto-fill merge fields, and conditional workflows.
+            </p>
           </div>
-          <p className="text-xs text-slate-300 mt-1">
-            Standardized, reusable agreements with predefined roles, auto-fill merge fields, and conditional workflows.
-          </p>
         </div>
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-lg shadow-indigo-600/30 flex items-center space-x-1.5 transition-all self-start sm:self-auto cursor-pointer"
+          className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-xs hover:shadow-md flex items-center space-x-1.5 transition-all self-start sm:self-auto cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" />
           <span>Create New Template</span>
         </button>
       </div>
 
       {/* Filter and Search Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3 text-xs">
-        <div className="flex space-x-2 overflow-x-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-3 text-xs">
+        <div className="flex space-x-2 overflow-x-auto no-scrollbar">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200/80'
               }`}
             >
               {cat}
@@ -163,17 +166,18 @@ export const TemplateLibraryView: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search templates..."
-            className="w-full sm:w-56 px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            className="w-full sm:w-60 pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-2xs"
           />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2" />
         </div>
       </div>
 
       {/* Empty State */}
       {filtered.length === 0 && (
-        <div className="p-12 text-center rounded-3xl bg-slate-900/60 border border-slate-800/80 space-y-3">
-          <FileText className="w-12 h-12 text-slate-600 mx-auto" />
-          <h3 className="text-sm font-bold text-slate-200">No Templates Found</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+        <div className="p-12 text-center rounded-3xl bg-white border border-slate-200/80 shadow-xs space-y-3">
+          <FileText className="w-12 h-12 text-slate-300 mx-auto" />
+          <h3 className="text-sm font-bold text-slate-900">No Templates Found</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
             No agreement templates matched your search query "{searchQuery}".
           </p>
           <button
@@ -181,7 +185,7 @@ export const TemplateLibraryView: React.FC = () => {
               setSearchQuery('');
               setSelectedCategory('All');
             }}
-            className="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-semibold cursor-pointer"
+            className="px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-indigo-600 text-xs font-semibold cursor-pointer transition-colors"
           >
             Reset Filters
           </button>
@@ -193,27 +197,33 @@ export const TemplateLibraryView: React.FC = () => {
         {filtered.map(tmpl => (
           <div
             key={tmpl.id}
-            className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4"
+            className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-indigo-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
           >
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <div className="flex items-start justify-between">
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-indigo-400 border border-slate-700 font-mono">
+                <span className="text-[10.5px] px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 font-mono font-semibold">
                   {tmpl.category}
                 </span>
-                <span className="text-[10px] text-slate-400 font-mono font-semibold">Used {tmpl.usageCount} times</span>
+                <span className="text-[11px] text-slate-400 font-mono font-medium">Used {tmpl.usageCount} times</span>
               </div>
 
-              <h3 className="text-sm font-bold text-white">{tmpl.name}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">{tmpl.description}</p>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 font-display group-hover:text-indigo-600 transition-colors">
+                  {tmpl.name}
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed mt-1">{tmpl.description}</p>
+              </div>
 
               {/* Roles Breakdown */}
-              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 text-xs text-slate-300">
-                <span className="text-[10px] font-mono text-slate-500 uppercase">Predefined Roles ({tmpl.roles.length}):</span>
-                <div className="space-y-1">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Predefined Roles ({tmpl.roles.length}):</span>
+                <div className="space-y-1.5">
                   {tmpl.roles.map((r, i) => (
                     <div key={i} className="flex items-center justify-between text-[11px]">
-                      <span className="text-slate-300">• {r.roleName}</span>
-                      <span className="text-[10px] font-mono text-indigo-400 uppercase">{r.defaultAuth}</span>
+                      <span className="text-slate-700 font-medium">• {r.roleName}</span>
+                      <span className="text-[10px] font-mono font-bold text-indigo-600 bg-white px-2 py-0.5 rounded border border-slate-200 uppercase shadow-2xs">
+                        {r.defaultAuth}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -221,10 +231,10 @@ export const TemplateLibraryView: React.FC = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center space-x-2 pt-2 border-t border-slate-800">
+            <div className="flex items-center space-x-2 pt-2 border-t border-slate-100">
               <button
                 onClick={() => handleUseTemplate(tmpl)}
-                className="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
+                className="flex-1 py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs flex items-center justify-center space-x-1.5 transition-colors cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Use Template</span>
@@ -232,15 +242,15 @@ export const TemplateLibraryView: React.FC = () => {
 
               <button
                 onClick={() => setPreviewTemplate(tmpl)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors cursor-pointer"
+                className="p-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-indigo-600 text-xs transition-colors cursor-pointer shadow-2xs"
                 title="Preview Template"
               >
-                <Eye className="w-3.5 h-3.5 text-indigo-400" />
+                <Eye className="w-3.5 h-3.5" />
               </button>
 
               <button
                 onClick={() => handleDuplicateTemplate(tmpl)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors cursor-pointer"
+                className="p-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 hover:text-indigo-600 text-xs transition-colors cursor-pointer shadow-2xs"
                 title="Duplicate Template"
               >
                 <Copy className="w-3.5 h-3.5" />
@@ -248,10 +258,10 @@ export const TemplateLibraryView: React.FC = () => {
 
               <button
                 onClick={() => setActiveBulkTemplate(tmpl)}
-                className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors flex items-center space-x-1.5 cursor-pointer"
+                className="py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-indigo-600 text-xs font-semibold transition-colors flex items-center space-x-1.5 cursor-pointer shadow-2xs"
                 title="CSV Bulk Send"
               >
-                <Users className="w-3.5 h-3.5 text-indigo-400" />
+                <Users className="w-3.5 h-3.5 text-slate-500" />
                 <span>Bulk</span>
               </button>
             </div>
@@ -270,47 +280,56 @@ export const TemplateLibraryView: React.FC = () => {
 
       {/* Preview Modal */}
       {previewTemplate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div className="flex items-center space-x-2">
-                <FileText className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-base font-bold text-white">{previewTemplate.name}</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 font-display">{previewTemplate.name}</h3>
               </div>
-              <button onClick={() => setPreviewTemplate(null)} className="text-slate-400 hover:text-white cursor-pointer">
+              <button 
+                onClick={() => setPreviewTemplate(null)} 
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs overflow-y-auto pr-1">
+            <div className="space-y-3.5 text-xs overflow-y-auto pr-1">
               <div>
-                <span className="text-slate-400 block mb-1">Category & Usage</span>
+                <span className="text-slate-400 font-medium block mb-1">Category & Usage</span>
                 <div className="flex items-center space-x-2">
-                  <span className="px-2.5 py-1 rounded-full bg-slate-800 text-indigo-300 font-mono text-[11px]">{previewTemplate.category}</span>
-                  <span className="text-slate-400">Dispatched {previewTemplate.usageCount} times across organization</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 font-mono text-[11px] font-semibold">
+                    {previewTemplate.category}
+                  </span>
+                  <span className="text-slate-500">Dispatched {previewTemplate.usageCount} times across organization</span>
                 </div>
               </div>
 
               <div>
-                <span className="text-slate-400 block mb-1">Description</span>
-                <p className="text-slate-200 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800">{previewTemplate.description}</p>
+                <span className="text-slate-400 font-medium block mb-1">Description</span>
+                <p className="text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                  {previewTemplate.description}
+                </p>
               </div>
 
               <div>
-                <span className="text-slate-400 block mb-1">Recipient Roles ({previewTemplate.roles.length})</span>
+                <span className="text-slate-400 font-medium block mb-1">Recipient Roles ({previewTemplate.roles.length})</span>
                 <div className="space-y-2">
                   {previewTemplate.roles.map((r, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="w-5 h-5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-800 flex items-center justify-center font-bold text-[10px]">
+                    <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5">
+                        <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-[10px]">
                           {i + 1}
                         </span>
                         <div>
-                          <span className="text-slate-200 font-semibold block">{r.roleName}</span>
+                          <span className="text-slate-800 font-semibold block">{r.roleName}</span>
                           <span className="text-[10px] text-slate-400">{r.description}</span>
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40 uppercase">
+                      <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 uppercase">
                         {r.defaultAuth}
                       </span>
                     </div>
@@ -319,10 +338,10 @@ export const TemplateLibraryView: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-800">
+            <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
               <button
                 onClick={() => setPreviewTemplate(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer transition-colors"
               >
                 Close Preview
               </button>
@@ -332,7 +351,7 @@ export const TemplateLibraryView: React.FC = () => {
                   setPreviewTemplate(null);
                   handleUseTemplate(t);
                 }}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md flex items-center space-x-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs flex items-center space-x-1.5 cursor-pointer transition-colors"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Launch with Template</span>
@@ -344,35 +363,43 @@ export const TemplateLibraryView: React.FC = () => {
 
       {/* Create Template Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
-          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <h3 className="text-base font-bold text-white">Create Master Agreement Template</h3>
-              <button onClick={() => setShowCreateModal(false)} className="text-slate-400 hover:text-white cursor-pointer">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-lg bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <Plus className="w-4 h-4" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 font-display">Create Master Agreement Template</h3>
+              </div>
+              <button 
+                onClick={() => setShowCreateModal(false)} 
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTemplate} className="space-y-3 text-xs overflow-y-auto pr-1">
+            <form onSubmit={handleCreateTemplate} className="space-y-3.5 text-xs overflow-y-auto pr-1">
               <div>
-                <label className="text-slate-300 block mb-1 font-medium">Template Name</label>
+                <label className="text-slate-700 block mb-1 font-semibold">Template Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Master Consultant Agreement 2026"
                   value={newTmplName}
                   onChange={(e) => setNewTmplName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-indigo-500 transition-colors"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-300 block mb-1 font-medium">Category</label>
+                  <label className="text-slate-700 block mb-1 font-semibold">Category</label>
                   <select
                     value={newTmplCategory}
                     onChange={(e) => setNewTmplCategory(e.target.value as any)}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                   >
                     <option value="Legal & Corporate">Legal & Corporate</option>
                     <option value="Sales">Sales & Revenue</option>
@@ -383,13 +410,13 @@ export const TemplateLibraryView: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-slate-300 block mb-1 font-medium">Initial Roles Count</label>
+                  <label className="text-slate-700 block mb-1 font-semibold">Roles Count</label>
                   <div className="flex items-center space-x-2 pt-1">
-                    <span className="font-mono text-slate-300">{newTmplRoles.length} Roles Defined</span>
+                    <span className="font-mono font-semibold text-slate-700">{newTmplRoles.length} Roles Defined</span>
                     <button
                       type="button"
                       onClick={handleAddRoleRow}
-                      className="px-2.5 py-1 rounded-lg bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-[11px] font-bold cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-[11px] font-bold cursor-pointer transition-colors"
                     >
                       + Add Role
                     </button>
@@ -398,22 +425,22 @@ export const TemplateLibraryView: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1 font-medium">Description</label>
+                <label className="text-slate-700 block mb-1 font-semibold">Description</label>
                 <textarea
                   rows={2}
                   placeholder="Summary of legal purpose and execution requirements..."
                   value={newTmplDesc}
                   onChange={(e) => setNewTmplDesc(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-indigo-500 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="text-slate-300 block mb-1.5 font-medium">Signer Roles Definition</label>
+                <label className="text-slate-700 block mb-1.5 font-semibold">Signer Roles Definition</label>
                 <div className="space-y-2">
                   {newTmplRoles.map((r, i) => (
-                    <div key={i} className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2">
-                      <span className="font-mono text-[10px] text-slate-500">#{i + 1}</span>
+                    <div key={i} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-2">
+                      <span className="font-mono font-bold text-[10px] text-slate-400">#{i + 1}</span>
                       <input
                         type="text"
                         value={r.roleName}
@@ -421,7 +448,7 @@ export const TemplateLibraryView: React.FC = () => {
                           const val = e.target.value;
                           setNewTmplRoles(prev => prev.map((item, idx) => idx === i ? { ...item, roleName: val } : item));
                         }}
-                        className="flex-1 px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 text-xs focus:outline-none focus:border-indigo-500"
+                        className="flex-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 text-xs focus:outline-none focus:border-indigo-500"
                         placeholder="Role title"
                       />
                       <select
@@ -430,7 +457,7 @@ export const TemplateLibraryView: React.FC = () => {
                           const val = e.target.value as AuthType;
                           setNewTmplRoles(prev => prev.map((item, idx) => idx === i ? { ...item, defaultAuth: val } : item));
                         }}
-                        className="px-2 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 text-[11px] focus:outline-none focus:border-indigo-500 font-mono"
+                        className="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-800 text-[11px] focus:outline-none focus:border-indigo-500 font-mono font-medium cursor-pointer"
                       >
                         <option value="email">Email Link</option>
                         <option value="sms_otp">SMS OTP</option>
@@ -441,7 +468,7 @@ export const TemplateLibraryView: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleRemoveRoleRow(i)}
-                          className="text-slate-500 hover:text-rose-400 p-1 cursor-pointer"
+                          className="text-slate-400 hover:text-rose-600 p-1 cursor-pointer transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -455,13 +482,13 @@ export const TemplateLibraryView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs cursor-pointer transition-colors"
                 >
                   Save Master Template
                 </button>

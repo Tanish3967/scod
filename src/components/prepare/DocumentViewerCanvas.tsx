@@ -158,26 +158,36 @@ export const DocumentViewerCanvas: React.FC<{
           className="bg-white text-slate-900 rounded-lg shadow-2xl p-8 sm:p-12 relative border border-slate-300 select-none transition-all duration-150"
         >
           {/* Document Content Rendering */}
-          <div className="prose prose-slate max-w-none text-xs leading-relaxed space-y-4 font-serif">
-            {currentPage.content.split('\n\n').map((paragraph, idx) => {
-              if (paragraph.startsWith('### ')) {
-                return <h3 key={idx} className="text-base font-sans font-bold text-slate-950 uppercase tracking-tight border-b pb-2">{paragraph.replace('### ', '')}</h3>;
-              }
-              if (paragraph.startsWith('#### ')) {
-                return <h4 key={idx} className="text-xs font-sans font-bold text-slate-900 uppercase mt-3">{paragraph.replace('#### ', '')}</h4>;
-              }
-              if (paragraph.startsWith('- ')) {
-                return (
-                  <ul key={idx} className="list-disc pl-4 space-y-1 font-sans text-slate-800">
-                    {paragraph.split('\n').map((li, lIdx) => (
-                      <li key={lIdx}>{li.replace('- ', '')}</li>
-                    ))}
-                  </ul>
-                );
-              }
-              return <p key={idx} className="text-slate-800 font-sans leading-normal text-[11.5px]">{paragraph}</p>;
-            })}
-          </div>
+          {currentPage.imageUrl ? (
+            <div className="rounded-xl overflow-hidden border border-slate-200 shadow-xs bg-white flex items-center justify-center mb-4">
+              <img 
+                src={currentPage.imageUrl} 
+                alt={`Page ${currentPage.pageNumber}`} 
+                className="w-full h-auto object-contain rounded-lg"
+              />
+            </div>
+          ) : (
+            <div className="prose prose-slate max-w-none text-xs leading-relaxed space-y-4 font-serif">
+              {currentPage.content.split('\n\n').map((paragraph, idx) => {
+                if (paragraph.startsWith('### ')) {
+                  return <h3 key={idx} className="text-base font-sans font-bold text-slate-950 uppercase tracking-tight border-b pb-2">{paragraph.replace('### ', '')}</h3>;
+                }
+                if (paragraph.startsWith('#### ')) {
+                  return <h4 key={idx} className="text-xs font-sans font-bold text-slate-900 uppercase mt-3">{paragraph.replace('#### ', '')}</h4>;
+                }
+                if (paragraph.startsWith('- ')) {
+                  return (
+                    <ul key={idx} className="list-disc pl-4 space-y-1 font-sans text-slate-800">
+                      {paragraph.split('\n').map((li, lIdx) => (
+                        <li key={lIdx}>{li.replace('- ', '')}</li>
+                      ))}
+                    </ul>
+                  );
+                }
+                return <p key={idx} className="text-slate-800 font-sans leading-normal text-[11.5px]">{paragraph}</p>;
+              })}
+            </div>
+          )}
 
           {/* Render Interactive Placed Fields Overlay */}
           {pageFields.map((field) => {
