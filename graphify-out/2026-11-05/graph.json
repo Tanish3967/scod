@@ -11635,7 +11635,7 @@
       "node_kind": "heading",
       "norm_label": "\u2696\ufe0f compliance & legal validity",
       "source_file": "README.md",
-      "source_location": "L188"
+      "source_location": "L190"
     },
     {
       "id": "readme_development_mode_with_live_hot_reloading",
@@ -11647,7 +11647,7 @@
       "node_kind": "heading",
       "norm_label": "development mode (with live hot-reloading)",
       "source_file": "README.md",
-      "source_location": "L170"
+      "source_location": "L172"
     },
     {
       "id": "readme_development_scripts",
@@ -11671,7 +11671,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udc33 docker deployment",
       "source_file": "README.md",
-      "source_location": "L147"
+      "source_location": "L149"
     },
     {
       "id": "readme_docusign_reconstruction_via_rea_morluto_rea",
@@ -11683,7 +11683,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udd2c docusign reconstruction via rea (`morluto/rea`)",
       "source_file": "README.md",
-      "source_location": "L179"
+      "source_location": "L181"
     },
     {
       "id": "readme_getting_started",
@@ -11731,7 +11731,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc4 license",
       "source_file": "README.md",
-      "source_location": "L197"
+      "source_location": "L199"
     },
     {
       "id": "readme_overview",
@@ -11767,7 +11767,7 @@
       "node_kind": "heading",
       "norm_label": "production mode (recommended)",
       "source_file": "README.md",
-      "source_location": "L151"
+      "source_location": "L153"
     },
     {
       "id": "readme_signflow_enterprise_ai_native_electronic_signature_clm_platform",
@@ -27498,7 +27498,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L151",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -27509,7 +27509,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L170",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -27641,7 +27641,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L147",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -27652,7 +27652,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -27663,7 +27663,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L188",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -27674,7 +27674,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L197",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -34505,7 +34505,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L184",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -34522,5 +34522,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "201b97b2774fc8bc71ac49f77c5f8df029eb4d4b"
+  "built_at_commit": "0f10b77dae14fd86dcba6800ba2d3be363579016"
 }
