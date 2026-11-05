@@ -19,6 +19,9 @@ import { createAuditRouter } from './modules/audit.js';
 import { createDocumentsRouter } from './modules/documents.js';
 import { createAiRouter } from './modules/ai.js';
 import { createNotificationsRouter } from './modules/notifications.js';
+import { createDocusignRouter, createDocusignOAuthRouter } from './modules/docusign_v2_1.js';
+import { storageEngine } from './modules/storage.js';
+import { persistentDb } from './modules/database.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -80,6 +83,8 @@ const auditRouter = createAuditRouter();
 const documentsRouter = createDocumentsRouter();
 const aiRouter = createAiRouter();
 const notificationsModule = createNotificationsRouter();
+const docusignRouter = createDocusignRouter();
+const docusignOAuthRouter = createDocusignOAuthRouter();
 
 // Mount Subsystem Routers under /api/v1/
 app.use('/api/v1/envelopes', envelopeRouter);
@@ -88,6 +93,19 @@ app.use('/api/v1/documents', documentsRouter);
 app.use('/api/v1/ai', aiRouter);
 app.use('/api/v1/emails', notificationsModule.emailRouter);
 app.use('/api/v1/webhooks', notificationsModule.webhookRouter);
+
+// Mount DocuSign v2.1 Wire-Compatible REST API
+app.use('/v2.1/accounts', docusignRouter);
+app.use('/oauth', docusignOAuthRouter);
+
+// Persistent Storage & Database Telemetry
+app.get('/api/v1/storage/metrics', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    storage: storageEngine.getStorageMetrics(),
+    database: persistentDb.getStats()
+  });
+});
 
 // System Health & Subsystem Mesh Discovery
 app.get('/health', (_req: Request, res: Response) => {
@@ -102,7 +120,9 @@ app.get('/health', (_req: Request, res: Response) => {
       { name: 'audit_merkle_ledger', status: 'online', path: '/api/v1/audit' },
       { name: 'document_processor', status: 'online', path: '/api/v1/documents' },
       { name: 'ai_orchestrator', status: 'online', path: '/api/v1/ai' },
-      { name: 'notification_webhooks', status: 'online', path: '/api/v1/emails & /api/v1/webhooks' }
+      { name: 'notification_webhooks', status: 'online', path: '/api/v1/emails & /api/v1/webhooks' },
+      { name: 'docusign_v2_1_adapter', status: 'online', path: '/v2.1/accounts/:accountId/envelopes' },
+      { name: 'cloud_storage_db', status: 'online', path: '/api/v1/storage/metrics' }
     ]
   });
 });
@@ -158,7 +178,10 @@ app.get('/', (_req: Request, res: Response) => {
       ai: '/api/v1/ai',
       emails: '/api/v1/emails',
       webhooks: '/api/v1/webhooks',
-      telemetry: '/api/v1/edge/telemetry'
+      telemetry: '/api/v1/edge/telemetry',
+      docusign_v2_1: '/v2.1/accounts/:accountId/envelopes',
+      docusign_oauth: '/oauth/userinfo',
+      storage_metrics: '/api/v1/storage/metrics'
     }
   });
 });

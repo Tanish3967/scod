@@ -85,6 +85,7 @@ export interface DocumentField {
   numberFormat?: 'currency' | 'percent' | 'integer' | 'decimal';
   isReadOnlyCalculated?: boolean;
   conditionalRules?: ConditionalRule[];
+  customSignature?: CustomSignature;
   aiSuggested?: boolean;
   aiConfidence?: number;
 }

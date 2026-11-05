@@ -18,6 +18,7 @@ import {
 import { useSignFlow } from '../../context/SignFlowContext';
 import { downloadJsonBundle, downloadCsvFile } from '../../utils/downloadUtils';
 import { formatTimestamp } from '../../utils/cryptoUtils';
+import { downloadFlattenedEnvelopePdf } from '../../utils/pdfFlattener';
 
 export const CertificateOfCompletionModal: React.FC<{
   isOpen: boolean;
@@ -92,6 +93,21 @@ export const CertificateOfCompletionModal: React.FC<{
     notify('success', 'Evidence Downloaded', 'Cryptographic Certificate Evidence Bundle saved as JSON.');
   };
 
+  const [isExportingPdf, setIsExportingPdf] = React.useState(false);
+
+  const handleDownloadFlattenedPdf = async () => {
+    try {
+      setIsExportingPdf(true);
+      notify('info', 'Compiling PDF Streams', 'Burning signature markers, form entries, and Certificate of Completion into ISO 32000 binary PDF...');
+      const result = await downloadFlattenedEnvelopePdf(envelope);
+      notify('success', 'Signed PDF Generated', `Downloaded ${result.fileName} (${result.pageCount} pages, SHA-256: ${result.sha256Hash.substring(0, 12)}...)`);
+    } catch (err: any) {
+      notify('error', 'PDF Export Failed', err.message || 'Could not compile flattened PDF.');
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
   const handleClose = () => {
     onClose();
   };
@@ -143,6 +159,17 @@ export const CertificateOfCompletionModal: React.FC<{
             >
               <Code className="w-3.5 h-3.5 text-indigo-400" />
               <span className="hidden sm:inline">JSON</span>
+            </button>
+
+            {/* Download Flattened Binary PDF */}
+            <button
+              onClick={handleDownloadFlattenedPdf}
+              disabled={isExportingPdf}
+              className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold flex items-center space-x-1.5 shadow-sm transition-all cursor-pointer"
+              title="Download Flattened Binary PDF with embedded signatures and certificate"
+            >
+              <Download className={`w-3.5 h-3.5 ${isExportingPdf ? 'animate-bounce' : ''}`} />
+              <span>{isExportingPdf ? 'Flattening...' : 'Download Signed PDF'}</span>
             </button>
 
             {/* Print Certificate */}
@@ -322,6 +349,15 @@ export const CertificateOfCompletionModal: React.FC<{
           </button>
 
           <div className="flex items-center space-x-2">
+            <button
+              onClick={handleDownloadFlattenedPdf}
+              disabled={isExportingPdf}
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold flex items-center space-x-1.5 shadow-sm transition-all cursor-pointer"
+            >
+              <Download className={`w-3.5 h-3.5 ${isExportingPdf ? 'animate-bounce' : ''}`} />
+              <span>{isExportingPdf ? 'Flattening PDF...' : 'Download Flattened PDF'}</span>
+            </button>
+
             <button
               onClick={handlePrint}
               className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"

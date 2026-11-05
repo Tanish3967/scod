@@ -29,3 +29,10 @@ dist-ssr
 *.exe~
 services/*/dist
 
+# Backend persistent runtime storage
+services/unified-backend/data/storage/*
+!services/unified-backend/data/storage/.gitkeep
+services/unified-backend/data/db/*.json
+services/unified-backend/data/db/*.tmp
+!services/unified-backend/data/db/.gitkeep
+/data/

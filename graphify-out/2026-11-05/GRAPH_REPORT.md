@@ -1,16 +1,16 @@
-# Graph Report - scod  (2026-09-11)
+# Graph Report - scod  (2026-11-05)
 
 ## Corpus Check
-- 150 files · ~152,804 words
+- 162 files · ~172,562 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 950 nodes · 1615 edges · 75 communities (53 shown, 15 thin omitted)
+- 1067 nodes · 1731 edges · 76 communities (56 shown, 13 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5b43a362`
+- Built from commit: `f851749f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,7 +23,7 @@
 - notification-webhooks/src/server.ts
 - devDependencies
 - SignFlowContext.tsx
-- envelope.go
+- MultiTierCache
 - compilerOptions
 - rate_limiter.ts
 - ai-orchestrator/package.json
@@ -33,7 +33,7 @@
 - compilerOptions
 - compilerOptions
 - signflow.ts
-- DocumentPrepStudio.tsx
+- documentParser.ts
 - test_p1_features.cjs
 - test_phase2_sharding_cache.cjs
 - test_phase3_worker_pool.cjs
@@ -45,13 +45,13 @@
 - github.com/signflow/envelope-service
 - github.com/signflow/send-email-resend
 - cryptoUtils.ts
-- localDatabase.ts
+- Connection and task recovery
 - Part 1: Core E-Signature Platform & DocuSign Parity (Phase 1)
 - What You Must Do When Invoked
 - SignFlow: Comprehensive Feature-by-Feature Checklist
 - 3. Core Implemented Workflows & Business Logic
 - graphify reference: extra exports and benchmark
-- scripts
+- Native, managed, and packaged artifacts
 - SignFlow Architecture & Codebase Graph Report (GRAPH_REPORT.md)
 - graphify reference: query, path, explain
 - SignFlow — Permanent Project Memory & Knowledge Bank
@@ -66,35 +66,36 @@
 - CLAUDE.md
 - .claude/CLAUDE.md
 - extraction-spec.md
-- WorkerPool
+- EventBus
 - unified-backend/src/server.ts
 - unified-backend/package.json
 - AuditStore
 - runLoadAndStressSuite
-- MultiTierCache
-- package.json
+- SignFlow — Enterprise AI-Native Electronic Signature & CLM Platform
+- Recipient
 - EnvelopeStore
-- pdfjs-dist
-- react-dom
-- @types/react-dom
+- WorkerPool
+- rea_docusign_workflow.mjs
+- Envelope
 - compilerOptions
 - ShardRouter
 - main
 - .ProcessDocument
 - CreateEnvelopeModal.tsx
 - stress_test_phase1.cjs
+- rea
 
 ## God Nodes (most connected - your core abstractions)
 1. `useSignFlow()` - 89 edges
-2. `generateUUID()` - 20 edges
-3. `downloadJsonBundle()` - 20 edges
-4. `SignFlowProvider()` - 18 edges
-5. `compilerOptions` - 16 edges
-6. `downloadCsvFile()` - 14 edges
-7. `3. Core Implemented Workflows & Business Logic` - 14 edges
-8. `openDatabase()` - 13 edges
-9. `WorkerPool` - 12 edges
-10. `EventBus` - 12 edges
+2. `Native, managed, and packaged artifacts` - 30 edges
+3. `generateUUID()` - 20 edges
+4. `downloadJsonBundle()` - 20 edges
+5. `SignFlowProvider()` - 18 edges
+6. `compilerOptions` - 16 edges
+7. `downloadCsvFile()` - 14 edges
+8. `3. Core Implemented Workflows & Business Logic` - 14 edges
+9. `openDatabase()` - 13 edges
+10. `WorkerPool` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `EnvelopePipeline()` --calls--> `useSignFlow()`  [EXTRACTED]
@@ -111,43 +112,43 @@
 ## Import Cycles
 - None detected.
 
-## Communities (75 total, 15 thin omitted)
+## Communities (76 total, 13 thin omitted)
 
 ### Community 0 - "useSignFlow"
 Cohesion: 0.05
-Nodes (61): RFC-4180, App(), MainLayout(), AdminPortal(), ComplianceTrustCenter(), FrameworkDetail, CustomBrandingSettings(), EmailDispatcherConsole() (+53 more)
+Nodes (62): RFC-4180, App(), MainLayout(), AdminPortal(), ComplianceTrustCenter(), FrameworkDetail, CustomBrandingSettings(), EmailDispatcherConsole() (+54 more)
 
 ### Community 1 - "aiEngine.ts"
-Cohesion: 0.17
-Nodes (14): AILegalHub(), AIRiskScanner(), ContractQABot(), ObligationCalendarTracker(), SignerAIDrawer(), AIDraftClauseSuggestion, AIRiskAnalysis, AIRiskFinding (+6 more)
+Cohesion: 0.16
+Nodes (15): AILegalHub(), AIRiskScanner(), ContractQABot(), ObligationCalendarTracker(), SignerAIDrawer(), CLAUSE_LIBRARY, ClauseItem, AIDraftClauseSuggestion (+7 more)
 
 ### Community 2 - "net/http.ResponseWriter"
-Cohesion: 0.26
-Nodes (4): net/http.Request, net/http.ResponseWriter, DocHandler, EnvelopeHandler
+Cohesion: 0.28
+Nodes (3): net/http.Request, net/http.ResponseWriter, EnvelopeHandler
 
 ### Community 3 - "dependencies"
-Cohesion: 0.11
-Nodes (19): canvas-confetti, clsx, lucide-react, dependencies, canvas-confetti, clsx, cors, express (+11 more)
+Cohesion: 0.09
+Nodes (23): canvas-confetti, clsx, lucide-react, dependencies, canvas-confetti, clsx, cors, express (+15 more)
 
 ### Community 4 - "SigningExperience.tsx"
-Cohesion: 0.08
-Nodes (38): PowerFormPublicView(), PowerFormPublicViewProps, FIELD_TOOLS, FieldTool, FieldPropertiesModal(), FieldPropertiesModalProps, CustomSignatureModal(), CustomSignatureModalProps (+30 more)
+Cohesion: 0.10
+Nodes (32): PowerFormPublicView(), PowerFormPublicViewProps, FieldPropertiesModal(), FieldPropertiesModalProps, CustomSignatureModal(), CustomSignatureModalProps, DEFAULT_FONTS, INK_COLORS (+24 more)
 
 ### Community 5 - "notification-webhooks/src/server.ts"
 Cohesion: 0.09
 Nodes (18): DispatchedEmail, dispatchedEmailsLog, EmailDispatchOptions, EmailRecipient, generateSignerInviteHtml(), sendAgreementEmail(), CircuitState, DispatchResult (+10 more)
 
 ### Community 6 - "devDependencies"
-Cohesion: 0.11
-Nodes (19): autoprefixer, devDependencies, autoprefixer, postcss, tailwindcss, @tailwindcss/postcss, @types/canvas-confetti, @types/react (+11 more)
+Cohesion: 0.05
+Nodes (38): autoprefixer, devDependencies, autoprefixer, postcss, rea-agents, tailwindcss, @tailwindcss/postcss, @types/canvas-confetti (+30 more)
 
 ### Community 8 - "SignFlowContext.tsx"
-Cohesion: 0.12
-Nodes (22): EnvelopePipeline(), RightInspectorPanel(), RightInspectorPanelProps, EnvelopeVaultList(), ShareEnvelopeModal(), ShareEnvelopeModalProps, ActiveToast, getInitialUrlRouteState() (+14 more)
+Cohesion: 0.17
+Nodes (27): ActiveToast, getInitialUrlRouteState(), SignFlowContext, SignFlowContextType, SignFlowProvider(), TenantSettings, ToastNotification, UserProfile (+19 more)
 
-### Community 9 - "envelope.go"
-Cohesion: 0.24
-Nodes (14): time.Time, AgreementDocument, AuthType, DocumentField, DocumentPage, EnvelopeSender, FieldType, Recipient (+6 more)
+### Community 9 - "MultiTierCache"
+Cohesion: 0.14
+Nodes (18): CacheEntry, CacheStatus, time.Duration, AgreementDocument, AuthType, DocumentField, DocumentPage, EnvelopeSender (+10 more)
 
 ### Community 10 - "compilerOptions"
 Cohesion: 0.09
@@ -182,12 +183,12 @@ Cohesion: 0.15
 Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, rootDir, skipLibCheck (+4 more)
 
 ### Community 18 - "signflow.ts"
-Cohesion: 0.16
-Nodes (17): AIDraftingStudio(), AgentExecutionStep, AgreementDocument, AIDraftState, AuditEvent, ConditionalAction, ConditionalOperator, ContextEnvelope (+9 more)
+Cohesion: 0.14
+Nodes (19): AIDraftingStudio(), EnvelopePipeline(), AgentExecutionStep, AgreementDocument, AIDraftState, AuditEvent, ConditionalAction, ConditionalOperator (+11 more)
 
-### Community 19 - "DocumentPrepStudio.tsx"
-Cohesion: 0.21
-Nodes (15): CreateEnvelopeModal(), UploadedFileInfo, AttachmentItem, DocumentPage, generateFullSha256(), sha256(), calculateFileSha256(), extractPdfText() (+7 more)
+### Community 19 - "documentParser.ts"
+Cohesion: 0.25
+Nodes (13): CreateEnvelopeModal(), UploadedFileInfo, DocumentPage, generateFullSha256(), calculateFileSha256(), extractPdfText(), extractZipEntry(), formatFileSize() (+5 more)
 
 ### Community 20 - "test_p1_features.cjs"
 Cohesion: 0.36
@@ -210,12 +211,12 @@ Cohesion: 0.53
 Nodes (4): getJson(), postJson(), runEnterpriseSuite(), sleep()
 
 ### Community 32 - "cryptoUtils.ts"
-Cohesion: 0.21
-Nodes (11): RecipientConfigPanel(), ContractObligation, ObligationStatus, ObligationType, RecipientRole, generateHmacSignature(), generateUUID(), getMockDeviceFingerprint() (+3 more)
+Cohesion: 0.17
+Nodes (14): ObligationTrackerHub(), RecipientConfigPanel(), ContractObligation, ObligationStatus, ObligationType, RecipientRole, detectSmartFields(), generateHmacSignature() (+6 more)
 
-### Community 33 - "localDatabase.ts"
-Cohesion: 0.35
-Nodes (14): SignFlowProvider(), deleteEnvelopeFromDB(), exportDatabaseJSON(), getAllAuditEventsFromDB(), getAllEnvelopesFromDB(), getDatabaseStats(), importDatabaseJSON(), initLocalDatabase() (+6 more)
+### Community 33 - "Connection and task recovery"
+Cohesion: 0.05
+Nodes (33): Android application artifacts, Choose the remedy from the observed failure, Codex tool approval is separate from REA readiness, Connection and task recovery, Continue through an installed CLI, Distinguish client and server deadlines, Recovery ladder, Repair an editable REA limit (+25 more)
 
 ### Community 36 - "Part 1: Core E-Signature Platform & DocuSign Parity (Phase 1)"
 Cohesion: 0.05
@@ -237,9 +238,9 @@ Nodes (19): 1. Project Overview & Identity, 2. Key Codebase Layout & Critical Fi
 Cohesion: 0.22
 Nodes (8): graphify reference: extra exports and benchmark, Step 6b - Wiki (only if --wiki flag), Step 7 - Neo4j export (only if --neo4j or --neo4j-push flag), Step 7a - FalkorDB export (only if --falkordb or --falkordb-push flag), Step 7b - SVG export (only if --svg flag), Step 7c - GraphML export (only if --graphml flag), Step 7d - MCP server (only if --mcp flag), Step 8 - Token reduction benchmark (only if total_words > 5000)
 
-### Community 41 - "scripts"
-Cohesion: 0.25
-Nodes (8): scripts, backend:build, backend:start, build, dev, preview, test:e2e, test:load
+### Community 41 - "Native, managed, and packaged artifacts"
+Cohesion: 0.06
+Nodes (32): Apple app resources, Apple IPS crash reports, Bridge request ceiling, CPython pyc files, Desktop installation directories, DOS MZ with Ghidra, ELF note tables, Erlang BEAM files (+24 more)
 
 ### Community 42 - "SignFlow Architecture & Codebase Graph Report (GRAPH_REPORT.md)"
 Cohesion: 0.29
@@ -269,9 +270,9 @@ Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphif
 Cohesion: 0.50
 Nodes (3): 1. Resolution Summary Table, 2. Test Verification, SignFlow DOM QA Agent: Platform Bug Resolution & Verification Report
 
-### Community 56 - "WorkerPool"
-Cohesion: 0.16
-Nodes (12): JobStatus, PDFJob, EventTopic, NewDocHandler(), enableCORS(), main(), withDocTracing(), WorkerPool (+4 more)
+### Community 56 - "EventBus"
+Cohesion: 0.35
+Nodes (6): DocHandler, EventTopic, NewDocHandler(), EventBus, EventMessage, NewEventBus()
 
 ### Community 57 - "unified-backend/src/server.ts"
 Cohesion: 0.05
@@ -282,36 +283,48 @@ Cohesion: 0.09
 Nodes (22): dependencies, cors, express, description, devDependencies, @types/cors, @types/express, @types/node (+14 more)
 
 ### Community 59 - "AuditStore"
-Cohesion: 0.26
-Nodes (6): AuditHandler, AuditEvent, ComputeNextHash(), NewAuditHandler(), AuditStore, NewAuditStore()
+Cohesion: 0.23
+Nodes (7): time.Time, AuditHandler, AuditEvent, ComputeNextHash(), NewAuditHandler(), AuditStore, NewAuditStore()
 
 ### Community 61 - "runLoadAndStressSuite"
 Cohesion: 0.47
 Nodes (3): calculatePercentiles(), runLoadAndStressSuite(), sleep()
 
-### Community 62 - "MultiTierCache"
-Cohesion: 0.27
-Nodes (6): CacheEntry, CacheStatus, sync.RWMutex, time.Duration, MultiTierCache, NewMultiTierCache()
+### Community 62 - "SignFlow — Enterprise AI-Native Electronic Signature & CLM Platform"
+Cohesion: 0.07
+Nodes (27): 1. What is REA and Why Use It?, 2. Integrated Tooling & Commands, 3. Step-by-Step DocuSign Reverse-Engineering Workflow, 4. DocuSign Core Parity Matrix in SignFlow, 5. Verifying Parity, Recreating DocuSign with REA (Reverse Engineer Anything) in SignFlow, Step 1: Capture & Inspect DocuSign Web Bundles, Step 2: Inspect DocuSign API Traffic via HAR Network Captures (+19 more)
 
-### Community 63 - "package.json"
-Cohesion: 0.40
-Nodes (4): name, private, type, version
+### Community 63 - "Recipient"
+Cohesion: 0.22
+Nodes (6): FIELD_TOOLS, FieldTool, SignSuccessModal(), SignSuccessModalProps, FieldType, Recipient
 
 ### Community 64 - "EnvelopeStore"
 Cohesion: 0.31
 Nodes (6): EnvelopeStore, NewEnvelopeHandler(), NewEnvelopeStore(), enableCORS(), main(), withTracing()
+
+### Community 65 - "WorkerPool"
+Cohesion: 0.36
+Nodes (4): JobStatus, PDFJob, WorkerPool, NewWorkerPool()
+
+### Community 66 - "rea_docusign_workflow.mjs"
+Cohesion: 0.33
+Nodes (6): __dirname, __filename, main(), REA_CLI, ROOT_DIR, runReaCommand()
+
+### Community 67 - "Envelope"
+Cohesion: 0.47
+Nodes (4): RightInspectorPanel(), RightInspectorPanelProps, ShareEnvelopeModalProps, Envelope
 
 ### Community 68 - "compilerOptions"
 Cohesion: 0.14
 Nodes (13): ES2022, compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, lib, module, outDir, rootDir (+5 more)
 
 ### Community 69 - "ShardRouter"
-Cohesion: 0.36
-Nodes (5): GetHashKey(), ShardRouter, JumpHash(), NewShardRouter(), ShardNode
+Cohesion: 0.31
+Nodes (6): sync.RWMutex, GetHashKey(), ShardRouter, JumpHash(), NewShardRouter(), ShardNode
 
 ### Community 70 - "main"
-Cohesion: 0.60
-Nodes (4): net/http.Handler, enableCORS(), main(), withAuditTracing()
+Cohesion: 0.33
+Nodes (7): net/http.Handler, enableCORS(), main(), withAuditTracing(), enableCORS(), main(), withDocTracing()
 
 ### Community 71 - ".ProcessDocument"
 Cohesion: 0.60
@@ -326,24 +339,24 @@ Cohesion: 0.31
 Nodes (9): http, makeRequest(), runPhase1StressSuite(), executeStressBurst(), worker(), SERVICES, sleep(), { spawn } (+1 more)
 
 ## Knowledge Gaps
-- **343 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+338 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 399 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **431 isolated node(s):** `node`, `name`, `private`, `version`, `type` (+426 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 488 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useSignFlow()` connect `useSignFlow` to `cryptoUtils.ts`, `aiEngine.ts`, `SigningExperience.tsx`, `CreateEnvelopeModal.tsx`, `SignFlowContext.tsx`, `signflow.ts`, `DocumentPrepStudio.tsx`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `Envelope` connect `envelope.go` to `EnvelopeStore`, `MultiTierCache`?**
+- **Why does `useSignFlow()` connect `useSignFlow` to `cryptoUtils.ts`, `aiEngine.ts`, `Envelope`, `SigningExperience.tsx`, `CreateEnvelopeModal.tsx`, `SignFlowContext.tsx`, `signflow.ts`, `documentParser.ts`, `Recipient`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `Native, managed, and packaged artifacts` connect `Native, managed, and packaged artifacts` to `Connection and task recovery`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `generateUUID()` connect `cryptoUtils.ts` to `useSignFlow`, `localDatabase.ts`, `aiEngine.ts`, `SigningExperience.tsx`, `CreateEnvelopeModal.tsx`, `SignFlowContext.tsx`, `signflow.ts`, `DocumentPrepStudio.tsx`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **What connects `name`, `private`, `version` to the rest of the system?**
-  _343 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `node`, `name`, `private` to the rest of the system?**
+  _431 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `useSignFlow` be split into smaller, more focused modules?**
-  _Cohesion score 0.05016797312430011 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05133161512027491 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
 - **Should `SigningExperience.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.07619738751814223 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10104529616724739 - nodes in this community are weakly interconnected._
+- **Should `notification-webhooks/src/server.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.08817204301075268 - nodes in this community are weakly interconnected._

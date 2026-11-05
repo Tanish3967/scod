@@ -79,6 +79,7 @@ import { FieldPropertiesModal } from './FieldPropertiesModal';
 import { formatTimestamp, sha256, generateFullSha256 } from '../../utils/cryptoUtils';
 import { downloadJsonBundle, downloadFile, generateCsvString } from '../../utils/downloadUtils';
 import { calculateFileSha256, formatFileSize } from '../../utils/documentParser';
+import { downloadFlattenedEnvelopePdf } from '../../utils/pdfFlattener';
 
 interface AttachmentItem {
   id: string;
@@ -738,6 +739,19 @@ export const DocumentPrepStudio: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-2.5 shrink-0">
+            <button
+              onClick={() => {
+                if (activeEnvelope) {
+                  downloadFlattenedEnvelopePdf(activeEnvelope);
+                }
+              }}
+              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center space-x-1.5 shadow-md shadow-emerald-900/30 transition-all hover:scale-105 cursor-pointer"
+              title="Download ISO 32000 flattened PDF with burned signatures & Merkle certificate"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Signed PDF</span>
+            </button>
+
             <button
               onClick={() => openCertificateView(activeEnvelope.id)}
               className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"

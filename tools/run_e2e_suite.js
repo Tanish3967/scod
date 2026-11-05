@@ -161,6 +161,107 @@ async function runEnterpriseSuite() {
       if (!data.success || (!data.emailId && !data.dispatchResult?.messageId)) throw new Error('Email delivery failed');
     });
 
+    // 10. DocuSign REST API v2.1 Wire-Compatible Adapter - Create Envelope
+    let docusignEnvId = '';
+    await test('DocuSign REST API v2.1 - Create Envelope Endpoint', async () => {
+      const payload = {
+        emailSubject: 'DocuSign SDK Integration Test Agreement',
+        status: 'sent',
+        recipients: {
+          signers: [
+            {
+              recipientId: '1',
+              name: 'Taylor Swift',
+              email: 'taylor@swift.io',
+              routingOrder: 1,
+              clientUserId: 'usr-client-99',
+              tabs: {
+                signHereTabs: [
+                  { pageNumber: 1, xPosition: 100, yPosition: 200, name: 'SignHere' }
+                ],
+                dateSignedTabs: [
+                  { pageNumber: 1, xPosition: 300, yPosition: 200, name: 'DateSigned' }
+                ]
+              }
+            }
+          ]
+        }
+      };
+      const res = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer docusign-jwt' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!data.envelopeId || !data.uri) throw new Error('Invalid DocuSign envelope response');
+      docusignEnvId = data.envelopeId;
+    });
+
+    // 11. DocuSign REST API v2.1 - Get Envelope & Recipients
+    await test('DocuSign REST API v2.1 - Get Envelope & Recipient Roster', async () => {
+      const envRes = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes/${docusignEnvId}`, {
+        headers: { 'Authorization': 'Bearer docusign-jwt' }
+      });
+      if (!envRes.ok) throw new Error(`HTTP ${envRes.status}`);
+      const envData = await envRes.json();
+      if (envData.envelopeId !== docusignEnvId) throw new Error('Mismatch envelope ID');
+
+      const recRes = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes/${docusignEnvId}/recipients`, {
+        headers: { 'Authorization': 'Bearer docusign-jwt' }
+      });
+      if (!recRes.ok) throw new Error(`HTTP ${recRes.status}`);
+      const recData = await recRes.json();
+      if (!Array.isArray(recData.signers) || recData.signers.length === 0) throw new Error('Signers list empty');
+    });
+
+    // 12. DocuSign REST API v2.1 - Embedded Recipient View Ceremony
+    await test('DocuSign REST API v2.1 - Generate Embedded Recipient View URL', async () => {
+      const payload = {
+        recipientId: '1',
+        userName: 'Taylor Swift',
+        email: 'taylor@swift.io',
+        clientUserId: 'usr-client-99',
+        returnUrl: 'https://client-app.com/callback'
+      };
+      const res = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes/${docusignEnvId}/views/recipient`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer docusign-jwt' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!data.url || !data.url.includes('?sign=')) throw new Error('Invalid recipient ceremony URL');
+    });
+
+    // 13. DocuSign REST API v2.1 - Combined PDF Stream & Vector Certificate Generation
+    await test('DocuSign REST API v2.1 - Stream Binary Certificate & Combined PDF', async () => {
+      const certRes = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes/${docusignEnvId}/documents/certificate`, {
+        headers: { 'Authorization': 'Bearer docusign-jwt' }
+      });
+      if (!certRes.ok) throw new Error(`HTTP ${certRes.status} on certificate`);
+      const certType = certRes.headers.get('content-type');
+      if (!certType || !certType.includes('application/pdf')) throw new Error(`Expected PDF, got ${certType}`);
+      const certBuffer = await certRes.arrayBuffer();
+      if (certBuffer.byteLength < 500) throw new Error('Certificate PDF too small or corrupt');
+
+      const combinedRes = await fetch(`${GATEWAY_URL}/v2.1/accounts/demo-acc-1/envelopes/${docusignEnvId}/documents/combined`, {
+        headers: { 'Authorization': 'Bearer docusign-jwt' }
+      });
+      if (!combinedRes.ok) throw new Error(`HTTP ${combinedRes.status} on combined`);
+      const combinedType = combinedRes.headers.get('content-type');
+      if (!combinedType || !combinedType.includes('application/pdf')) throw new Error(`Expected PDF, got ${combinedType}`);
+      const combinedBuffer = await combinedRes.arrayBuffer();
+      if (combinedBuffer.byteLength < 500) throw new Error('Combined PDF too small or corrupt');
+    });
+
+    // 14. Persistent Storage & Database Telemetry
+    await test('Storage Engine & Database - Telemetry and Health Metrics', async () => {
+      const data = await getJson(`${GATEWAY_URL}/api/v1/storage/metrics`);
+      if (!data.success || !data.storage || !data.database) throw new Error('Invalid storage metrics');
+      if (data.database.envelopesCount < 1) throw new Error('No persistent envelopes registered');
+    });
+
     console.log('===========================================================');
     console.log(`  Unified Backend Test Results: ${passed} / ${total} Tests Passed (100%)`);
     console.log('===========================================================');

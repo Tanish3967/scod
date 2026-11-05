@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import crypto from 'crypto';
+import { persistentDb } from './database.js';
 
 export interface EnvelopeRecipient {
   id: string;
@@ -53,6 +54,13 @@ class EnvelopeStore {
   }
 
   private seedDefaults() {
+    // 1. Load any persisted envelopes from database
+    const persisted = persistentDb.listEnvelopes();
+    if (persisted && persisted.length > 0) {
+      persisted.forEach(env => this.envelopes.set(env.id, env));
+      return;
+    }
+
     const defaultEnvelopes: Envelope[] = [
       {
         id: 'env-msa-8921',
@@ -94,7 +102,10 @@ class EnvelopeStore {
       }
     ];
 
-    defaultEnvelopes.forEach(env => this.envelopes.set(env.id, env));
+    defaultEnvelopes.forEach(env => {
+      this.envelopes.set(env.id, env);
+      persistentDb.saveEnvelope(env);
+    });
   }
 
   public get(id: string): Envelope | undefined {
@@ -123,6 +134,7 @@ class EnvelopeStore {
       tags: data.tags || ['Commercial']
     };
     this.envelopes.set(id, envelope);
+    persistentDb.saveEnvelope(envelope);
     return envelope;
   }
 
@@ -135,10 +147,12 @@ class EnvelopeStore {
       updatedAt: new Date().toISOString()
     };
     this.envelopes.set(id, updated);
+    persistentDb.saveEnvelope(updated);
     return updated;
   }
 
   public delete(id: string): boolean {
+    persistentDb.deleteEnvelope(id);
     return this.envelopes.delete(id);
   }
 
