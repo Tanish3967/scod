@@ -5,12 +5,6 @@
     "ast_hash": "1e95039f83423bc4f7e419f58b0b192e",
     "semantic_hash": "1e95039f83423bc4f7e419f58b0b192e"
   },
-  ".claude/settings.json": {
-    "mtime": 1788585700.0428867,
-    "seen": 1788586085.9520483,
-    "ast_hash": "8d0b8cd2cddeeba6ace4d2fd1e77577b",
-    "semantic_hash": "8d0b8cd2cddeeba6ace4d2fd1e77577b"
-  },
   "package.json": {
     "mtime": 1793876632.381633,
     "seen": 1793877675.4606593,
@@ -641,12 +635,6 @@
     "ast_hash": "d0d61917699b8895d864f4e533a88051",
     "semantic_hash": "d0d61917699b8895d864f4e533a88051"
   },
-  "tools/test_p1_features.cjs": {
-    "mtime": 1788609597.549833,
-    "seen": 1788610353.470631,
-    "ast_hash": "1e2829b7569da7d7088516fa208f1879",
-    "semantic_hash": "1e2829b7569da7d7088516fa208f1879"
-  },
   "src/components/envelopes/CreateEnvelopeModal.tsx": {
     "mtime": 1788975358.728652,
     "seen": 1788975460.19405,
@@ -663,66 +651,6 @@
     "mtime": 1788585776.6660075,
     "seen": 1788613091.0853565,
     "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
-    "semantic_hash": ""
-  },
-  ".claude/CLAUDE.md": {
-    "mtime": 1788585700.027876,
-    "seen": 1788613091.0853596,
-    "ast_hash": "c232166e6492ba1ed955030b16979b05",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/SKILL.md": {
-    "mtime": 1788585700.0210238,
-    "seen": 1788613091.085363,
-    "ast_hash": "2e223eed9c5bb9ec3999615806cf0681",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/add-watch.md": {
-    "mtime": 1788585248.9380972,
-    "seen": 1788613091.0853658,
-    "ast_hash": "d59d027fe449f06aa03905a01184e779",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/exports.md": {
-    "mtime": 1788585248.9401226,
-    "seen": 1788613091.085369,
-    "ast_hash": "9da2a2152e60a22f07f05fed5158f287",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/extraction-spec.md": {
-    "mtime": 1788585248.942201,
-    "seen": 1788613091.085372,
-    "ast_hash": "42fef56a01698118f7fd722acdadea34",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/github-and-merge.md": {
-    "mtime": 1788585248.945281,
-    "seen": 1788613091.0853753,
-    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/hooks.md": {
-    "mtime": 1788585248.9463737,
-    "seen": 1788613091.0853784,
-    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/query.md": {
-    "mtime": 1788585248.94855,
-    "seen": 1788613091.0853817,
-    "ast_hash": "3c46f8ad006874260614ed8657d02307",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/transcribe.md": {
-    "mtime": 1788585248.9495592,
-    "seen": 1788613091.0853844,
-    "ast_hash": "67b6a5fa6c0974e18f60db9f8932fbd8",
-    "semantic_hash": ""
-  },
-  ".claude/skills/graphify/references/update.md": {
-    "mtime": 1788585248.9507542,
-    "seen": 1788613091.0853875,
-    "ast_hash": "9378bd03d56baaf78bd738ab3848f142",
     "semantic_hash": ""
   },
   ".github/workflows/ci.yml": {
@@ -749,34 +677,10 @@
     "ast_hash": "07a4b27039d52fb4f14be90eec0dbee6",
     "semantic_hash": ""
   },
-  "CLAUDE.md": {
-    "mtime": 1788585700.040886,
-    "seen": 1788613091.0854027,
-    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
-    "semantic_hash": ""
-  },
-  "GRAPH_REPORT.md": {
-    "mtime": 1788806951.3740678,
-    "seen": 1788806968.4780154,
-    "ast_hash": "9eb8b53f4a656f2e71914be40337a0bf",
-    "semantic_hash": ""
-  },
-  "PROJECT_MEMORY.md": {
-    "mtime": 1788889011.7567494,
-    "seen": 1788889065.1348288,
-    "ast_hash": "fb50d66f5fb2d735940d06e802ed9d2f",
-    "semantic_hash": ""
-  },
   "docker-compose.yml": {
     "mtime": 1793878041.4265335,
     "seen": 1793878136.912585,
     "ast_hash": "a1f4f110e6800ffc5aff88691bddfca0",
-    "semantic_hash": ""
-  },
-  "dom_agent_audit_report.md": {
-    "mtime": 1788889036.941445,
-    "seen": 1788889065.1348312,
-    "ast_hash": "2eb0c9218bb428e2f02b1eafb336b78c",
     "semantic_hash": ""
   },
   "feature_checklist.md": {
@@ -789,12 +693,6 @@
     "mtime": 1787833796.684403,
     "seen": 1788613091.0854208,
     "ast_hash": "ce45e6132cd0c6accee84f0ad1597d33",
-    "semantic_hash": ""
-  },
-  "production_readiness_assessment.md": {
-    "mtime": 1788889029.7741506,
-    "seen": 1788889065.1348348,
-    "ast_hash": "7477bfa54f3398eae628764a476fc21d",
     "semantic_hash": ""
   },
   "public/favicon.svg": {
@@ -813,12 +711,6 @@
     "mtime": 1788806772.2799232,
     "seen": 1788806898.6181612,
     "ast_hash": "70183f7f67c7cf0f059870f00c9aa8ee",
-    "semantic_hash": ""
-  },
-  "tools/test_parser.cjs": {
-    "mtime": 1788684424.37537,
-    "seen": 1788685235.7202141,
-    "ast_hash": "5a2bb1922dd622d9fe6fd2cf8fe003d5",
     "semantic_hash": ""
   },
   "src/utils/pdfRasterizer.ts": {

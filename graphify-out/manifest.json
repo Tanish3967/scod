@@ -940,5 +940,17 @@
     "seen": 1793878136.912583,
     "ast_hash": "4787d8097124e947ca796f1debeeaf1b",
     "semantic_hash": ""
+  },
+  "GRAPH_REPORT.md": {
+    "mtime": 1793888348.1388557,
+    "seen": 1793888400.421976,
+    "ast_hash": "2fcb190974e81ec63ab0379a0a92ab83",
+    "semantic_hash": ""
+  },
+  "PROJECT_MEMORY.md": {
+    "mtime": 1793888363.39045,
+    "seen": 1793888400.4219787,
+    "ast_hash": "afbb07a25e62f63780ed67077b115c6a",
+    "semantic_hash": ""
   }
 }
