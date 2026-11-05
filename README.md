@@ -130,7 +130,9 @@
 
 | Command | Description |
 |---|---|
+| `run_local.bat` | **1-Click Local Run**: Automatically frees ports, compiles latest backend, starts Vite (`:5173`) & Backend (`:8090`), and opens browser |
 | `start.bat` | **1-Click Launch All**: Compiles backend, starts Vite (`:5173`) & Unified Backend (`:8090`), and opens browser |
+| `docker_run.bat` | **1-Click Docker Launch**: Builds and launches Docker containers via Docker Compose |
 | `stop.bat` | **1-Click Stop**: Gracefully terminates all background services and releases network ports |
 | `npm run dev` | Runs Vite frontend development server only (`http://localhost:5173`) |
 | `npm run build` | Builds frontend production bundles with TypeScript verification (`tsc && vite build`) |

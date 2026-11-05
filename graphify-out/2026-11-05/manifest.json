@@ -768,9 +768,9 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1788882002.8494961,
-    "seen": 1788882037.8808064,
-    "ast_hash": "5ece9f89873a52f63f75b6156b7bf461",
+    "mtime": 1793878041.4265335,
+    "seen": 1793878136.912585,
+    "ast_hash": "a1f4f110e6800ffc5aff88691bddfca0",
     "semantic_hash": ""
   },
   "dom_agent_audit_report.md": {
@@ -1002,21 +1002,15 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793875804.35127,
-    "seen": 1793875882.8796916,
-    "ast_hash": "2fecfb8e3d3c8d8d9109cf6bf8036e4f",
+    "mtime": 1793878079.248497,
+    "seen": 1793878136.9125798,
+    "ast_hash": "cfe344e81f7e6f9d918c1ae4c7c948e3",
     "semantic_hash": ""
   },
   "docs/DOCUSIGN_RECREATION_GUIDE.md": {
     "mtime": 1793875768.926584,
     "seen": 1793875882.8796942,
     "ast_hash": "00e1b3e88c18901c5d412ea3f95b37eb",
-    "semantic_hash": ""
-  },
-  "services/unified-backend/data/db/signflow_db.json": {
-    "mtime": 1793877626.6378825,
-    "seen": 1793877675.4607186,
-    "ast_hash": "739d1092ff8734e8a8f79847be248414",
     "semantic_hash": ""
   },
   "services/unified-backend/src/modules/database.ts": {
@@ -1047,6 +1041,12 @@
     "mtime": 1793876819.9471154,
     "seen": 1793877675.4608636,
     "ast_hash": "6084c9e9b9a26ea766fde65416232faa",
+    "semantic_hash": ""
+  },
+  "docker-compose.dev.yml": {
+    "mtime": 1793878046.508015,
+    "seen": 1793878136.912583,
+    "ast_hash": "4787d8097124e947ca796f1debeeaf1b",
     "semantic_hash": ""
   }
 }
