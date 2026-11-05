@@ -138,6 +138,18 @@
 | `npm run backend:start` | Launches Unified Backend service engine on port `8090` |
 | `npm run test:e2e` | Executes automated end-to-end test suite (`tools/run_e2e_suite.js`) |
 | `npm run test:load` | Runs 100M-scale benchmark load stress harness (`tools/run_load_stress_suite.js`) |
+| `npm run rea` | Runs Reverse Engineer Anything CLI (`morluto/rea`) |
+| `npm run rea:doctor` | Validates REA environment, analysis providers, and MCP registrations |
+| `npm run rea:mcp` | Launches REA Model Context Protocol (MCP) server |
+
+---
+
+## 🔬 DocuSign Reconstruction via REA (`morluto/rea`)
+
+SignFlow integrates **REA (Reverse Engineer Anything)** to systematically inspect, analyze, and recreate DocuSign features with 100% parity:
+- **Web Bundle Analysis**: Reverse-engineers client-side field placement algorithms, coordinate spaces, and event hooks (`npm run rea -- analyze-web-bundle`).
+- **HAR Network Inspection**: Decodes DocuSign eSignature REST API v2.1 contracts and webhook signatures (`node tools/rea_docusign_workflow.mjs inspect-har`).
+- **Reconstruction Obligation Ledger**: Generates evidence-backed requirements tracking implementation parity against observed targets (see [`docs/DOCUSIGN_RECREATION_GUIDE.md`](docs/DOCUSIGN_RECREATION_GUIDE.md)).
 
 ---
 
