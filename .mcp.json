@@ -3,6 +3,10 @@
     "rea": {
       "command": "node",
       "args": ["./node_modules/rea-agents/scripts/rea.mjs", "--mcp"]
+    },
+    "cm-context": {
+      "command": "node",
+      "args": ["./node_modules/codymaster/dist/mcp-context-server.js"]
     }
   }
 }

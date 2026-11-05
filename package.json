@@ -13,7 +13,11 @@
     "test:load": "node tools/run_load_stress_suite.js",
     "rea": "rea",
     "rea:doctor": "rea doctor",
-    "rea:mcp": "rea --mcp"
+    "rea:mcp": "rea --mcp",
+    "cm": "node ./node_modules/codymaster/dist/index.js",
+    "cm:status": "node ./node_modules/codymaster/dist/index.js status",
+    "cm:doctor": "node ./node_modules/codymaster/dist/index.js doctor",
+    "cm:quality": "node ./node_modules/codymaster/dist/index.js quality"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
@@ -22,6 +26,7 @@
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.0",
     "autoprefixer": "^10.5.4",
+    "codymaster": "^7.0.3",
     "postcss": "^8.5.26",
     "rea-agents": "^6.8.0",
     "tailwindcss": "^4.3.3",

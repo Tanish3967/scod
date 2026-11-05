@@ -198,6 +198,12 @@ npm run backend:build  # Compiles Unified Backend TypeScript (Must exit with cod
 
 # 6. Automated E2E Test Suite (14 Tests)
 node tools/run_e2e_suite.js
+
+# 7. CodyMaster Agent CLI & Diagnostics
+npm run cm             # CodyMaster CLI assistant
+npm run cm:status      # Check installed skills & active workspace state
+npm run cm:doctor      # Verify environment & AI assistant connectivity (Antigravity/Gemini)
+npm run cm:quality     # Project quality & standards check
 ```
 
 ---

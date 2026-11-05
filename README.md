@@ -143,6 +143,10 @@
 | `npm run rea` | Runs Reverse Engineer Anything CLI (`morluto/rea`) |
 | `npm run rea:doctor` | Validates REA environment, analysis providers, and MCP registrations |
 | `npm run rea:mcp` | Launches REA Model Context Protocol (MCP) server |
+| `npm run cm` | Runs CodyMaster CLI (`tody-agent/codymaster`) |
+| `npm run cm:status` | Shows CodyMaster project status, tasks, and skill metrics |
+| `npm run cm:doctor` | Audits detected agent platforms and installed CodyMaster skills |
+| `npm run cm:quality` | Evaluates codebase and change quality index |
 
 ---
 
