@@ -1,0 +1,35 @@
+services:
+  # Development Unified Backend with Hot Reload
+  unified-backend-dev:
+    image: node:20-alpine
+    container_name: signflow-backend-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/services/unified-backend/node_modules
+    ports:
+      - "8090:8090"
+    environment:
+      - PORT=8090
+      - NODE_ENV=development
+      - FRONTEND_URL=http://localhost:5173
+    command: sh -c "npm install && npm install --prefix services/unified-backend && npx -y tsx watch services/unified-backend/src/server.ts"
+    restart: unless-stopped
+
+  # Development React Frontend with Vite HMR
+  web-client-dev:
+    image: node:20-alpine
+    container_name: signflow-frontend-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_GATEWAY_URL=http://localhost:8090
+    command: sh -c "npm install && npx vite --host 0.0.0.0 --port 5173"
+    depends_on:
+      - unified-backend-dev
+    restart: unless-stopped

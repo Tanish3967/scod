@@ -1,23 +1,41 @@
-version: '3.8'
-
 services:
-  # 1. React Client Frontend
-  web-client:
-    build: .
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_API_GATEWAY_URL=http://localhost:8090
-    depends_on:
-      - unified-backend
-
-  # 2. SignFlow Unified Backend Service Engine (Port 8090)
+  # 1. SignFlow Unified Backend Service Engine (Port 8090)
   unified-backend:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    container_name: signflow-backend
     ports:
       - "8090:8090"
     environment:
       - PORT=8090
       - NODE_ENV=production
+      - FRONTEND_URL=http://localhost:5173
+    volumes:
+      - signflow-data:/app/services/unified-backend/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8090/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  # 2. SignFlow React Client Frontend (Port 5173)
+  web-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: signflow-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_GATEWAY_URL=http://localhost:8090
+    depends_on:
+      unified-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  signflow-data:
+    driver: local

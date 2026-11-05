@@ -12,9 +12,9 @@
     "semantic_hash": "8d0b8cd2cddeeba6ace4d2fd1e77577b"
   },
   "package.json": {
-    "mtime": 1793875550.6129556,
-    "seen": 1793875882.8794608,
-    "ast_hash": "fccb06d2fcf08225107b5b89689bb2e3",
+    "mtime": 1793876632.381633,
+    "seen": 1793877675.4606593,
+    "ast_hash": "2eada3e6954b35670766e2f3e7d890d1",
     "semantic_hash": ""
   },
   "postcss.config.js": {
@@ -246,9 +246,9 @@
     "semantic_hash": "f37578eb1dc206e27d88548d73b7edbb"
   },
   "src/components/certificate/CertificateOfCompletionModal.tsx": {
-    "mtime": 1788682464.8044488,
-    "seen": 1788682737.3774872,
-    "ast_hash": "752c6035566438eeb1b48e1e9ed04740",
+    "mtime": 1793876888.6862524,
+    "seen": 1793877675.4607773,
+    "ast_hash": "7b517d3a538a776c8565b953952baa27",
     "semantic_hash": ""
   },
   "src/components/clm/AINegotiationWorkbench.tsx": {
@@ -378,9 +378,9 @@
     "semantic_hash": "a558ddff89c4b938c54ee41450d21ad9"
   },
   "src/components/prepare/DocumentPrepStudio.tsx": {
-    "mtime": 1789018691.683083,
-    "seen": 1789018783.576825,
-    "ast_hash": "ba39c5dbe7967a75851db30d76d035cb",
+    "mtime": 1793876987.4339871,
+    "seen": 1793877675.4608152,
+    "ast_hash": "d478fe793b15d712dbe79bbb315ec676",
     "semantic_hash": ""
   },
   "src/components/prepare/DocumentViewerCanvas.tsx": {
@@ -420,9 +420,9 @@
     "semantic_hash": "7ca3f60ef08381c86488628dea8f0e60"
   },
   "src/components/signing/SignSuccessModal.tsx": {
-    "mtime": 1788976067.4924798,
-    "seen": 1788976115.852594,
-    "ast_hash": "69615b333adfaeb145f1cb2d12305f0a",
+    "mtime": 1793877006.7297363,
+    "seen": 1793877675.4608288,
+    "ast_hash": "e08dd884dfd2962466e0777268aa0fdc",
     "semantic_hash": ""
   },
   "src/components/signing/SignatureModal.tsx": {
@@ -498,9 +498,9 @@
     "semantic_hash": "16507ff9cb1dc5b560a1986f85d48643"
   },
   "src/types/signflow.ts": {
-    "mtime": 1789018350.9389515,
-    "seen": 1789018783.5768607,
-    "ast_hash": "806d9ea7d8fb33d07f92260823f6c6f9",
+    "mtime": 1793876754.7311,
+    "seen": 1793877675.4608479,
+    "ast_hash": "4b8627a0799c8c7cebdaa02b77d8c2a9",
     "semantic_hash": ""
   },
   "src/utils/aiEngine.ts": {
@@ -540,9 +540,9 @@
     "semantic_hash": "557e208dbba0a5da8253110b634bcf73"
   },
   "tools/run_e2e_suite.js": {
-    "mtime": 1789048596.4909604,
-    "seen": 1789048621.4392242,
-    "ast_hash": "b134c7879271b7fe7778a10214097a8a",
+    "mtime": 1793877191.1656404,
+    "seen": 1793877675.460873,
+    "ast_hash": "11825699bf9b206bd516fe319c12e3be",
     "semantic_hash": ""
   },
   "tools/send-email-resend/go.mod": {
@@ -834,9 +834,9 @@
     "semantic_hash": ""
   },
   "services/unified-backend/package.json": {
-    "mtime": 1788879367.3157115,
-    "seen": 1788882037.8805788,
-    "ast_hash": "d08c14321ccbf571504accddcd4cf482",
+    "mtime": 1793876661.5414927,
+    "seen": 1793877675.4607213,
+    "ast_hash": "f49add77ddc44a5ece36037ded8b8e67",
     "semantic_hash": ""
   },
   "services/unified-backend/src/modules/ai.ts": {
@@ -858,9 +858,9 @@
     "semantic_hash": ""
   },
   "services/unified-backend/src/modules/envelopes.ts": {
-    "mtime": 1788881938.748514,
-    "seen": 1788882037.8805897,
-    "ast_hash": "48d582b3fc5a70b1c3ec1342d09931e8",
+    "mtime": 1793877141.0219738,
+    "seen": 1793877675.4607396,
+    "ast_hash": "6963e54b15dd099e4512e4e4b96df1d5",
     "semantic_hash": ""
   },
   "services/unified-backend/src/modules/notifications.ts": {
@@ -876,9 +876,9 @@
     "semantic_hash": ""
   },
   "services/unified-backend/src/server.ts": {
-    "mtime": 1788974588.192876,
-    "seen": 1788975157.8767524,
-    "ast_hash": "c857e928a5170ab1ed56bac08f7ff2aa",
+    "mtime": 1793877170.664383,
+    "seen": 1793877675.4607518,
+    "ast_hash": "f03aea4f31670ebec211fcf97ea72683",
     "semantic_hash": ""
   },
   "services/unified-backend/tsconfig.json": {
@@ -1011,6 +1011,42 @@
     "mtime": 1793875768.926584,
     "seen": 1793875882.8796942,
     "ast_hash": "00e1b3e88c18901c5d412ea3f95b37eb",
+    "semantic_hash": ""
+  },
+  "services/unified-backend/data/db/signflow_db.json": {
+    "mtime": 1793877626.6378825,
+    "seen": 1793877675.4607186,
+    "ast_hash": "739d1092ff8734e8a8f79847be248414",
+    "semantic_hash": ""
+  },
+  "services/unified-backend/src/modules/database.ts": {
+    "mtime": 1793877081.6847692,
+    "seen": 1793877675.4607286,
+    "ast_hash": "9822ebf6f198b15d27cc459e1d3a8ef5",
+    "semantic_hash": ""
+  },
+  "services/unified-backend/src/modules/docusign_v2_1.ts": {
+    "mtime": 1793877117.4004693,
+    "seen": 1793877675.4607375,
+    "ast_hash": "5994ccdbaad1e13976b93422d19ae85b",
+    "semantic_hash": ""
+  },
+  "services/unified-backend/src/modules/server_pdf.ts": {
+    "mtime": 1793877093.8841746,
+    "seen": 1793877675.4607449,
+    "ast_hash": "7417aa5315238941b07a8cb1822df212",
+    "semantic_hash": ""
+  },
+  "services/unified-backend/src/modules/storage.ts": {
+    "mtime": 1793877073.2676723,
+    "seen": 1793877675.460747,
+    "ast_hash": "f4a47a0e245408b2742475777eb1aa7f",
+    "semantic_hash": ""
+  },
+  "src/utils/pdfFlattener.ts": {
+    "mtime": 1793876819.9471154,
+    "seen": 1793877675.4608636,
+    "ast_hash": "6084c9e9b9a26ea766fde65416232faa",
     "semantic_hash": ""
   }
 }

@@ -144,6 +144,38 @@
 
 ---
 
+## 🐳 Docker Deployment
+
+SignFlow includes full Docker containerization for both the **Unified Backend Service Engine** and the **React Client Frontend**:
+
+### Production Mode (Recommended)
+Spins up the production Node.js unified backend and high-performance Nginx SPA reverse proxy with persistent data storage:
+
+```bash
+# Build and run all services in background
+docker compose up --build -d
+
+# View real-time logs
+docker compose logs -f
+
+# Stop all services
+docker compose down
+```
+
+- **Frontend Client**: Accessible at [http://localhost:5173](http://localhost:5173) (served via Nginx with API reverse proxy)
+- **Backend API & DocuSign v2.1 Engine**: Accessible at [http://localhost:8090](http://localhost:8090)
+- **Health Check**: [http://localhost:8090/health](http://localhost:8090/health)
+- **Persistent Storage**: Envelopes, database, and uploaded documents persist in the `signflow-data` Docker volume
+
+### Development Mode (with Live Hot-Reloading)
+For live code editing inside Docker with Vite HMR and TypeScript watch:
+
+```bash
+docker compose -f docker-compose.dev.yml up
+```
+
+---
+
 ## 🔬 DocuSign Reconstruction via REA (`morluto/rea`)
 
 SignFlow integrates **REA (Reverse Engineer Anything)** to systematically inspect, analyze, and recreate DocuSign features with 100% parity:

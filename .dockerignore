@@ -1,0 +1,41 @@
+# Node & Build artifacts
+node_modules
+dist
+dist-ssr
+services/*/dist
+services/unified-backend/dist
+
+# Version Control & Workflows
+.git
+.github
+
+# Knowledge Graph & Cache
+graphify-out
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS files
+.vscode
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs & temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Runtime database & document storage (managed by Docker volume)
+services/unified-backend/data/storage/*
+!services/unified-backend/data/storage/.gitkeep
+services/unified-backend/data/db/*.json
+services/unified-backend/data/db/*.tmp
+!services/unified-backend/data/db/.gitkeep

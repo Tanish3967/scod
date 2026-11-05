@@ -1,17 +1,33 @@
+# ==========================================
+# SignFlow Unified Backend Service Engine Dockerfile
+# ==========================================
+
 FROM node:20-alpine
 
 WORKDIR /app
 
+# Install dependencies first for optimal Docker layer caching
 COPY package*.json ./
 COPY services/unified-backend/package*.json ./services/unified-backend/
 
-RUN npm install
+RUN npm install && npm install --prefix services/unified-backend
 
-COPY services/unified-backend/ ./services/unified-backend/
+# Copy source and TypeScript configurations
 COPY tsconfig.json ./
+COPY services/unified-backend/ ./services/unified-backend/
 
+# Build backend TypeScript
 RUN npm run backend:build
 
+# Expose Unified Backend Engine port
 EXPOSE 8090
+
+# Default environment variables
+ENV PORT=8090
+ENV NODE_ENV=production
+
+# Container Healthcheck
+HEALTHCHECK --interval=20s --timeout=5s --start-period=5s --retries=3 \
+  CMD node -e "fetch('http://localhost:8090/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"
 
 CMD ["node", "services/unified-backend/dist/server.js"]
