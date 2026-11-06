@@ -27,6 +27,16 @@ export type AuthType =
   | 'idv_biometric'
   | 'passkey_webauthn';
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  organization: string;
+  role: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+  avatarUrl?: string;
+  tier?: string;
+}
+
 export type FieldType = 
   | 'signature' 
   | 'initial' 

@@ -1,0 +1,13 @@
+{
+  "schema": "plan@1",
+  "goal": "Security hardening for login authentication and sending email for signing",
+  "decisions": [
+    "Password complexity enforcement with real-time entropy calculation",
+    "Brute force defense with 60-second exponential backoff lockout after 5 failed attempts",
+    "MFA TOTP 6-digit challenge code and FIDO2 Passkey biometric login",
+    "Time-bound HMAC-SHA256 signer magic links with cryptographic tamper detection and 7-day expiration",
+    "Backend rate limiting (max 5 emails/10 min per recipient), CRLF injection defense, and HTML sanitization"
+  ],
+  "first_tasks": ["1.1", "1.2", "1.3"],
+  "openspec_path": "openspec/changes/security-hardening-auth-email/"
+}

@@ -36,14 +36,40 @@ async function runEnterpriseSuite() {
   console.log('  SignFlow: Unified Backend Enterprise Integration Test');
   console.log('===========================================================');
 
-  // Spawn Unified Backend Service Engine
-  console.log('1. Launching Unified Backend Service Engine (:8090)...');
-  const backendProc = spawn('node', ['services/unified-backend/dist/server.js'], {
-    stdio: 'inherit',
-    env: { ...process.env, PORT: `${GATEWAY_PORT}` }
-  });
+  // Check if server is already running
+  let isAlreadyRunning = false;
+  try {
+    const probe = await fetch(`${GATEWAY_URL}/health`);
+    if (probe.ok) isAlreadyRunning = true;
+  } catch (_) {}
 
-  await sleep(3000);
+  let backendProc = null;
+  if (!isAlreadyRunning) {
+    console.log('1. Launching Unified Backend Service Engine (:8090)...');
+    backendProc = spawn('node', ['services/unified-backend/dist/server.js'], {
+      stdio: 'inherit',
+      shell: true,
+      env: { ...process.env, PORT: `${GATEWAY_PORT}` }
+    });
+
+    // Wait for server to become healthy
+    let serverReady = false;
+    for (let i = 0; i < 15; i++) {
+      try {
+        const res = await fetch(`${GATEWAY_URL}/health`);
+        if (res.ok) {
+          serverReady = true;
+          break;
+        }
+      } catch (_) {}
+      await sleep(500);
+    }
+    if (!serverReady) {
+      console.warn('Backend server did not respond to health probe within 7.5s, proceeding with tests...');
+    }
+  } else {
+    console.log('1. Reusing already active Unified Backend Service Engine (:8090)...');
+  }
 
   let passed = 0;
   let total = 0;
@@ -269,7 +295,9 @@ async function runEnterpriseSuite() {
       console.log('  STATUS: UNIFIED BACKEND SERVICE ENGINE 100% OPERATIONAL');
     }
   } finally {
-    try { backendProc.kill(); } catch (_) {}
+    if (backendProc) {
+      try { backendProc.kill(); } catch (_) {}
+    }
   }
 
   if (passed !== total) {

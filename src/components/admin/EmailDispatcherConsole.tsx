@@ -16,6 +16,7 @@ import {
   Info
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
+import { generateSecureSigningUrl } from '../../utils/securityTokens';
 
 export interface VirtualEmail {
   id: string;
@@ -101,6 +102,10 @@ export const EmailDispatcherConsole: React.FC = () => {
       let deliveryNotice = '';
       let backendDelivered = false;
 
+      // Generate Cryptographically Signed, Time-Bound Magic Link (7-Day TTL)
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+      const secureMagicLink = generateSecureSigningUrl(origin, 'env-demo-001', 'rec-test-1');
+
       // Call Unified Backend Email Service
       const response = await fetch('http://localhost:8090/api/v1/emails/send', {
         method: 'POST',
@@ -114,7 +119,7 @@ export const EmailDispatcherConsole: React.FC = () => {
           envelopeTitle: 'Commercial Digital Agreement',
           senderName: fromName,
           senderOrg: 'SignFlow Enterprise Cloud',
-          magicLink: `${window.location.origin}/?sign=env-demo-001`,
+          magicLink: secureMagicLink,
           provider,
           apiKey,
           fromEmail,

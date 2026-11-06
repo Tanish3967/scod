@@ -11,9 +11,18 @@ import {
   AuditEvent,
   Template,
   DocumentPage,
-  NegotiationAmendment
+  NegotiationAmendment,
+  UserProfile
 } from '../types/signflow';
 import { extractStructuredTerms, generateAutopilotObligations, buildSlackWebhookPayload } from '../utils/contractAutopilot';
+import { 
+  generateSecureSigningUrl, 
+  verifySigningToken, 
+  createSecureSession, 
+  validateSecureSession, 
+  BruteForceDefender,
+  TokenVerificationResult 
+} from '../utils/securityTokens';
 import { INITIAL_ENVELOPES } from '../data/mockEnvelopes';
 import { generateUUID, generateFullSha256, getMockIpAddress, getMockDeviceFingerprint, generateHmacSignature, formatTimestamp } from '../utils/cryptoUtils';
 import { detectSmartFields, analyzeDocumentRisk } from '../utils/aiEngine';
@@ -89,15 +98,7 @@ export interface TenantSettings {
   isQESEnabled: boolean;
 }
 
-export interface UserProfile {
-  id: string;
-  name: string;
-  email: string;
-  organization: string;
-  role: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
-  avatarUrl?: string;
-  tier?: string;
-}
+export type { UserProfile };
 
 interface SignFlowContextType {
   currentUser: UserProfile | null;
@@ -108,9 +109,12 @@ interface SignFlowContextType {
     name?: string; 
     organization?: string; 
     role?: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+    rememberMe?: boolean;
   }) => void;
   logout: () => void;
   verifySignerAccess: (envelopeId: string, recipientId?: string, email?: string) => boolean;
+  signingTokenStatus: TokenVerificationResult | null;
+  generateSecureSigningUrl: (envelopeId: string, recipientId: string, ttlMs?: number) => string;
 
   envelopes: Envelope[];
   activeEnvelope: Envelope | null;
@@ -255,6 +259,7 @@ const getInitialUrlRouteState = () => {
       activeSigningRecipientId: null as string | null,
       isCertificateModalOpen: false,
       selectedCertificateEnvelopeId: null as string | null,
+      tokenVerification: null as TokenVerificationResult | null
     };
   }
 
@@ -266,6 +271,13 @@ const getInitialUrlRouteState = () => {
     const signerId = params.get('signer');
     const viewParam = params.get('view') as AppView | null;
     const certId = params.get('cert') || params.get('certificate');
+    const token = params.get('token');
+    const exp = params.get('exp');
+    const nonce = params.get('nonce');
+
+    const tokenVerification = (signId && signerId)
+      ? verifySigningToken(signId, signerId, token, exp, nonce)
+      : null;
 
     if (powerformId) {
       return {
@@ -274,6 +286,7 @@ const getInitialUrlRouteState = () => {
         activeSigningRecipientId: null,
         isCertificateModalOpen: false,
         selectedCertificateEnvelopeId: null,
+        tokenVerification: null
       };
     }
 
@@ -284,6 +297,7 @@ const getInitialUrlRouteState = () => {
         activeSigningRecipientId: signerId || null,
         isCertificateModalOpen: false,
         selectedCertificateEnvelopeId: null,
+        tokenVerification
       };
     }
 
@@ -345,7 +359,16 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
     try {
       const saved = localStorage.getItem('signflow_user_session');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const check = validateSecureSession(parsed);
+        if (check.valid && check.user) {
+          return check.user;
+        } else {
+          // Invalidate expired or tampered session
+          localStorage.removeItem('signflow_user_session');
+        }
+      }
     } catch (_) {}
     return null;
   });
@@ -353,11 +376,20 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('signflow_user_session');
-      return !!saved;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const check = validateSecureSession(parsed);
+        return check.valid;
+      }
+      return false;
     } catch (_) {
       return false;
     }
   });
+
+  const [signingTokenStatus, setSigningTokenStatus] = useState<TokenVerificationResult | null>(
+    initialUrlState.tokenVerification || null
+  );
 
   const [activeEnvelopeId, setActiveEnvelopeId] = useState<string | null>(initialUrlState.activeEnvelopeId);
   const [activeView, setActiveView] = useState<AppView>(initialUrlState.activeView);
@@ -611,10 +643,16 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         }
       }
 
+      const token = params.get('token');
+      const exp = params.get('exp');
+      const nonce = params.get('nonce');
+
       if (signId) {
         setActiveEnvelopeId(signId);
         if (signerId) {
           setActiveSigningRecipientId(signerId);
+          const verification = verifySigningToken(signId, signerId, token, exp, nonce);
+          setSigningTokenStatus(verification);
         }
         setActiveView('signing');
         return;
@@ -1540,6 +1578,9 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     let lastEmailId = '';
 
     for (const r of targetList) {
+      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+      const secureMagicLink = generateSecureSigningUrl(origin, env.id, r.id);
+
       try {
         const response = await fetch('http://localhost:8090/api/v1/emails/send', {
           method: 'POST',
@@ -1551,7 +1592,7 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             envelopeTitle: env.title,
             senderName: env.sender?.name || tenant.name || 'SignFlow Sender',
             senderOrg: env.sender?.organization || tenant.organization,
-            magicLink: `${window.location.origin}/?sign=${env.id}&signer=${r.id}`
+            magicLink: secureMagicLink
           })
         });
 
@@ -1626,6 +1667,7 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     name?: string; 
     organization?: string; 
     role?: 'sender' | 'signer' | 'admin' | 'notary' | 'auditor';
+    rememberMe?: boolean;
   }) => {
     const role = credentials.role || 'sender';
     const profile: UserProfile = {
@@ -1641,11 +1683,14 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setCurrentUser(profile);
     setIsAuthenticated(true);
     setCurrentRole(role);
+    BruteForceDefender.recordSuccess(credentials.email);
+
+    const secureSession = createSecureSession(profile, credentials.rememberMe !== false);
     try {
-      localStorage.setItem('signflow_user_session', JSON.stringify(profile));
+      localStorage.setItem('signflow_user_session', JSON.stringify(secureSession));
     } catch (_) {}
 
-    notify('success', 'Authenticated Successfully', `Welcome back, ${profile.name}!`);
+    notify('success', 'Authenticated Successfully', `Welcome back, ${profile.name}! (Session active: ${credentials.rememberMe !== false ? '24h' : '8h'} TTL)`);
 
     // If there was a pending envelope or signer target, direct there
     if (activeSigningRecipientId || activeView === 'signing') {
@@ -1690,12 +1735,18 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
     setActiveView('signing');
 
+    const secureSession = createSecureSession(signerProfile, false);
     try {
-      localStorage.setItem('signflow_user_session', JSON.stringify(signerProfile));
+      localStorage.setItem('signflow_user_session', JSON.stringify(secureSession));
     } catch (_) {}
 
     notify('success', 'Signer Identity Verified', `Direct signing access granted for ${signerProfile.name}.`);
     return true;
+  };
+
+  const generateSecureUrlForRecipient = (envelopeId: string, recipientId: string, ttlMs?: number): string => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+    return generateSecureSigningUrl(origin, envelopeId, recipientId, ttlMs);
   };
 
   const startNotarySession = (sessionId: string) => {
@@ -2094,6 +2145,8 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         login,
         logout,
         verifySignerAccess,
+        signingTokenStatus,
+        generateSecureSigningUrl: generateSecureUrlForRecipient,
         envelopes,
         activeEnvelope,
         activeEnvelopeId,

@@ -39,6 +39,7 @@ export const SigningExperience: React.FC = () => {
     submitSignerSignature, 
     setActiveView, 
     closeCertificateView,
+    signingTokenStatus,
     notify 
   } = useSignFlow();
 
@@ -410,6 +411,42 @@ export const SigningExperience: React.FC = () => {
       {/* Main Signable Document Canvas Area */}
       <div className="flex-1 p-6 flex justify-center items-start overflow-y-auto">
         <div className="w-full max-w-3xl bg-white text-slate-900 rounded-2xl shadow-2xl p-8 sm:p-12 border border-slate-300 relative select-none">
+          {/* Cryptographic Signing Token Status HUD */}
+          {signingTokenStatus && (
+            <div className={`mb-6 p-3.5 rounded-2xl border text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xs ${
+              signingTokenStatus.valid 
+                ? 'bg-emerald-50/80 border-emerald-200 text-emerald-950'
+                : signingTokenStatus.isExpired
+                ? 'bg-amber-50/80 border-amber-200 text-amber-950'
+                : 'bg-rose-50/80 border-rose-200 text-rose-950'
+            }`}>
+              <div className="flex items-center space-x-2.5">
+                <div className={`p-1.5 rounded-xl text-white shadow-2xs ${
+                  signingTokenStatus.valid ? 'bg-emerald-600' : signingTokenStatus.isExpired ? 'bg-amber-600' : 'bg-rose-600'
+                }`}>
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-bold block text-xs">
+                    {signingTokenStatus.valid 
+                      ? '✓ Cryptographically Verified Signing Token' 
+                      : signingTokenStatus.isExpired 
+                      ? '⚠️ Signing Invitation Link Expired' 
+                      : '⚠️ Security Token Alert'}
+                  </span>
+                  <span className="text-[11px] opacity-80">
+                    {signingTokenStatus.reason}
+                  </span>
+                </div>
+              </div>
+              {signingTokenStatus.expiresFormatted && (
+                <div className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-white/70 border border-slate-200/80 self-start sm:self-auto">
+                  Token Expiration: {signingTokenStatus.expiresFormatted}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Living Smart Contract Status Banner (Pillar 2) */}
           <div className="mb-6 p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center space-x-2">

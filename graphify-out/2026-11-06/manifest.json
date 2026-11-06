@@ -6,9 +6,9 @@
     "semantic_hash": "1e95039f83423bc4f7e419f58b0b192e"
   },
   "package.json": {
-    "mtime": 1793894918.2033272,
-    "seen": 1793895115.954268,
-    "ast_hash": "85a1a7baa023604c57637c4e07e65cee",
+    "mtime": 1793971695.8413565,
+    "seen": 1793972400.1785758,
+    "ast_hash": "6d26c474ec67cdecd982e431fad2d50f",
     "semantic_hash": ""
   },
   "postcss.config.js": {
@@ -162,9 +162,9 @@
     "semantic_hash": "7f7d8851b8bd845c0917854be48c793a"
   },
   "src/App.tsx": {
-    "mtime": 1789018665.2226174,
-    "seen": 1789018783.5767658,
-    "ast_hash": "6fcd171f694c137e415d89ead6bd6cbe",
+    "mtime": 1793971994.858327,
+    "seen": 1793972400.178858,
+    "ast_hash": "f52003452941f63e4cb540f374869474",
     "semantic_hash": ""
   },
   "src/components/admin/AdminPortal.tsx": {
@@ -240,9 +240,9 @@
     "semantic_hash": "f37578eb1dc206e27d88548d73b7edbb"
   },
   "src/components/certificate/CertificateOfCompletionModal.tsx": {
-    "mtime": 1793876888.6862524,
-    "seen": 1793877675.4607773,
-    "ast_hash": "7b517d3a538a776c8565b953952baa27",
+    "mtime": 1793971795.518834,
+    "seen": 1793972400.178941,
+    "ast_hash": "09c0b22d0e0fda3178c8c0de79e62f0b",
     "semantic_hash": ""
   },
   "src/components/clm/AINegotiationWorkbench.tsx": {
@@ -330,9 +330,9 @@
     "semantic_hash": "a3cda7d59aaa08a23c54e45bc233d7fc"
   },
   "src/components/layout/Sidebar.tsx": {
-    "mtime": 1789018719.961162,
-    "seen": 1789018783.5768127,
-    "ast_hash": "e4b0aec7a830ff57a1663888d772db23",
+    "mtime": 1793972027.3551297,
+    "seen": 1793972400.1790452,
+    "ast_hash": "78d147eba860be5373ec8713d2aa72ac",
     "semantic_hash": ""
   },
   "src/components/migration/LegacyMigrationImporterView.tsx": {
@@ -426,15 +426,15 @@
     "semantic_hash": "7bcb72bb101f77d7712c4ee495cfc666"
   },
   "src/components/signing/SignerAIDrawer.tsx": {
-    "mtime": 1787830383.547967,
-    "seen": 1788586085.9520483,
-    "ast_hash": "d1a7cd7a33d9dba663bc79dcfba9bd47",
-    "semantic_hash": "d1a7cd7a33d9dba663bc79dcfba9bd47"
+    "mtime": 1793971820.7837253,
+    "seen": 1793972400.1791573,
+    "ast_hash": "ab2a28fbed615dd7a01602e80eb0290a",
+    "semantic_hash": ""
   },
   "src/components/signing/SigningExperience.tsx": {
-    "mtime": 1789043649.0131238,
-    "seen": 1789048621.4391837,
-    "ast_hash": "2a240ea5010c696ba7ce2c4af51612a8",
+    "mtime": 1793971979.5330715,
+    "seen": 1793972400.1791613,
+    "ast_hash": "4a46a5ebc98ad6ec6ebb385d18a263e8",
     "semantic_hash": ""
   },
   "src/components/templates/BulkSendModal.tsx": {
@@ -462,9 +462,9 @@
     "semantic_hash": ""
   },
   "src/context/SignFlowContext.tsx": {
-    "mtime": 1789018631.870973,
-    "seen": 1789018783.5768507,
-    "ast_hash": "83ed799ced717eb764a5521b8deca7b7",
+    "mtime": 1793971892.5488195,
+    "seen": 1793972400.1791854,
+    "ast_hash": "8d5a3220b1b4c1b5df0970eff30f54de",
     "semantic_hash": ""
   },
   "src/data/clauseLibrary.ts": {
@@ -492,16 +492,16 @@
     "semantic_hash": "16507ff9cb1dc5b560a1986f85d48643"
   },
   "src/types/signflow.ts": {
-    "mtime": 1793876754.7311,
-    "seen": 1793877675.4608479,
-    "ast_hash": "4b8627a0799c8c7cebdaa02b77d8c2a9",
+    "mtime": 1793971613.450779,
+    "seen": 1793972400.1792116,
+    "ast_hash": "45ab449ea50afde21b72bd998be81100",
     "semantic_hash": ""
   },
   "src/utils/aiEngine.ts": {
-    "mtime": 1787830254.3483639,
-    "seen": 1788586085.9520483,
-    "ast_hash": "da6d58d4b0ca2eb04ec5fdb23a89ff15",
-    "semantic_hash": "da6d58d4b0ca2eb04ec5fdb23a89ff15"
+    "mtime": 1793971720.1777332,
+    "seen": 1793972400.1792164,
+    "ast_hash": "ebb7f8446d6a38dd3bbdf2d4fc99eae6",
+    "semantic_hash": ""
   },
   "src/utils/cryptoUtils.ts": {
     "mtime": 1787830204.7006197,
@@ -816,9 +816,9 @@
     "semantic_hash": ""
   },
   "src/utils/fieldFormulas.ts": {
-    "mtime": 1789018369.0583234,
-    "seen": 1789018783.5768702,
-    "ast_hash": "e0ea333503fe3600f07a767a22719e78",
+    "mtime": 1793971737.1017983,
+    "seen": 1793972400.1801586,
+    "ast_hash": "7af66e3216b1a4a7022032afb8d60484",
     "semantic_hash": ""
   },
   "src/utils/obligationExtractor.ts": {
@@ -948,9 +948,9 @@
     "semantic_hash": ""
   },
   "PROJECT_MEMORY.md": {
-    "mtime": 1793888363.39045,
-    "seen": 1793888400.4219787,
-    "ast_hash": "afbb07a25e62f63780ed67077b115c6a",
+    "mtime": 1793895152.3634288,
+    "seen": 1793972400.1808352,
+    "ast_hash": "ba05d69e50c3d80c175fbe5dd03607b3",
     "semantic_hash": ""
   },
   ".agents/skills/_shared/SKILL_TEMPLATE.md": {
@@ -1311,6 +1311,36 @@
     "mtime": 1793894478.2360992,
     "seen": 1793895115.9548354,
     "ast_hash": "1683a0f96a665471da384088461fd67d",
+    "semantic_hash": ""
+  },
+  "src/components/compliance/UniversalProofVerifierView.tsx": {
+    "mtime": 1793971770.6809056,
+    "seen": 1793972400.1789749,
+    "ast_hash": "24ad3becb25aef6f1d53a398bc47475f",
+    "semantic_hash": ""
+  },
+  "src/components/signing/InCeremonyNegotiationModal.tsx": {
+    "mtime": 1793971753.909644,
+    "seen": 1793972400.17913,
+    "ast_hash": "971f8eeb7e555a1fd449dd9ed1ab4b33",
+    "semantic_hash": ""
+  },
+  "src/utils/contractAutopilot.ts": {
+    "mtime": 1793971655.5914478,
+    "seen": 1793972400.1800945,
+    "ast_hash": "2866df9b4eca18eaf2700d5adf233d5c",
+    "semantic_hash": ""
+  },
+  "src/utils/proofExporter.ts": {
+    "mtime": 1793971666.958478,
+    "seen": 1793972400.1802604,
+    "ast_hash": "b8ba8e4dfbcca92d3299d32e5cf6ab20",
+    "semantic_hash": ""
+  },
+  "tools/verify_proof.cjs": {
+    "mtime": 1793971677.63283,
+    "seen": 1793972400.1803885,
+    "ast_hash": "a0bff1a8d90eda30ffc3f031a4a18afa",
     "semantic_hash": ""
   }
 }
