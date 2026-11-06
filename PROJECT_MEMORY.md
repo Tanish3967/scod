@@ -176,6 +176,36 @@ Allows external DocuSign SDKs (Node, Python, Java, C#, Go) to interact with Sign
 
 ---
 
+### H. The 5 DocuSign Killer Differentiator Pillars (CodyMaster Powered)
+
+1. **Pillar 1: In-Ceremony Live Clause Negotiation (`InCeremonyNegotiationModal.tsx` & `SignFlowContext.tsx`)**
+   - **Zero Envelope Voiding**: Eliminates DocuSign's archaic *void -> redraft -> re-send* loop. Signers can negotiate controversial clauses directly during the signing ceremony.
+   - **Playbook Compromises**: Instant 1-click legal compromises (*Mutual Limitation of Liability*, *Notice & Cure 30 Days*, *Non-Solicitation Exceptions*, *Standard 12-Month Confidentiality*) from `CLAUSE_LIBRARY`.
+   - **Cryptographic In-Place Substitution**: On approval by the counterparty/creator, replaces text inside `doc.pages[pageIdx].content` in-place, logs non-repudiation Merkle audit event, updates the visual canvas, and notifies counterparties via real-time toast without voiding the envelope.
+
+2. **Pillar 2: Living Smart Contracts & Dynamic Assembly (`fieldFormulas.ts` & `SigningExperience.tsx`)**
+   - **Conditional Schedule Injection**: Documents reactively append schedules and exhibits based on signer input. For example:
+     - Selecting `"EU"` in the jurisdiction field automatically injects **Schedule A: GDPR Data Protection Addendum (DPA)** (Articles 28/46 SCCs).
+     - Deal value exceeding `\$100,000` automatically injects **Schedule B: Enterprise Multi-Year SLA Matrix & Penalty Tiers** (99.99% uptime guarantee).
+   - **Cross-Signer Variable Cascading**: Real-time formula computation updates dependent fields, pricing tables, and totals across multiple parties dynamically.
+
+3. **Pillar 3: Post-Signature Contract Autopilot & Webhooks 2.0 (`contractAutopilot.ts` & `SignFlowContext.tsx`)**
+   - **Structured Term Extraction**: Instant conversion of unstructured legal agreements into structured JSON payloads (`contractValue`, `currency`, `effectiveDate`, `governingLaw`, `paymentTerms`, `autoRenewal`).
+   - **Automated Obligation Radar**: Generates actionable lifecycle obligations with due dates, critical milestone alerts, and risk levels.
+   - **Rich Slack Block Kit & Webhooks 2.0**: HMAC-SHA256 signed event dispatches enriched with metadata, download URLs, and ready-to-render Slack channel celebration cards.
+
+4. **Pillar 4: Signer "Guardian Angel" AI & Consumer Safety Shield (`aiEngine.ts` & `SignerAIDrawer.tsx`)**
+   - **0–100 Contract Fairness Gauge**: Benchmarks agreements against open legal standards (YC SAFE, Common Paper, NVCA).
+   - **Gotcha Clause Scanner**: Flags predatory terms (uncapped liabilities, unilateral termination without cause, non-competes, aggressive auto-renewals with 90-day notification traps).
+   - **Bridge to Pillar 1**: Signers can click **"Propose AI Compromise"** on any flagged gotcha clause to instantly load the balanced playbook text into the In-Ceremony Negotiation modal.
+
+5. **Pillar 5: Zero-Trust Universal Verifier & Cryptographic Proof Export (`UniversalProofVerifierView.tsx`, `proofExporter.ts`, `tools/verify_proof.cjs`)**
+   - **Self-Contained Proof Bundle (`.proof.json`)**: Standalone cryptographic bundle containing document SHA-256 hash, Merkle root, complete audit block chain, signer public keys, and RFC-3161 timestamps.
+   - **Offline Browser Verifier (`/?view=verifier`)**: In-browser client-side verification engine with drag-and-drop proof validation, leaf re-computation, and green checkmark breakdown with zero backend server dependencies.
+   - **Offline CLI Verifier (`tools/verify_proof.cjs` / `npm run verify`)**: Zero-dependency Node.js verification script providing 30+ year legal non-repudiation independent of SignFlow infrastructure.
+
+---
+
 ## 4. Development & Build Commands
 
 ```bash

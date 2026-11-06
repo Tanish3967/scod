@@ -187,6 +187,15 @@ c:/Users/KIIT/Desktop/scod/
 
 ---
 
+### N. The 5 DocuSign Killer Differentiator Pillars (CodyMaster Powered)
+1. **Pillar 1: In-Ceremony Live Clause Negotiation** (`InCeremonyNegotiationModal.tsx`): Zero envelope voiding, in-place paragraph-level redlining, legal playbook compromises, counterparty approval, and Merkle audit tracking.
+2. **Pillar 2: Living Smart Contracts & Dynamic Assembly** (`fieldFormulas.ts`): Reactive conditional schedule injection (e.g. Schedule A: GDPR DPA, Schedule B: Enterprise SLA Matrix) and dynamic multi-party formula cascading.
+3. **Pillar 3: Post-Signature Contract Autopilot & Webhooks 2.0** (`contractAutopilot.ts`): Automatic structured term extraction, obligation radar generator, HMAC-SHA256 webhook dispatch, and rich Slack Block Kit celebration cards.
+4. **Pillar 4: Signer "Guardian Angel" AI & Consumer Safety Shield** (`aiEngine.ts` & `SignerAIDrawer.tsx`): 0–100 contract fairness score gauge benchmarked against YC SAFE / Common Paper, gotcha clause scanner, and 1-click bridge to In-Ceremony Negotiation.
+5. **Pillar 5: Zero-Trust Universal Verifier & Cryptographic Proof Export** (`UniversalProofVerifierView.tsx`, `proofExporter.ts`, `tools/verify_proof.cjs`): Standalone RFC-3161/Merkle `.proof.json` export, client-side offline browser verifier (`/?view=verifier`), and offline Node.js CLI verifier (`npm run verify`).
+
+---
+
 ## 4. Development & Build Commands
 
 ```bash
