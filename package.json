@@ -17,7 +17,8 @@
     "cm": "node ./node_modules/codymaster/dist/index.js",
     "cm:status": "node ./node_modules/codymaster/dist/index.js status",
     "cm:doctor": "node ./node_modules/codymaster/dist/index.js doctor",
-    "cm:quality": "node ./node_modules/codymaster/dist/index.js quality"
+    "cm:quality": "node ./node_modules/codymaster/dist/index.js quality",
+    "verify": "node tools/verify_proof.cjs"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",

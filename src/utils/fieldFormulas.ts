@@ -1,4 +1,4 @@
-import { DocumentField, ConditionalRule } from '../types/signflow';
+import { DocumentField, ConditionalRule, Envelope, DocumentPage } from '../types/signflow';
 
 /**
  * Evaluates mathematical formula expressions containing field identifiers like [unit_price] or [field_id].
@@ -234,3 +234,71 @@ export function getAvailableFormulaVariables(fields: DocumentField[]): { token: 
       id: f.id
     }));
 }
+
+/**
+ * Evaluates dynamic conditional schedule injections and cross-signer variable cascading (Pillar 2).
+ */
+export function evaluateDynamicDocumentAssembly(
+  envelope: Envelope,
+  fieldValues: Record<string, any>
+): {
+  injectedPages: DocumentPage[];
+  activeRulesCount: number;
+  cascadedFields: Record<string, any>;
+  dynamicScheduleTitles: string[];
+} {
+  const injectedPages: DocumentPage[] = [];
+  const cascadedFields: Record<string, any> = { ...fieldValues };
+  const dynamicScheduleTitles: string[] = [];
+  let activeRulesCount = 0;
+
+  // 1. Cross-Signer Variable Cascading: map any filled values across shared field names
+  envelope.fields.forEach(f => {
+    if (f.fieldName && fieldValues[f.id] !== undefined) {
+      cascadedFields[f.fieldName] = fieldValues[f.id];
+    }
+  });
+
+  // 2. Dynamic Schedule 1: EU GDPR Data Processing Addendum (DPA) & Standard Contractual Clauses (SCC)
+  // Triggered if any checkbox or text field relates to EU data, gdpr, or privacy
+  const isGdprTriggered = Object.entries(fieldValues).some(([key, val]) => {
+    const field = envelope.fields.find(f => f.id === key || f.fieldName === key);
+    const label = (field?.label || key).toLowerCase();
+    const isChecked = val === true || val === 'true' || val === 'yes' || val === 'on';
+    return (label.includes('gdpr') || label.includes('eu data') || label.includes('privacy addendum') || label.includes('data processing')) && isChecked;
+  });
+
+  if (isGdprTriggered) {
+    activeRulesCount++;
+    dynamicScheduleTitles.push('Schedule A: GDPR Data Processing Addendum');
+    injectedPages.push({
+      pageNumber: (envelope.documents[0]?.pages?.length || 1) + injectedPages.length + 1,
+      title: 'Schedule A: EU GDPR Data Processing Addendum (SCCs)',
+      content: `### SCHEDULE A: DATA PROCESSING ADDENDUM (GDPR / eIDAS ALIGNED)\n\n**Data Residency Jurisdiction**: European Economic Area (EEA)\n**Data Exporter**: SignFlow Counterparty Signatory\n**Data Importer**: Platform Cloud Trust Infrastructure\n\n#### 1. SCOPE & PURPOSE OF DATA PROCESSING\nThis Addendum supplements the Principal Agreement pursuant to Article 28 of the Regulation (EU) 2016/679 (GDPR). The Importer shall process personal data solely on documented instructions from the Exporter and maintain ISO 27001 & SOC 2 Type II controls.\n\n#### 2. STANDARD CONTRACTUAL CLAUSES (MODULE 2: CONTROLLER-TO-PROCESSOR)\nThe parties hereby incorporate by reference Commission Implementing Decision (EU) 2021/914 Standard Contractual Clauses. Technical and organizational security measures include 256-bit AES cryptographic rest encryption and SHA-256 Merkle tamper sealing.\n\n---\n*Dynamic Living Agreement Schedule automatically injected via SignFlow Smart Contract Engine.*`
+    });
+  }
+
+  // 3. Dynamic Schedule 2: Multi-Year Enterprise Discount & SLA Performance Schedule
+  // Triggered if term >= 24 months, 2 years, or 3 years
+  const termVal = cascadedFields['term_years'] || cascadedFields['contract_term'] || cascadedFields['term'] || '';
+  const termNum = parseInt(String(termVal), 10);
+  const isMultiYear = termNum >= 2 || String(termVal).toLowerCase().includes('3 year') || String(termVal).toLowerCase().includes('multi-year');
+
+  if (isMultiYear) {
+    activeRulesCount++;
+    dynamicScheduleTitles.push('Schedule B: Multi-Year SLA Matrix');
+    injectedPages.push({
+      pageNumber: (envelope.documents[0]?.pages?.length || 1) + injectedPages.length + 1,
+      title: 'Schedule B: Multi-Year Enterprise SLA & Discount Matrix',
+      content: `### SCHEDULE B: MULTI-YEAR PERFORMANCE COMMITMENT & SLA CREDITS\n\n**Commitment Term**: ${termNum > 0 ? termNum : 3} Years Extended Horizon\n**Multi-Year Enterprise Discount**: 15% Annualized Service Credit Applied\n**Service Availability Guarantee**: 99.95% Monthly Uptime Commitment\n\n#### 1. SERVICE CREDIT FORMULA\nIf monthly availability falls below 99.95%, Client shall receive automated service credits equal to 10% of monthly fees for every 0.1% degradation, calculated automatically by the SignFlow Autopilot engine.\n\n---\n*Dynamic Living Agreement Schedule automatically injected via SignFlow Smart Contract Engine.*`
+    });
+  }
+
+  return {
+    injectedPages,
+    activeRulesCount,
+    cascadedFields,
+    dynamicScheduleTitles
+  };
+}
+

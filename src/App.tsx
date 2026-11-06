@@ -30,6 +30,7 @@ import { CreateEnvelopeModal } from './components/envelopes/CreateEnvelopeModal'
 import { AdminPortal } from './components/admin/AdminPortal';
 import { ComplianceTrustCenter } from './components/admin/ComplianceTrustCenter';
 import { LocalDatabaseManagerView } from './components/database/LocalDatabaseManagerView';
+import { UniversalProofVerifierView } from './components/compliance/UniversalProofVerifierView';
 import { AuthView } from './components/auth/AuthView';
 
 const MainLayout: React.FC = () => {
@@ -129,6 +130,7 @@ const MainLayout: React.FC = () => {
             {activeView === 'analytics' && <div className="p-8 max-w-6xl mx-auto"><AnalyticsFunnelExplorer /></div>}
             {activeView === 'emails' && <div className="p-8 max-w-6xl mx-auto"><EmailDispatcherConsole /></div>}
             {activeView === 'compliance' && <div className="p-8 max-w-6xl mx-auto"><ComplianceTrustCenter /></div>}
+            {activeView === 'verifier' && <div className="p-8 max-w-6xl mx-auto"><UniversalProofVerifierView /></div>}
             {activeView === 'admin' && <div className="p-8 max-w-6xl mx-auto"><AdminPortal /></div>}
             {activeView === 'local-db' && <div className="p-8 max-w-6xl mx-auto"><LocalDatabaseManagerView /></div>}
             {activeView === 'certificate' && <div className="p-8 max-w-6xl mx-auto"><DocumentPrepStudio /></div>}

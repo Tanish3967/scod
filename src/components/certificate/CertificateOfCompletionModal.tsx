@@ -19,6 +19,7 @@ import { useSignFlow } from '../../context/SignFlowContext';
 import { downloadJsonBundle, downloadCsvFile } from '../../utils/downloadUtils';
 import { formatTimestamp } from '../../utils/cryptoUtils';
 import { downloadFlattenedEnvelopePdf } from '../../utils/pdfFlattener';
+import { downloadProofBundle } from '../../utils/proofExporter';
 
 export const CertificateOfCompletionModal: React.FC<{
   isOpen: boolean;
@@ -93,6 +94,15 @@ export const CertificateOfCompletionModal: React.FC<{
     notify('success', 'Evidence Downloaded', 'Cryptographic Certificate Evidence Bundle saved as JSON.');
   };
 
+  const handleExportProof = async () => {
+    try {
+      await downloadProofBundle(envelope);
+      notify('success', 'Zero-Trust Proof Exported', `Saved ${envelope.title.replace(/[^a-zA-Z0-9_-]/g, '_')}.proof.json for offline verification.`);
+    } catch (err: any) {
+      notify('error', 'Proof Export Error', err.message || 'Could not generate proof bundle.');
+    }
+  };
+
   const [isExportingPdf, setIsExportingPdf] = React.useState(false);
 
   const handleDownloadFlattenedPdf = async () => {
@@ -159,6 +169,29 @@ export const CertificateOfCompletionModal: React.FC<{
             >
               <Code className="w-3.5 h-3.5 text-indigo-400" />
               <span className="hidden sm:inline">JSON</span>
+            </button>
+
+            {/* Zero-Trust Proof Export */}
+            <button
+              onClick={handleExportProof}
+              className="px-3 py-1.5 rounded-xl bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-200 text-xs font-bold flex items-center space-x-1.5 transition-colors cursor-pointer"
+              title="Export Standalone Offline Zero-Trust Proof (.proof.json)"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
+              <span>Export Proof (.proof.json)</span>
+            </button>
+
+            {/* Verify Offline Shortcut */}
+            <button
+              onClick={() => {
+                onClose();
+                setActiveView('verifier');
+              }}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center space-x-1.5 transition-colors cursor-pointer"
+              title="Open Universal Offline Verifier"
+            >
+              <Globe className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">Offline Verifier</span>
             </button>
 
             {/* Download Flattened Binary PDF */}

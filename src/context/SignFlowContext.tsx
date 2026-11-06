@@ -10,8 +10,10 @@ import {
   WebhookLog, 
   AuditEvent,
   Template,
-  DocumentPage 
+  DocumentPage,
+  NegotiationAmendment
 } from '../types/signflow';
+import { extractStructuredTerms, generateAutopilotObligations, buildSlackWebhookPayload } from '../utils/contractAutopilot';
 import { INITIAL_ENVELOPES } from '../data/mockEnvelopes';
 import { generateUUID, generateFullSha256, getMockIpAddress, getMockDeviceFingerprint, generateHmacSignature, formatTimestamp } from '../utils/cryptoUtils';
 import { detectSmartFields, analyzeDocumentRisk } from '../utils/aiEngine';
@@ -50,7 +52,8 @@ export type AppView =
   | 'emails'
   | 'admin'
   | 'compliance'
-  | 'local-db';
+  | 'local-db'
+  | 'verifier';
 
 export interface ToastNotification {
   id: string;
@@ -202,6 +205,21 @@ interface SignFlowContextType {
   
   // AI actions
   runAIRiskScan: (envelopeId: string) => void;
+  
+  // In-Ceremony Negotiation actions (Pillar 1)
+  proposeClauseAmendment: (
+    envelopeId: string, 
+    amendment: Omit<NegotiationAmendment, 'id' | 'createdAt' | 'status'>
+  ) => void;
+  resolveClauseAmendment: (
+    envelopeId: string, 
+    amendmentId: string, 
+    decision: 'approved' | 'rejected', 
+    counterText?: string
+  ) => void;
+
+  // Post-Signature Autopilot actions (Pillar 3)
+  executeContractAutopilot: (envelopeId: string) => Promise<void>;
   
   // Notary actions
   startNotarySession: (sessionId: string) => void;
@@ -779,6 +797,10 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const triggerMockWebhook = (event: string, envelope: Envelope) => {
+    const fullDocText = envelope.documents?.[0]?.pages?.map(p => p.content).join('\n') || '';
+    const structuredTerms = envelope.structuredTerms || extractStructuredTerms(fullDocText, envelope.fields, envelope.totalPaymentAmount);
+    const slackPayload = buildSlackWebhookPayload(envelope, structuredTerms);
+
     webhooks.forEach(wh => {
       if (!wh.isActive || !wh.events.includes(event)) return;
 
@@ -792,8 +814,21 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           status: envelope.status,
           sender: envelope.sender,
           recipients: envelope.recipients.map(r => ({ name: r.name, email: r.email, role: r.role, status: r.status })),
-          documentSha256: envelope.documents[0]?.sha256Hash
-        }
+          documentSha256: envelope.documents[0]?.sha256Hash,
+          merkleSealHash: envelope.lockSealHash || 'SHA256_SEALED',
+          version: envelope.version || 1
+        },
+        // Webhooks 2.0 Enriched Intelligence
+        contractIntelligence: {
+          structuredTerms,
+          summary: structuredTerms.keyObligationsSummary,
+          governingLaw: structuredTerms.governingLaw,
+          totalValueUsd: structuredTerms.totalValueUsd,
+          autoRenewWindowDays: structuredTerms.autoRenewWindowDays,
+          proofDownloadUrl: `http://localhost:5173/?cert=${envelope.id}`,
+          verificationCode: `SF-ZTP-${envelope.id.toUpperCase()}`
+        },
+        slackBlocks: slackPayload.blocks
       };
 
       const payloadString = JSON.stringify(payload);
@@ -1153,6 +1188,12 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ? [...env.auditTrail, signingAudit, completionAudit] 
       : [...env.auditTrail, signingAudit];
 
+    let structuredTerms: any = undefined;
+    if (allSigned) {
+      const fullDocText = updatedDocuments[0]?.pages?.map(p => p.content).join('\n') || '';
+      structuredTerms = extractStructuredTerms(fullDocText, updatedFields, env.totalPaymentAmount);
+    }
+
     const updatedEnv: Envelope = {
       ...env,
       status: newStatus,
@@ -1165,6 +1206,7 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       recipients: updatedRecipients,
       fields: updatedFields,
       auditTrail: newAuditTrail,
+      structuredTerms,
       updatedAt: now
     };
 
@@ -1303,6 +1345,165 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
     triggerMockWebhook('envelope.sent', updatedEnv);
     notify('success', `Version ${env.version || 2}.0 Dispatched`, 'Sent updated agreement to all signers for re-signing.');
+  };
+
+  // In-Ceremony Live Clause Negotiation actions (Pillar 1)
+  const proposeClauseAmendment = (
+    envelopeId: string, 
+    amendmentData: Omit<NegotiationAmendment, 'id' | 'createdAt' | 'status'>
+  ) => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const now = new Date().toISOString();
+    const amendment: NegotiationAmendment = {
+      ...amendmentData,
+      id: 'amend-' + generateUUID().slice(0, 8),
+      createdAt: now,
+      status: 'pending'
+    };
+
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+
+    const auditItem: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: amendment.proposerName,
+      action: 'In-Ceremony Clause Amendment Proposed',
+      details: `Signer proposed in-place amendment on "${amendment.sectionTitle}": "${amendment.proposedText.slice(0, 90)}..." Reason: ${amendment.reason}`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
+    };
+
+    const updatedEnv: Envelope = {
+      ...env,
+      negotiationAmendments: [...(env.negotiationAmendments || []), amendment],
+      auditTrail: [...env.auditTrail, auditItem],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    notify('ai', 'In-Ceremony Amendment Proposed', `Signer proposed alternative wording for "${amendment.sectionTitle}".`);
+  };
+
+  const resolveClauseAmendment = (
+    envelopeId: string, 
+    amendmentId: string, 
+    decision: 'approved' | 'rejected', 
+    counterText?: string
+  ) => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const amendment = env.negotiationAmendments?.find(a => a.id === amendmentId);
+    if (!amendment) return;
+
+    const now = new Date().toISOString();
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+
+    let updatedDocs = env.documents;
+    if (decision === 'approved') {
+      const targetText = counterText || amendment.proposedText;
+      updatedDocs = env.documents.map(doc => ({
+        ...doc,
+        pages: doc.pages.map(page => {
+          if (page.content.includes(amendment.originalText)) {
+            return {
+              ...page,
+              content: page.content.replace(amendment.originalText, targetText)
+            };
+          }
+          if (page.title.toLowerCase().includes(amendment.sectionTitle.toLowerCase()) || page.content.toLowerCase().includes(amendment.sectionTitle.toLowerCase())) {
+            return {
+              ...page,
+              content: `${page.content}\n\n*Amendment Incorporated In-Ceremony (${formatTimestamp(now)}):*\n${targetText}`
+            };
+          }
+          return page;
+        })
+      }));
+    }
+
+    const auditItem: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: currentUser?.name || 'Document Administrator',
+      action: `Clause Amendment ${decision === 'approved' ? 'Approved (In-Place Updated)' : 'Rejected'}`,
+      details: decision === 'approved'
+        ? `In-ceremony amendment on "${amendment.sectionTitle}" approved. Text updated in document canvas without envelope voiding. SHA-256 Merkle chain preserved.`
+        : `In-ceremony amendment on "${amendment.sectionTitle}" was rejected.`,
+      ipAddress: getMockIpAddress(),
+      geo: 'San Francisco, CA, US',
+      device: getMockDeviceFingerprint(),
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'eIDAS', '21CFR11', 'SOC2']
+    };
+
+    const updatedAmendments = (env.negotiationAmendments || []).map(a => 
+      a.id === amendmentId 
+        ? { ...a, status: decision, resolvedAt: now, resolvedBy: currentUser?.name || 'Administrator' } 
+        : a
+    );
+
+    const updatedEnv: Envelope = {
+      ...env,
+      documents: updatedDocs,
+      negotiationAmendments: updatedAmendments,
+      auditTrail: [...env.auditTrail, auditItem],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    if (decision === 'approved') {
+      notify('success', 'Amendment Approved In-Place!', `"${amendment.sectionTitle}" updated in canvas. All prior signatures preserved.`);
+    } else {
+      notify('warning', 'Amendment Rejected', `Amendment for "${amendment.sectionTitle}" was declined.`);
+    }
+  };
+
+  // Post-Signature Contract Autopilot (Pillar 3)
+  const executeContractAutopilot = async (envelopeId: string) => {
+    const env = envelopes.find(e => e.id === envelopeId);
+    if (!env) return;
+
+    const fullDocText = env.documents?.[0]?.pages?.map(p => p.content).join('\n') || '';
+    const structuredTerms = extractStructuredTerms(fullDocText, env.fields, env.totalPaymentAmount);
+    const obligations = generateAutopilotObligations(env, structuredTerms);
+
+    const now = new Date().toISOString();
+    const prevHash = env.auditTrail[env.auditTrail.length - 1]?.hashChainCurrent || 'GENESIS_0';
+    const currentHash = generateFullSha256();
+
+    const autopilotAudit: AuditEvent = {
+      id: 'aud-' + generateUUID().slice(0, 6),
+      timestamp: now,
+      actor: 'SignFlow Autopilot & Radar Agent',
+      action: 'Contract Autopilot Executed & Radar Armed',
+      details: `Extracted ${structuredTerms.keyObligationsSummary?.length || 5} key business terms. Initialized ${obligations.length} actionable obligations (${obligations.map(o => o.title).join(', ')}). Webhooks 2.0 armed.`,
+      ipAddress: '10.0.0.8 (Autopilot-Orchestrator)',
+      geo: 'AWS us-east-1 (Delaware Region)',
+      device: 'SignFlow-Autopilot-Engine-v1',
+      hashChainPrevious: prevHash,
+      hashChainCurrent: currentHash,
+      complianceTags: ['ESIGN', 'SOC2']
+    };
+
+    const updatedEnv: Envelope = {
+      ...env,
+      structuredTerms,
+      auditTrail: [...env.auditTrail, autopilotAudit],
+      updatedAt: now
+    };
+
+    setEnvelopes(prev => prev.map(e => e.id === envelopeId ? updatedEnv : e));
+    notify('ai', 'Contract Autopilot Active', `Obligation Radar armed with ${obligations.length} deadlines. Webhook 2.0 payload structured.`);
   };
 
   const openSigningSession = (envelopeId: string, recipientId?: string) => {
@@ -1945,6 +2146,9 @@ export const SignFlowProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         recordTamperingAttempt,
         resendEnvelopeForSigning,
         runAIRiskScan,
+        proposeClauseAmendment,
+        resolveClauseAmendment,
+        executeContractAutopilot,
         startNotarySession,
         affixNotarySeal,
         createWebhook,

@@ -255,6 +255,9 @@ export interface Envelope {
   auditTrail: AuditEvent[];
   aiAnalysis?: AIRiskAnalysis;
   extractedObligations?: ObligationItem[];
+  negotiationAmendments?: NegotiationAmendment[];
+  structuredTerms?: StructuredContractTerms;
+  dynamicSchedules?: DynamicScheduleInjection[];
 }
 
 export interface AuditEvent {
@@ -500,4 +503,113 @@ export interface MultiAgentDraftResult {
   verification: VerificationQualityCertificate;
   executionLogs: AgentExecutionStep[];
 }
+
+// ==========================================
+// DOCUSIGN DIFFERENTIATION 5 PILLARS TYPES
+// ==========================================
+
+// Pillar 1: In-Ceremony Live Clause Negotiation
+export interface NegotiationAmendment {
+  id: string;
+  envelopeId: string;
+  clauseId?: string;
+  sectionTitle: string;
+  proposerRecipientId: string;
+  proposerName: string;
+  originalText: string;
+  proposedText: string;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected' | 'countered';
+  createdAt: string;
+  resolvedAt?: string;
+  resolvedBy?: string;
+  playbookCompromiseUsed?: boolean;
+}
+
+// Pillar 2: Living Smart Contracts & Dynamic Assembly
+export interface DynamicScheduleInjection {
+  id: string;
+  triggerFieldId: string;
+  triggerValue: any;
+  scheduleTitle: string;
+  scheduleContent: string;
+  schedulePageNumber?: number;
+  injectedFields?: DocumentField[];
+}
+
+// Pillar 3: Post-Signature Contract Autopilot
+export interface StructuredContractTerms {
+  effectiveDate?: string;
+  termMonths?: number;
+  autoRenewWindowDays?: number;
+  governingLaw?: string;
+  liabilityCapUsd?: number;
+  totalValueUsd?: number;
+  paymentTerms?: string;
+  counterparty?: string;
+  keyObligationsSummary?: string[];
+  extractedAt?: string;
+}
+
+// Pillar 4: Signer Guardian Angel Findings
+export interface SignerGuardianFinding {
+  id: string;
+  category: 'uncapped_liability' | 'predatory_renewal' | 'asymmetric_indemnity' | 'broad_ip' | 'remote_jurisdiction' | 'hidden_penalty';
+  title: string;
+  severity: 'high' | 'medium' | 'critical';
+  excerpt: string;
+  explanation: string;
+  plainEnglishRisk: string;
+  recommendedCompromise: string;
+  clauseReference: string;
+}
+
+export interface SignerGuardianReport {
+  fairnessScore: number; // 0 - 100
+  fairnessGrade: 'A' | 'B' | 'C' | 'F';
+  riskLevel: 'low' | 'moderate' | 'high' | 'critical';
+  benchmarkComparison: string;
+  findings: SignerGuardianFinding[];
+  analyzedAt: string;
+}
+
+// Pillar 5: Zero-Trust Standalone Proof Bundle (.proof.json)
+export interface ZeroTrustProofBundle {
+  schemaVersion: 'signflow.pki.v1';
+  envelopeId: string;
+  envelopeTitle: string;
+  organization: string;
+  documentSha256: string;
+  merkleRootHash: string;
+  leafNodes: {
+    index: number;
+    type: 'document_page' | 'signature_evidence' | 'certificate_ledger';
+    identifier: string;
+    sha256Hash: string;
+  }[];
+  actorSignatures: {
+    recipientId: string;
+    name: string;
+    email: string;
+    role: string;
+    status: string;
+    appliedAt: string;
+    ipAddress: string;
+    deviceFingerprint: string;
+    authType: string;
+    signatureType: string;
+    passkeyDetails?: Record<string, any>;
+  }[];
+  hashChain: {
+    step: number;
+    action: string;
+    actor: string;
+    timestamp: string;
+    previousHash: string;
+    currentHash: string;
+  }[];
+  completedAt: string;
+  tamperProofVerificationCode: string;
+}
+
 

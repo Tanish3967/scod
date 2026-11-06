@@ -16,7 +16,9 @@ import {
   Calculator,
   Hash,
   ListPlus,
-  CheckSquare
+  CheckSquare,
+  GitPullRequest,
+  Zap
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
 import { DocumentField, Recipient } from '../../types/signflow';
@@ -25,9 +27,10 @@ import { SignerAIDrawer } from './SignerAIDrawer';
 import { PaymentFieldModal } from './PaymentFieldModal';
 import { MobileQRModal } from './MobileQRModal';
 import { SignSuccessModal } from './SignSuccessModal';
+import { InCeremonyNegotiationModal } from './InCeremonyNegotiationModal';
 import { SIGNER_LOCALIZATION, SignerLanguage } from '../../utils/signerLocalization';
 import { authenticateWithPasskey } from '../../utils/passkeyUtils';
-import { evaluateFormula, evaluateConditionalVisibility, formatFieldValue } from '../../utils/fieldFormulas';
+import { evaluateFormula, evaluateConditionalVisibility, formatFieldValue, evaluateDynamicDocumentAssembly } from '../../utils/fieldFormulas';
 
 export const SigningExperience: React.FC = () => {
   const { 
@@ -117,9 +120,25 @@ export const SigningExperience: React.FC = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showMobileQR, setShowMobileQR] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showNegotiationModal, setShowNegotiationModal] = useState(false);
+  const [selectedNegotiationClause, setSelectedNegotiationClause] = useState<{
+    title: string;
+    originalText: string;
+    defaultCompromise?: string;
+  }>({
+    title: 'Section 4.1: Limitation of Liability',
+    originalText: 'In no event shall Vendor aggregate liability under this Agreement exceed fifty US Dollars ($50.00). Customer waives all rights to consequential, indirect, or incidental damages.',
+    defaultCompromise: undefined
+  });
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isPasskeySigning, setIsPasskeySigning] = useState(false);
   const [passkeyMetadata, setPasskeyMetadata] = useState<any>(null);
+
+  // Dynamic Living Contract Assembly (Pillar 2)
+  const dynamicAssembly = React.useMemo(() => {
+    if (!activeEnvelope) return { injectedPages: [], activeRulesCount: 0, cascadedFields: fieldValues, dynamicScheduleTitles: [] };
+    return evaluateDynamicDocumentAssembly(activeEnvelope, fieldValues);
+  }, [activeEnvelope, fieldValues]);
 
   if (!activeEnvelope) {
     return (
@@ -321,14 +340,36 @@ export const SigningExperience: React.FC = () => {
             <option value="ja">🇯🇵 JA</option>
           </select>
 
-          {/* 2. AI Summary Button */}
+          {/* 2. Negotiate Clause (Pillar 1) */}
+          <button
+            onClick={() => {
+              setSelectedNegotiationClause({
+                title: 'Section 4: Limitation of Liability',
+                originalText: 'In no event shall Vendor aggregate liability under this Agreement exceed fifty US Dollars ($50.00). Customer waives all rights to consequential, indirect, or incidental damages.',
+                defaultCompromise: undefined
+              });
+              setShowNegotiationModal(true);
+            }}
+            className="h-9 flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/40 text-xs font-semibold shadow-xs transition-all cursor-pointer whitespace-nowrap"
+            title="Propose inline clause amendments without voiding the envelope"
+          >
+            <GitPullRequest className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+            <span>Negotiate</span>
+            {activeEnvelope.negotiationAmendments && activeEnvelope.negotiationAmendments.length > 0 && (
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-purple-500 text-white font-bold">
+                {activeEnvelope.negotiationAmendments.length}
+              </span>
+            )}
+          </button>
+
+          {/* 3. AI Summary & Guardian Angel Button */}
           <button
             onClick={() => setShowAIDrawer(true)}
             className="h-9 flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-950/60 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-500/40 text-xs font-semibold shadow-xs transition-all cursor-pointer whitespace-nowrap"
-            title="Open AI Plain-English Contract TL;DR Summary"
+            title="Open AI Guardian Angel & Contract Summary"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse shrink-0" />
-            <span>AI Summary</span>
+            <span>AI Shield</span>
           </button>
 
           {/* 3. Passkey Hardware Signing Action */}
@@ -369,9 +410,58 @@ export const SigningExperience: React.FC = () => {
       {/* Main Signable Document Canvas Area */}
       <div className="flex-1 p-6 flex justify-center items-start overflow-y-auto">
         <div className="w-full max-w-3xl bg-white text-slate-900 rounded-2xl shadow-2xl p-8 sm:p-12 border border-slate-300 relative select-none">
+          {/* Living Smart Contract Status Banner (Pillar 2) */}
+          <div className="mb-6 p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center space-x-2">
+              <div className="p-1.5 rounded-xl bg-indigo-600 text-white shadow-2xs">
+                <Zap className="w-3.5 h-3.5 fill-current" />
+              </div>
+              <div>
+                <span className="text-xs font-bold text-indigo-950 block">Living Smart Contract Engine</span>
+                <span className="text-[10px] text-indigo-700 font-medium">
+                  {dynamicAssembly.activeRulesCount > 0 
+                    ? `${dynamicAssembly.activeRulesCount} Dynamic Schedule(s) Injected into Canvas` 
+                    : 'Reactive Formula & Parameter Binding Active'}
+                </span>
+              </div>
+            </div>
+            {dynamicAssembly.dynamicScheduleTitles.length > 0 && (
+              <div className="flex items-center space-x-1.5">
+                {dynamicAssembly.dynamicScheduleTitles.map((title, i) => (
+                  <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 font-semibold border border-purple-200">
+                    + {title}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* In-Ceremony Negotiation Active Banner (Pillar 1) */}
+          {activeEnvelope.negotiationAmendments && activeEnvelope.negotiationAmendments.length > 0 && (
+            <div className="mb-6 p-3.5 rounded-2xl bg-purple-50/90 border border-purple-200 flex items-center justify-between">
+              <div className="flex items-center space-x-2.5">
+                <GitPullRequest className="w-4 h-4 text-purple-600 shrink-0" />
+                <div>
+                  <span className="text-xs font-bold text-purple-950 block">
+                    In-Ceremony Live Clause Negotiation
+                  </span>
+                  <span className="text-[11px] text-purple-800 font-medium">
+                    {activeEnvelope.negotiationAmendments.filter(a => a.status === 'pending').length} amendment proposal(s) pending • {activeEnvelope.negotiationAmendments.filter(a => a.status === 'approved').length} approved in-place
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowNegotiationModal(true)}
+                className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-colors cursor-pointer"
+              >
+                Review Amendments
+              </button>
+            </div>
+          )}
+
           {/* Document Content */}
           <div className="prose prose-slate max-w-none text-xs leading-relaxed space-y-4 font-serif">
-            {doc?.pages.map((p) => (
+            {[...(doc?.pages || []), ...dynamicAssembly.injectedPages].map((p) => (
               <div key={p.pageNumber} className="border-b border-slate-200 pb-8 mb-8 last:border-b-0">
                 {p.imageUrl ? (
                   <div className="rounded-xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50 flex items-center justify-center p-2 my-2">
@@ -388,7 +478,28 @@ export const SigningExperience: React.FC = () => {
                         return <h3 key={idx} className="text-base font-sans font-bold text-slate-950 uppercase tracking-tight border-b pb-2">{paragraph.replace('### ', '')}</h3>;
                       }
                       if (paragraph.startsWith('#### ')) {
-                        return <h4 key={idx} className="text-xs font-sans font-bold text-slate-900 uppercase mt-3">{paragraph.replace('#### ', '')}</h4>;
+                        const sectionTitle = paragraph.replace('#### ', '');
+                        const nextPara = p.content.split('\n\n')[idx + 1] || sectionTitle;
+                        return (
+                          <div key={idx} className="flex items-center justify-between group mt-3 pb-1 border-b border-slate-100">
+                            <h4 className="text-xs font-sans font-bold text-slate-900 uppercase">{sectionTitle}</h4>
+                            <button
+                              onClick={() => {
+                                setSelectedNegotiationClause({
+                                  title: sectionTitle,
+                                  originalText: nextPara,
+                                  defaultCompromise: undefined
+                                });
+                                setShowNegotiationModal(true);
+                              }}
+                              className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 flex items-center space-x-1 cursor-pointer transition-all"
+                              title="Propose inline clause amendment without voiding envelope"
+                            >
+                              <GitPullRequest className="w-3 h-3 text-purple-600" />
+                              <span>Negotiate</span>
+                            </button>
+                          </div>
+                        );
                       }
                       if (paragraph.startsWith('- ')) {
                         return (
@@ -642,7 +753,23 @@ export const SigningExperience: React.FC = () => {
         isOpen={showAIDrawer}
         onClose={() => setShowAIDrawer(false)}
         documentTitle={activeEnvelope.title}
-        documentContent={doc?.pages.map(p => p.content).join('\n') || ''}
+        documentContent={[...(doc?.pages || []), ...dynamicAssembly.injectedPages].map(p => p.content).join('\n')}
+        onOpenNegotiation={(title, orig, comp) => {
+          setSelectedNegotiationClause({
+            title,
+            originalText: orig,
+            defaultCompromise: comp
+          });
+          setShowNegotiationModal(true);
+        }}
+      />
+
+      <InCeremonyNegotiationModal
+        isOpen={showNegotiationModal}
+        onClose={() => setShowNegotiationModal(false)}
+        clauseTitle={selectedNegotiationClause.title}
+        originalText={selectedNegotiationClause.originalText}
+        defaultCompromise={selectedNegotiationClause.defaultCompromise}
       />
 
       <PaymentFieldModal

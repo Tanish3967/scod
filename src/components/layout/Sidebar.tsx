@@ -15,6 +15,7 @@ import {
   Globe,
   Link as LinkIcon,
   ShieldCheck,
+  FileCheck,
   Terminal,
   Layers,
   ChevronLeft,
@@ -66,6 +67,7 @@ export const Sidebar: React.FC = () => {
     {
       title: 'ENTERPRISE & TRUST',
       items: [
+        { id: 'verifier', label: 'Zero-Trust Verifier', icon: FileCheck, badge: 'ZTP' },
         { id: 'notary', label: 'Remote Notary (RON)', icon: Stamp },
         { id: 'qes-tsp', label: 'eIDAS QES & TSP', icon: Globe },
         { id: 'co-browsing', label: 'Live Co-Browsing', icon: Video, badge: 'LIVE' },

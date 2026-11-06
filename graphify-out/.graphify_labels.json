@@ -3,7 +3,7 @@
   "1": "DocumentPrepStudio.tsx",
   "2": "net/http.ResponseWriter",
   "3": "dependencies",
-  "4": "PowerFormPublicView.tsx",
+  "4": "generateUUID",
   "5": "notification-webhooks/src/server.ts",
   "6": "devDependencies",
   "7": "signflow.ts",
@@ -44,7 +44,7 @@
   "42": "MultiTierCache",
   "43": "Nielsen's 10 Usability Heuristics",
   "44": "Envelope",
-  "45": "DocumentViewerCanvas.tsx",
+  "45": "verify_proof.cjs",
   "46": "Code Intelligence — Structural Understanding for AI Agents",
   "47": "Identity Guard — Multi-Account Safety Protocol",
   "48": "Cultural UX Considerations",
@@ -152,6 +152,5 @@
   "150": "cm-status/SKILL.md",
   "151": "Packages and extraction",
   "152": "Managed PE/CLI",
-  "153": "react",
-  "154": "@types/react-dom"
+  "153": "InCeremonyNegotiationModal.tsx"
 }
