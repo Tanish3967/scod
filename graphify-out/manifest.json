@@ -792,9 +792,9 @@
     "semantic_hash": ""
   },
   "src/components/auth/AuthView.tsx": {
-    "mtime": 1793975757.5874465,
-    "seen": 1793977317.5753121,
-    "ast_hash": "72e51f4ec661e8f39a84177b2573f3e0",
+    "mtime": 1793977887.8877375,
+    "seen": 1793977975.4635203,
+    "ast_hash": "95aedbb4430b1899cd803b53e92e4169",
     "semantic_hash": ""
   },
   "src/components/clm/ObligationTrackerHub.tsx": {
@@ -1356,9 +1356,9 @@
     "semantic_hash": ""
   },
   ".cm/CONTINUITY.md": {
-    "mtime": 1793975551.0556152,
-    "seen": 1793977317.5757825,
-    "ast_hash": "4d0986293f089153c884292542f6b898",
+    "mtime": 1793977337.649683,
+    "seen": 1793977975.4646006,
+    "ast_hash": "76a97a3cf32018fe9d1cc8634e3f9ddb",
     "semantic_hash": ""
   },
   "openspec/changes/security-hardening-auth-email/design.md": {
@@ -1368,9 +1368,15 @@
     "semantic_hash": ""
   },
   "openspec/changes/security-hardening-auth-email/tasks.md": {
-    "mtime": 1793975574.1198776,
-    "seen": 1793977317.5758286,
-    "ast_hash": "3f1b2b67d778dc0c3233c7c47ac59428",
+    "mtime": 1793977331.8667045,
+    "seen": 1793977975.464708,
+    "ast_hash": "b89a1613e9a55f0e35e59b4330327997",
+    "semantic_hash": ""
+  },
+  "src/utils/bloomFilter.ts": {
+    "mtime": 1793977819.0535276,
+    "seen": 1793977975.4639015,
+    "ast_hash": "424ecf1a8f0aed2f2c77a6bdeefa906c",
     "semantic_hash": ""
   }
 }

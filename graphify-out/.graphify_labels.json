@@ -106,7 +106,7 @@
   "104": "Phase 1: Project Type Detection 🔍",
   "105": "Adaptive Skills Discovery 🧠",
   "106": "cm-skill-evolution",
-  "107": "AuthView.tsx",
+  "107": "bloomFilter.ts",
   "108": "cm-design-system/SKILL.md",
   "109": "Phase 3: Design System Foundation 🎨",
   "110": "cm-sprint-bus — opinionated pipeline + artifacts",
@@ -154,7 +154,9 @@
   "152": "Managed PE/CLI",
   "153": "notifications.ts",
   "154": "Design: Security Hardening for Login and Email Signing",
-  "155": "DocumentViewerCanvas.tsx",
+  "155": "Recipient",
   "156": "CONTINUITY.md — SignFlow Working Memory",
-  "157": "tasks.md"
+  "157": "tasks.md",
+  "158": "Envelope",
+  "159": "AINegotiationWorkbench.tsx"
 }

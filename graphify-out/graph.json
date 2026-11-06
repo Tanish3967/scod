@@ -4,32 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "id": "src_components_admin_emaildispatcherconsole_virtualemail",
-      "label": "VirtualEmail",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "virtualemail",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench_redlineclause",
-      "label": "RedlineClause",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "redlineclause",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
-      "source_location": "L18"
-    },
-    {
       "id": "src_components_integrations_crmmapperview_fieldmapping",
       "label": "FieldMapping",
       "_callable": true,
@@ -80,32 +54,6 @@
       "norm_label": "powerformitem",
       "source_file": "src/components/templates/PowerFormsView.tsx",
       "source_location": "L20"
-    },
-    {
-      "id": "src_context_signflowcontext_activetoast",
-      "label": "ActiveToast",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "activetoast",
-      "source_file": "src/context/SignFlowContext.tsx",
-      "source_location": "L80"
-    },
-    {
-      "id": "src_context_signflowcontext_toastnotification",
-      "label": "ToastNotification",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "toastnotification",
-      "source_file": "src/context/SignFlowContext.tsx",
-      "source_location": "L67"
     },
     {
       "id": "src_components_collaborate_cobrowsingroomview_auditevent",
@@ -218,11 +166,37 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "authviewprops",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L41"
+      "source_location": "L45"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter",
+      "label": "BloomFilter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "bloomfilter",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomsecuritycheckresult",
+      "label": "BloomSecurityCheckResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "bloomsecuritycheckresult",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L265"
     },
     {
       "id": "src_utils_securitytokens_bruteforcedefender",
@@ -231,7 +205,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "bruteforcedefender",
       "source_file": "src/utils/securityTokens.ts",
@@ -244,7 +218,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "passwordanalysis",
       "source_file": "src/utils/securityTokens.ts",
@@ -335,11 +309,24 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "fieldtool",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L21"
+    },
+    {
+      "id": "src_components_signing_signsuccessmodal_signsuccessmodalprops",
+      "label": "SignSuccessModalProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 155,
+      "community_name": "Recipient",
+      "file_type": "code",
+      "norm_label": "signsuccessmodalprops",
+      "source_file": "src/components/signing/SignSuccessModal.tsx",
+      "source_location": "L7"
     },
     {
       "id": "src_types_signflow_fieldtype",
@@ -348,11 +335,89 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "fieldtype",
       "source_file": "src/types/signflow.ts",
       "source_location": "L40"
+    },
+    {
+      "id": "src_types_signflow_recipient",
+      "label": "Recipient",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 155,
+      "community_name": "Recipient",
+      "file_type": "code",
+      "norm_label": "recipient",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L158"
+    },
+    {
+      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanelprops",
+      "label": "RightInspectorPanelProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "rightinspectorpanelprops",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodalprops",
+      "label": "ShareEnvelopeModalProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "shareenvelopemodalprops",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_types_signflow_envelope",
+      "label": "Envelope",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "envelope",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L235"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench_redlineclause",
+      "label": "RedlineClause",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "redlineclause",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_data_clauselibrary_clauseitem",
+      "label": "ClauseItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "clauseitem",
+      "source_file": "src/data/clauseLibrary.ts",
+      "source_location": "L1"
     },
     {
       "id": "src_components_envelopes_createenvelopemodal_createenvelopemodalprops",
@@ -433,19 +498,6 @@
       "source_location": "L202"
     },
     {
-      "id": "src_types_signflow_envelopeattachment",
-      "label": "EnvelopeAttachment",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "DocumentPrepStudio.tsx",
-      "file_type": "code",
-      "norm_label": "envelopeattachment",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L221"
-    },
-    {
       "id": "src_types_signflow_template",
       "label": "Template",
       "_callable": true,
@@ -485,6 +537,19 @@
       "source_location": "L14"
     },
     {
+      "id": "src_context_signflowcontext_activetoast",
+      "label": "ActiveToast",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "activetoast",
+      "source_file": "src/context/SignFlowContext.tsx",
+      "source_location": "L80"
+    },
+    {
       "id": "src_context_signflowcontext_signflowcontexttype",
       "label": "SignFlowContextType",
       "_callable": true,
@@ -509,6 +574,19 @@
       "norm_label": "tenantsettings",
       "source_file": "src/context/SignFlowContext.tsx",
       "source_location": "L89"
+    },
+    {
+      "id": "src_context_signflowcontext_toastnotification",
+      "label": "ToastNotification",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "toastnotification",
+      "source_file": "src/context/SignFlowContext.tsx",
+      "source_location": "L67"
     },
     {
       "id": "src_types_signflow_negotiationamendment",
@@ -667,6 +745,19 @@
       "source_location": "L42"
     },
     {
+      "id": "src_components_admin_emaildispatcherconsole_virtualemail",
+      "label": "VirtualEmail",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "securityTokens.ts",
+      "file_type": "code",
+      "norm_label": "virtualemail",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L21"
+    },
+    {
       "id": "src_types_signflow_userprofile",
       "label": "UserProfile",
       "_callable": true,
@@ -706,45 +797,6 @@
       "source_location": "L17"
     },
     {
-      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanelprops",
-      "label": "RightInspectorPanelProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "rightinspectorpanelprops",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodalprops",
-      "label": "ShareEnvelopeModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "shareenvelopemodalprops",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_components_signing_signsuccessmodal_signsuccessmodalprops",
-      "label": "SignSuccessModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "signsuccessmodalprops",
-      "source_file": "src/components/signing/SignSuccessModal.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_types_signflow_agreementdocument",
       "label": "AgreementDocument",
       "_callable": true,
@@ -758,30 +810,17 @@
       "source_location": "L210"
     },
     {
-      "id": "src_types_signflow_envelope",
-      "label": "Envelope",
+      "id": "src_types_signflow_zerotrustproofbundle",
+      "label": "ZeroTrustProofBundle",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "envelope",
+      "norm_label": "zerotrustproofbundle",
       "source_file": "src/types/signflow.ts",
-      "source_location": "L235"
-    },
-    {
-      "id": "src_types_signflow_recipient",
-      "label": "Recipient",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "recipient",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L158"
+      "source_location": "L587"
     },
     {
       "id": "src_utils_pdfflattener_flattenpdfoptions",
@@ -1044,19 +1083,6 @@
       "source_location": "L464"
     },
     {
-      "id": "src_types_signflow_contractobligation",
-      "label": "ContractObligation",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "contractobligation",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L135"
-    },
-    {
       "id": "src_types_signflow_draftingsharedmemory",
       "label": "DraftingSharedMemory",
       "_callable": true,
@@ -1083,6 +1109,32 @@
       "source_location": "L540"
     },
     {
+      "id": "src_types_signflow_envelopeattachment",
+      "label": "EnvelopeAttachment",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "envelopeattachment",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L221"
+    },
+    {
+      "id": "src_types_signflow_envelopestatus",
+      "label": "EnvelopeStatus",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "envelopestatus",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_types_signflow_multiagentdraftresult",
       "label": "MultiAgentDraftResult",
       "_callable": true,
@@ -1096,32 +1148,6 @@
       "source_location": "L504"
     },
     {
-      "id": "src_types_signflow_obligationstatus",
-      "label": "ObligationStatus",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "obligationstatus",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L128"
-    },
-    {
-      "id": "src_types_signflow_obligationtype",
-      "label": "ObligationType",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "obligationtype",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L119"
-    },
-    {
       "id": "src_types_signflow_powerformconfig",
       "label": "PowerFormConfig",
       "_callable": true,
@@ -1133,19 +1159,6 @@
       "norm_label": "powerformconfig",
       "source_file": "src/types/signflow.ts",
       "source_location": "L103"
-    },
-    {
-      "id": "src_types_signflow_recipientrole",
-      "label": "RecipientRole",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "recipientrole",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L14"
     },
     {
       "id": "src_types_signflow_verificationqualitycertificate",
@@ -1304,30 +1317,56 @@
       "source_location": "L13"
     },
     {
-      "id": "src_types_signflow_envelopestatus",
-      "label": "EnvelopeStatus",
+      "id": "src_types_signflow_contractobligation",
+      "label": "ContractObligation",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "envelopestatus",
+      "norm_label": "contractobligation",
       "source_file": "src/types/signflow.ts",
-      "source_location": "L1"
+      "source_location": "L135"
     },
     {
-      "id": "src_types_signflow_zerotrustproofbundle",
-      "label": "ZeroTrustProofBundle",
+      "id": "src_types_signflow_obligationstatus",
+      "label": "ObligationStatus",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "zerotrustproofbundle",
+      "norm_label": "obligationstatus",
       "source_file": "src/types/signflow.ts",
-      "source_location": "L587"
+      "source_location": "L128"
+    },
+    {
+      "id": "src_types_signflow_obligationtype",
+      "label": "ObligationType",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "obligationtype",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L119"
+    },
+    {
+      "id": "src_types_signflow_recipientrole",
+      "label": "RecipientRole",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "recipientrole",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L14"
     },
     {
       "id": "services_unified_backend_src_rate_limiter_edgeratelimiter",
@@ -1393,32 +1432,6 @@
       "norm_label": "envelopestore",
       "source_file": "services/unified-backend/src/modules/envelopes.ts",
       "source_location": "L48"
-    },
-    {
-      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodalprops",
-      "label": "InCeremonyNegotiationModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodalprops",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L19"
-    },
-    {
-      "id": "src_data_clauselibrary_clauseitem",
-      "label": "ClauseItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "clauseitem",
-      "source_file": "src/data/clauseLibrary.ts",
-      "source_location": "L1"
     },
     {
       "id": "src_types_signflow_aidraftclausesuggestion",
@@ -1551,6 +1564,19 @@
       "source_location": "L23"
     },
     {
+      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodalprops",
+      "label": "InCeremonyNegotiationModalProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 94,
+      "community_name": "SigningExperience.tsx",
+      "file_type": "code",
+      "norm_label": "inceremonynegotiationmodalprops",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
+      "source_location": "L19"
+    },
+    {
       "id": "src_components_signing_signaturemodal_signatureoutput",
       "label": "SignatureOutput",
       "_callable": true,
@@ -1640,30 +1666,6 @@
       "source_location": "L36"
     },
     {
-      "id": "src_components_admin_emaildispatcherconsole_emaildispatcherconsole",
-      "label": "EmailDispatcherConsole()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "emaildispatcherconsole()",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
-      "source_location": "L35"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench_ainegotiationworkbench",
-      "label": "AINegotiationWorkbench()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "ainegotiationworkbench()",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
-      "source_location": "L29"
-    },
-    {
       "id": "src_components_clm_obligationtrackerhub_obligationtrackerhub",
       "label": "ObligationTrackerHub()",
       "_callable": true,
@@ -1688,18 +1690,6 @@
       "source_location": "L15"
     },
     {
-      "id": "src_components_dashboard_envelopepipeline_envelopepipeline",
-      "label": "EnvelopePipeline()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "envelopepipeline()",
-      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
-      "source_location": "L15"
-    },
-    {
       "id": "src_components_dashboard_metriccards_metriccards",
       "label": "MetricCards()",
       "_callable": true,
@@ -1710,18 +1700,6 @@
       "norm_label": "metriccards()",
       "source_file": "src/components/dashboard/MetricCards.tsx",
       "source_location": "L13"
-    },
-    {
-      "id": "src_components_envelopes_envelopevaultlist_envelopevaultlist",
-      "label": "EnvelopeVaultList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "envelopevaultlist()",
-      "source_file": "src/components/envelopes/EnvelopeVaultList.tsx",
-      "source_location": "L24"
     },
     {
       "id": "src_components_integrations_crmmapperview_crmmapperview",
@@ -1844,18 +1822,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_templates_bulksendmodal_bulksendmodal",
-      "label": "BulkSendModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "bulksendmodal()",
-      "source_file": "src/components/templates/BulkSendModal.tsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_components_templates_powerformsview_powerformsview",
       "label": "PowerFormsView()",
       "_callable": true,
@@ -1901,18 +1867,6 @@
       "file_type": "code",
       "norm_label": "analyticsfunnelexplorer()",
       "source_file": "src/components/analytics/AnalyticsFunnelExplorer.tsx",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_components_certificate_certificateofcompletionmodal_certificateofcompletionmodal",
-      "label": "CertificateOfCompletionModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "certificateofcompletionmodal()",
-      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
       "source_location": "L24"
     },
     {
@@ -1976,6 +1930,18 @@
       "source_location": "L6"
     },
     {
+      "id": "src_components_prepare_documentprepstudio_documentprepstudio",
+      "label": "DocumentPrepStudio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "downloadJsonBundle",
+      "file_type": "code",
+      "norm_label": "documentprepstudio()",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L98"
+    },
+    {
       "id": "src_utils_downloadutils_downloadcsvfile",
       "label": "downloadCsvFile()",
       "_callable": true,
@@ -2034,30 +2000,6 @@
       "norm_label": "sanitizefilename()",
       "source_file": "src/utils/downloadUtils.ts",
       "source_location": "L9"
-    },
-    {
-      "id": "src_utils_pdfflattener_downloadflattenedenvelopepdf",
-      "label": "downloadFlattenedEnvelopePdf()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "downloadflattenedenvelopepdf()",
-      "source_file": "src/utils/pdfFlattener.ts",
-      "source_location": "L611"
-    },
-    {
-      "id": "src_utils_proofexporter_downloadproofbundle",
-      "label": "downloadProofBundle()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "downloadproofbundle()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L210"
     },
     {
       "id": "src_components_signatures_customsignaturemodal_customsignaturemodal",
@@ -2125,11 +2067,155 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "authview()",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L46"
+      "source_location": "L50"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_add",
+      "label": ".add()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".add()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L70"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L43"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_getfalsepositiverate",
+      "label": ".getFalsePositiveRate()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".getfalsepositiverate()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L131"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_getindices",
+      "label": ".getIndices()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".getindices()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L54"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_getstats",
+      "label": ".getStats()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".getstats()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L102"
+    },
+    {
+      "id": "src_utils_bloomfilter_bloomfilter_has",
+      "label": ".has()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": ".has()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L86"
+    },
+    {
+      "id": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "label": "evaluateSignupSecurityBloom()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "evaluatesignupsecuritybloom()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L333"
+    },
+    {
+      "id": "src_utils_bloomfilter_fnv1a",
+      "label": "fnv1a()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "fnv1a()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_utils_bloomfilter_isemaildomaindisposable",
+      "label": "isEmailDomainDisposable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "isemaildomaindisposable()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L296"
+    },
+    {
+      "id": "src_utils_bloomfilter_isnamespacereserved",
+      "label": "isNamespaceReserved()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "isnamespacereserved()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L316"
+    },
+    {
+      "id": "src_utils_bloomfilter_ispasswordinbloombreachfilter",
+      "label": "isPasswordInBloomBreachFilter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "ispasswordinbloombreachfilter()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L276"
+    },
+    {
+      "id": "src_utils_bloomfilter_murmurmix",
+      "label": "murmurMix()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "murmurmix()",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L25"
     },
     {
       "id": "src_utils_securitytokens_analyzepasswordcomplexity",
@@ -2137,7 +2223,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "analyzepasswordcomplexity()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2149,7 +2235,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": ".getkey()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2161,7 +2247,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": ".getstatus()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2173,7 +2259,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": ".recordfailure()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2185,7 +2271,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": ".recordsuccess()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2197,7 +2283,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "sanitizesecurityinput()",
       "source_file": "src/utils/securityTokens.ts",
@@ -2389,7 +2475,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "documentviewercanvas()",
       "source_file": "src/components/prepare/DocumentViewerCanvas.tsx",
@@ -2401,11 +2487,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "fieldpalette()",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L47"
+    },
+    {
+      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanel",
+      "label": "RightInspectorPanel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "rightinspectorpanel()",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodal",
+      "label": "ShareEnvelopeModal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "shareenvelopemodal()",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
+      "source_location": "L36"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench_ainegotiationworkbench",
+      "label": "AINegotiationWorkbench()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "ainegotiationworkbench()",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L29"
     },
     {
       "id": "src_components_envelopes_createenvelopemodal_createenvelopemodal",
@@ -2420,16 +2542,28 @@
       "source_location": "L77"
     },
     {
-      "id": "src_components_prepare_documentprepstudio_documentprepstudio",
-      "label": "DocumentPrepStudio()",
+      "id": "src_components_templates_bulksendmodal_bulksendmodal",
+      "label": "BulkSendModal()",
       "_callable": true,
       "_origin": "ast",
       "community": 19,
       "community_name": "DocumentPrepStudio.tsx",
       "file_type": "code",
-      "norm_label": "documentprepstudio()",
-      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L98"
+      "norm_label": "bulksendmodal()",
+      "source_file": "src/components/templates/BulkSendModal.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_utils_cryptoutils_generatefullsha256",
+      "label": "generateFullSha256()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "DocumentPrepStudio.tsx",
+      "file_type": "code",
+      "norm_label": "generatefullsha256()",
+      "source_file": "src/utils/cryptoUtils.ts",
+      "source_location": "L41"
     },
     {
       "id": "src_utils_documentparser_calculatefilesha256",
@@ -3008,6 +3142,18 @@
       "source_location": "L58"
     },
     {
+      "id": "src_components_admin_emaildispatcherconsole_emaildispatcherconsole",
+      "label": "EmailDispatcherConsole()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "securityTokens.ts",
+      "file_type": "code",
+      "norm_label": "emaildispatcherconsole()",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L35"
+    },
+    {
       "id": "src_context_signflowcontext_getinitialurlroutestate",
       "label": "getInitialUrlRouteState()",
       "_callable": true,
@@ -3116,28 +3262,28 @@
       "source_location": "L118"
     },
     {
-      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanel",
-      "label": "RightInspectorPanel()",
+      "id": "src_components_certificate_certificateofcompletionmodal_certificateofcompletionmodal",
+      "label": "CertificateOfCompletionModal()",
       "_callable": true,
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "rightinspectorpanel()",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
-      "source_location": "L21"
+      "norm_label": "certificateofcompletionmodal()",
+      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
+      "source_location": "L24"
     },
     {
-      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodal",
-      "label": "ShareEnvelopeModal()",
+      "id": "src_components_compliance_universalproofverifierview_universalproofverifierview",
+      "label": "UniversalProofVerifierView()",
       "_callable": true,
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "shareenvelopemodal()",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L36"
+      "norm_label": "universalproofverifierview()",
+      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
+      "source_location": "L24"
     },
     {
       "id": "src_components_signing_signsuccessmodal_signsuccessmodal",
@@ -3150,6 +3296,18 @@
       "norm_label": "signsuccessmodal()",
       "source_file": "src/components/signing/SignSuccessModal.tsx",
       "source_location": "L17"
+    },
+    {
+      "id": "src_utils_cryptoutils_sha256",
+      "label": "sha256()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "sha256()",
+      "source_file": "src/utils/cryptoUtils.ts",
+      "source_location": "L15"
     },
     {
       "id": "src_utils_pdfflattener_appendcertificateofcompletion",
@@ -3188,6 +3346,18 @@
       "source_location": "L29"
     },
     {
+      "id": "src_utils_pdfflattener_downloadflattenedenvelopepdf",
+      "label": "downloadFlattenedEnvelopePdf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "downloadflattenedenvelopepdf()",
+      "source_file": "src/utils/pdfFlattener.ts",
+      "source_location": "L611"
+    },
+    {
       "id": "src_utils_pdfflattener_flattenenvelopetopdf",
       "label": "flattenEnvelopeToPdf()",
       "_callable": true,
@@ -3210,6 +3380,42 @@
       "norm_label": "rendercalligraphytopng()",
       "source_file": "src/utils/pdfFlattener.ts",
       "source_location": "L43"
+    },
+    {
+      "id": "src_utils_proofexporter_downloadproofbundle",
+      "label": "downloadProofBundle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "downloadproofbundle()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L210"
+    },
+    {
+      "id": "src_utils_proofexporter_generatezerotrustproofbundle",
+      "label": "generateZeroTrustProofBundle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "generatezerotrustproofbundle()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_utils_proofexporter_verifyzerotrustproofoffline",
+      "label": "verifyZeroTrustProofOffline()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "verifyzerotrustproofoffline()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L108"
     },
     {
       "id": "tools_verify_proof_main",
@@ -3704,16 +3910,16 @@
       "source_location": "L29"
     },
     {
-      "id": "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
-      "label": "RecipientConfigPanel()",
+      "id": "src_components_dashboard_envelopepipeline_envelopepipeline",
+      "label": "EnvelopePipeline()",
       "_callable": true,
       "_origin": "ast",
       "community": 7,
       "community_name": "signflow.ts",
       "file_type": "code",
-      "norm_label": "recipientconfigpanel()",
-      "source_file": "src/components/prepare/RecipientConfigPanel.tsx",
-      "source_location": "L18"
+      "norm_label": "envelopepipeline()",
+      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_utils_aimultiagentdrafter_executemultiagentdraft",
@@ -3738,30 +3944,6 @@
       "norm_label": "generaterichsectionprose()",
       "source_file": "src/utils/aiMultiAgentDrafter.ts",
       "source_location": "L130"
-    },
-    {
-      "id": "src_utils_cryptoutils_generateuuid",
-      "label": "generateUUID()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "generateuuid()",
-      "source_file": "src/utils/cryptoUtils.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_utils_obligationextractor_extractobligationsfromenvelope",
-      "label": "extractObligationsFromEnvelope()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "extractobligationsfromenvelope()",
-      "source_file": "src/utils/obligationExtractor.ts",
-      "source_location": "L110"
     },
     {
       "id": "services_unified_backend_src_modules_docusign_v2_1_createdocusignrouter",
@@ -4028,16 +4210,28 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_compliance_universalproofverifierview_universalproofverifierview",
-      "label": "UniversalProofVerifierView()",
+      "id": "src_components_envelopes_envelopevaultlist_envelopevaultlist",
+      "label": "EnvelopeVaultList()",
       "_callable": true,
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "universalproofverifierview()",
-      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
+      "norm_label": "envelopevaultlist()",
+      "source_file": "src/components/envelopes/EnvelopeVaultList.tsx",
       "source_location": "L24"
+    },
+    {
+      "id": "src_components_prepare_recipientconfigpanel_recipientconfigpanel",
+      "label": "RecipientConfigPanel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "recipientconfigpanel()",
+      "source_file": "src/components/prepare/RecipientConfigPanel.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_utils_cryptoutils_formattimestamp",
@@ -4076,6 +4270,18 @@
       "source_location": "L32"
     },
     {
+      "id": "src_utils_cryptoutils_generateuuid",
+      "label": "generateUUID()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "generateuuid()",
+      "source_file": "src/utils/cryptoUtils.ts",
+      "source_location": "L3"
+    },
+    {
       "id": "src_utils_cryptoutils_getmockipaddress",
       "label": "getMockIpAddress()",
       "_callable": true,
@@ -4088,40 +4294,16 @@
       "source_location": "L68"
     },
     {
-      "id": "src_utils_cryptoutils_sha256",
-      "label": "sha256()",
+      "id": "src_utils_obligationextractor_extractobligationsfromenvelope",
+      "label": "extractObligationsFromEnvelope()",
       "_callable": true,
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "sha256()",
-      "source_file": "src/utils/cryptoUtils.ts",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_utils_proofexporter_generatezerotrustproofbundle",
-      "label": "generateZeroTrustProofBundle()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "cryptoUtils.ts",
-      "file_type": "code",
-      "norm_label": "generatezerotrustproofbundle()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_utils_proofexporter_verifyzerotrustproofoffline",
-      "label": "verifyZeroTrustProofOffline()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "cryptoUtils.ts",
-      "file_type": "code",
-      "norm_label": "verifyzerotrustproofoffline()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L108"
+      "norm_label": "extractobligationsfromenvelope()",
+      "source_file": "src/utils/obligationExtractor.ts",
+      "source_location": "L110"
     },
     {
       "id": "services_unified_backend_src_rate_limiter_createratelimiter",
@@ -4376,18 +4558,6 @@
       "source_location": "L16"
     },
     {
-      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodal",
-      "label": "InCeremonyNegotiationModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodal()",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L28"
-    },
-    {
       "id": "src_components_signing_signeraidrawer_signeraidrawer",
       "label": "SignerAIDrawer()",
       "_callable": true,
@@ -4580,6 +4750,18 @@
       "source_location": "L31"
     },
     {
+      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodal",
+      "label": "InCeremonyNegotiationModal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 94,
+      "community_name": "SigningExperience.tsx",
+      "file_type": "code",
+      "norm_label": "inceremonynegotiationmodal()",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
+      "source_location": "L28"
+    },
+    {
       "id": "src_components_signing_mobileqrmodal_mobileqrmodal",
       "label": "MobileQRModal()",
       "_callable": true,
@@ -4626,18 +4808,6 @@
       "norm_label": "signingexperience()",
       "source_file": "src/components/signing/SigningExperience.tsx",
       "source_location": "L35"
-    },
-    {
-      "id": "src_utils_cryptoutils_generatefullsha256",
-      "label": "generateFullSha256()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "SigningExperience.tsx",
-      "file_type": "code",
-      "norm_label": "generatefullsha256()",
-      "source_file": "src/utils/cryptoUtils.ts",
-      "source_location": "L41"
     },
     {
       "id": "src_utils_fieldformulas_evaluateconditionalvisibility",
@@ -4711,28 +4881,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_admin_emaildispatcherconsole",
-      "label": "EmailDispatcherConsole.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "emaildispatcherconsole.tsx",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench",
-      "label": "AINegotiationWorkbench.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "ainegotiationworkbench.tsx",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_compliance_qestspverificationview",
       "label": "QESTSPVerificationView.tsx",
       "_origin": "ast",
@@ -4741,17 +4889,6 @@
       "file_type": "code",
       "norm_label": "qestspverificationview.tsx",
       "source_file": "src/components/compliance/QESTSPVerificationView.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_envelopepipeline",
-      "label": "EnvelopePipeline.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "envelopepipeline.tsx",
-      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
       "source_location": "L1"
     },
     {
@@ -4865,17 +5002,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_templates_bulksendmodal",
-      "label": "BulkSendModal.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "bulksendmodal.tsx",
-      "source_file": "src/components/templates/BulkSendModal.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_templates_powerformsview",
       "label": "PowerFormsView.tsx",
       "_origin": "ast",
@@ -4884,17 +5010,6 @@
       "file_type": "code",
       "norm_label": "powerformsview.tsx",
       "source_file": "src/components/templates/PowerFormsView.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_templates_templatelibraryview",
-      "label": "TemplateLibraryView.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "templatelibraryview.tsx",
-      "source_file": "src/components/templates/TemplateLibraryView.tsx",
       "source_location": "L1"
     },
     {
@@ -4917,17 +5032,6 @@
       "file_type": "code",
       "norm_label": "analyticsfunnelexplorer.tsx",
       "source_file": "src/components/analytics/AnalyticsFunnelExplorer.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_certificate_certificateofcompletionmodal",
-      "label": "CertificateOfCompletionModal.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "certificateofcompletionmodal.tsx",
-      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
       "source_location": "L1"
     },
     {
@@ -6096,18 +6200,95 @@
       "label": "AuthView.tsx",
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "authview.tsx",
       "source_file": "src/components/auth/AuthView.tsx",
       "source_location": "L1"
     },
     {
+      "id": "src_utils_bloomfilter",
+      "label": "bloomFilter.ts",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "bloomfilter.ts",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_bloomfilter_breachedpasswordfilter",
+      "label": "breachedPasswordFilter",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "breachedpasswordfilter",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L250"
+    },
+    {
+      "id": "src_utils_bloomfilter_common_breached_passwords",
+      "label": "COMMON_BREACHED_PASSWORDS",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "common_breached_passwords",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L143"
+    },
+    {
+      "id": "src_utils_bloomfilter_disposable_email_domains",
+      "label": "DISPOSABLE_EMAIL_DOMAINS",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "disposable_email_domains",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L201"
+    },
+    {
+      "id": "src_utils_bloomfilter_disposableemailfilter",
+      "label": "disposableEmailFilter",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "disposableemailfilter",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L254"
+    },
+    {
+      "id": "src_utils_bloomfilter_reserved_system_namespaces",
+      "label": "RESERVED_SYSTEM_NAMESPACES",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "reserved_system_namespaces",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L222"
+    },
+    {
+      "id": "src_utils_bloomfilter_reservednamespacefilter",
+      "label": "reservedNamespaceFilter",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "bloomFilter.ts",
+      "file_type": "code",
+      "norm_label": "reservednamespacefilter",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L258"
+    },
+    {
       "id": "src_utils_securitytokens_max_login_attempts",
       "label": "MAX_LOGIN_ATTEMPTS",
       "_origin": "ast",
       "community": 107,
-      "community_name": "AuthView.tsx",
+      "community_name": "bloomFilter.ts",
       "file_type": "code",
       "norm_label": "max_login_attempts",
       "source_file": "src/utils/securityTokens.ts",
@@ -9689,7 +9870,7 @@
       "label": "DocumentViewerCanvas.tsx",
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "documentviewercanvas.tsx",
       "source_file": "src/components/prepare/DocumentViewerCanvas.tsx",
@@ -9700,7 +9881,7 @@
       "label": "FieldPalette.tsx",
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "fieldpalette.tsx",
       "source_file": "src/components/prepare/FieldPalette.tsx",
@@ -9711,11 +9892,22 @@
       "label": "FIELD_TOOLS",
       "_origin": "ast",
       "community": 155,
-      "community_name": "DocumentViewerCanvas.tsx",
+      "community_name": "Recipient",
       "file_type": "code",
       "norm_label": "field_tools",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L29"
+    },
+    {
+      "id": "src_components_signing_signsuccessmodal",
+      "label": "SignSuccessModal.tsx",
+      "_origin": "ast",
+      "community": 155,
+      "community_name": "Recipient",
+      "file_type": "code",
+      "norm_label": "signsuccessmodal.tsx",
+      "source_file": "src/components/signing/SignSuccessModal.tsx",
+      "source_location": "L1"
     },
     {
       "id": "cm_continuity",
@@ -9766,26 +9958,26 @@
       "source_location": "L6"
     },
     {
-      "id": "cm_continuity_key_decisions",
-      "label": "Key Decisions",
+      "id": "cm_continuity_key_decisions_implementations",
+      "label": "Key Decisions & Implementations",
       "_origin": "ast",
       "community": 156,
       "community_name": "CONTINUITY.md \u2014 SignFlow Working Memory",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "key decisions",
+      "norm_label": "key decisions & implementations",
       "source_file": ".cm/CONTINUITY.md",
       "source_location": "L9"
     },
     {
-      "id": "cm_continuity_next_actions",
-      "label": "Next Actions",
+      "id": "cm_continuity_verification",
+      "label": "Verification",
       "_origin": "ast",
       "community": 156,
       "community_name": "CONTINUITY.md \u2014 SignFlow Working Memory",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "next actions",
+      "norm_label": "verification",
       "source_file": ".cm/CONTINUITY.md",
       "source_location": "L17"
     },
@@ -9812,6 +10004,61 @@
       "norm_label": "implementation checklist",
       "source_file": "openspec/changes/security-hardening-auth-email/tasks.md",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_dashboard_rightinspectorpanel",
+      "label": "RightInspectorPanel.tsx",
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "rightinspectorpanel.tsx",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_prepare_shareenvelopemodal",
+      "label": "ShareEnvelopeModal.tsx",
+      "_origin": "ast",
+      "community": 158,
+      "community_name": "Envelope",
+      "file_type": "code",
+      "norm_label": "shareenvelopemodal.tsx",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench",
+      "label": "AINegotiationWorkbench.tsx",
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "ainegotiationworkbench.tsx",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_clauselibrary",
+      "label": "clauseLibrary.ts",
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "clauselibrary.ts",
+      "source_file": "src/data/clauseLibrary.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_data_clauselibrary_clause_library",
+      "label": "CLAUSE_LIBRARY",
+      "_origin": "ast",
+      "community": 159,
+      "community_name": "AINegotiationWorkbench.tsx",
+      "file_type": "code",
+      "norm_label": "clause_library",
+      "source_file": "src/data/clauseLibrary.ts",
+      "source_location": "L12"
     },
     {
       "id": "services_api_gateway_tsconfig",
@@ -10665,6 +10912,28 @@
       "file_type": "code",
       "norm_label": "documentprepstudio.tsx",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_templates_bulksendmodal",
+      "label": "BulkSendModal.tsx",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "DocumentPrepStudio.tsx",
+      "file_type": "code",
+      "norm_label": "bulksendmodal.tsx",
+      "source_file": "src/components/templates/BulkSendModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_templates_templatelibraryview",
+      "label": "TemplateLibraryView.tsx",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "DocumentPrepStudio.tsx",
+      "file_type": "code",
+      "norm_label": "templatelibraryview.tsx",
+      "source_file": "src/components/templates/TemplateLibraryView.tsx",
       "source_location": "L1"
     },
     {
@@ -12459,6 +12728,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_admin_emaildispatcherconsole",
+      "label": "EmailDispatcherConsole.tsx",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "securityTokens.ts",
+      "file_type": "code",
+      "norm_label": "emaildispatcherconsole.tsx",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_utils_securitytokens",
       "label": "securityTokens.ts",
       "_origin": "ast",
@@ -13609,36 +13889,25 @@
       "source_location": "L265"
     },
     {
-      "id": "src_components_dashboard_rightinspectorpanel",
-      "label": "RightInspectorPanel.tsx",
+      "id": "src_components_certificate_certificateofcompletionmodal",
+      "label": "CertificateOfCompletionModal.tsx",
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "rightinspectorpanel.tsx",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "norm_label": "certificateofcompletionmodal.tsx",
+      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_prepare_shareenvelopemodal",
-      "label": "ShareEnvelopeModal.tsx",
+      "id": "src_components_compliance_universalproofverifierview",
+      "label": "UniversalProofVerifierView.tsx",
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "shareenvelopemodal.tsx",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_signing_signsuccessmodal",
-      "label": "SignSuccessModal.tsx",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "signsuccessmodal.tsx",
-      "source_file": "src/components/signing/SignSuccessModal.tsx",
+      "norm_label": "universalproofverifierview.tsx",
+      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
       "source_location": "L1"
     },
     {
@@ -13651,6 +13920,28 @@
       "norm_label": "pdfflattener.ts",
       "source_file": "src/utils/pdfFlattener.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_utils_proofexporter",
+      "label": "proofExporter.ts",
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "proofexporter.ts",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "docref_rfc_3161",
+      "label": "RFC-3161",
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "concept",
+      "norm_label": "rfc-3161",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L5"
     },
     {
       "id": "tools_verify_proof",
@@ -19558,25 +19849,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_clm_obligationtrackerhub",
-      "label": "ObligationTrackerHub.tsx",
+      "id": "src_components_dashboard_envelopepipeline",
+      "label": "EnvelopePipeline.tsx",
       "_origin": "ast",
       "community": 7,
       "community_name": "signflow.ts",
       "file_type": "code",
-      "norm_label": "obligationtrackerhub.tsx",
-      "source_file": "src/components/clm/ObligationTrackerHub.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_prepare_recipientconfigpanel",
-      "label": "RecipientConfigPanel.tsx",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "recipientconfigpanel.tsx",
-      "source_file": "src/components/prepare/RecipientConfigPanel.tsx",
+      "norm_label": "envelopepipeline.tsx",
+      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
       "source_location": "L1"
     },
     {
@@ -19611,28 +19891,6 @@
       "norm_label": "contract_section_blueprints",
       "source_file": "src/utils/aiMultiAgentDrafter.ts",
       "source_location": "L31"
-    },
-    {
-      "id": "src_utils_obligationextractor",
-      "label": "obligationExtractor.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "obligationextractor.ts",
-      "source_file": "src/utils/obligationExtractor.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_utils_obligationextractor_initial_obligations",
-      "label": "INITIAL_OBLIGATIONS",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "initial_obligations",
-      "source_file": "src/utils/obligationExtractor.ts",
-      "source_location": "L4"
     },
     {
       "id": "go_type_net_http_handler",
@@ -19977,14 +20235,14 @@
       "source_location": "L151"
     },
     {
-      "id": "src_components_compliance_universalproofverifierview",
-      "label": "UniversalProofVerifierView.tsx",
+      "id": "src_components_clm_obligationtrackerhub",
+      "label": "ObligationTrackerHub.tsx",
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "universalproofverifierview.tsx",
-      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
+      "norm_label": "obligationtrackerhub.tsx",
+      "source_file": "src/components/clm/ObligationTrackerHub.tsx",
       "source_location": "L1"
     },
     {
@@ -19999,6 +20257,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_prepare_recipientconfigpanel",
+      "label": "RecipientConfigPanel.tsx",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "recipientconfigpanel.tsx",
+      "source_file": "src/components/prepare/RecipientConfigPanel.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_utils_cryptoutils",
       "label": "cryptoUtils.ts",
       "_origin": "ast",
@@ -20010,26 +20279,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_utils_proofexporter",
-      "label": "proofExporter.ts",
+      "id": "src_utils_obligationextractor",
+      "label": "obligationExtractor.ts",
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "proofexporter.ts",
-      "source_file": "src/utils/proofExporter.ts",
+      "norm_label": "obligationextractor.ts",
+      "source_file": "src/utils/obligationExtractor.ts",
       "source_location": "L1"
     },
     {
-      "id": "docref_rfc_3161",
-      "label": "RFC-3161",
+      "id": "src_utils_obligationextractor_initial_obligations",
+      "label": "INITIAL_OBLIGATIONS",
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
-      "file_type": "concept",
-      "norm_label": "rfc-3161",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L5"
+      "file_type": "code",
+      "norm_label": "initial_obligations",
+      "source_file": "src/utils/obligationExtractor.ts",
+      "source_location": "L4"
     },
     {
       "id": "services_unified_backend_src_rate_limiter",
@@ -20109,17 +20378,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_signing_inceremonynegotiationmodal",
-      "label": "InCeremonyNegotiationModal.tsx",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodal.tsx",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_signing_signeraidrawer",
       "label": "SignerAIDrawer.tsx",
       "_origin": "ast",
@@ -20129,28 +20387,6 @@
       "norm_label": "signeraidrawer.tsx",
       "source_file": "src/components/signing/SignerAIDrawer.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_data_clauselibrary",
-      "label": "clauseLibrary.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "clauselibrary.ts",
-      "source_file": "src/data/clauseLibrary.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_data_clauselibrary_clause_library",
-      "label": "CLAUSE_LIBRARY",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "clause_library",
-      "source_file": "src/data/clauseLibrary.ts",
-      "source_location": "L12"
     },
     {
       "id": "src_utils_aiengine",
@@ -23979,6 +24215,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_signing_inceremonynegotiationmodal",
+      "label": "InCeremonyNegotiationModal.tsx",
+      "_origin": "ast",
+      "community": 94,
+      "community_name": "SigningExperience.tsx",
+      "file_type": "code",
+      "norm_label": "inceremonynegotiationmodal.tsx",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_signing_mobileqrmodal",
       "label": "MobileQRModal.tsx",
       "_origin": "ast",
@@ -25963,6 +26210,18 @@
     },
     {
       "source": "src_components_auth_authview_authview",
+      "target": "src_utils_securitytokens_bruteforcedefender_getstatus",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/auth/AuthView.tsx",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_auth_authview_authview",
       "target": "src_utils_securitytokens_sanitizesecurityinput",
       "relation": "calls",
       "_origin": "ast",
@@ -25970,7 +26229,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L126",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -25982,7 +26241,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L142",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -25994,7 +26253,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L53",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -26006,19 +26265,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L84",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
       "source": "src_components_auth_authview_authview",
-      "target": "src_utils_securitytokens_bruteforcedefender_getstatus",
+      "target": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L91",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -27399,6 +27658,138 @@
       "context": "call",
       "source_file": "src/utils/aiMultiAgentDrafter.ts",
       "source_location": "L532",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter_add",
+      "target": "src_utils_bloomfilter_bloomfilter_getindices",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter_getfalsepositiverate",
+      "target": "src_utils_bloomfilter_bloomfilter_getstats",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter_getindices",
+      "target": "src_utils_bloomfilter_fnv1a",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter_getindices",
+      "target": "src_utils_bloomfilter_murmurmix",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter_has",
+      "target": "src_utils_bloomfilter_bloomfilter_getindices",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "target": "src_utils_bloomfilter_ispasswordinbloombreachfilter",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L340",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "target": "src_utils_bloomfilter_isemaildomaindisposable",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L341",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "target": "src_utils_bloomfilter_isnamespacereserved",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L342",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_isemaildomaindisposable",
+      "target": "src_utils_bloomfilter_bloomfilter_has",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L302",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_isnamespacereserved",
+      "target": "src_utils_bloomfilter_bloomfilter_has",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L320",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_ispasswordinbloombreachfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_has",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L283",
       "weight": 1.0
     },
     {
@@ -31130,7 +31521,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31142,7 +31533,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -31154,7 +31545,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -31166,7 +31557,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -31178,7 +31569,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -31190,7 +31581,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_auth_authview",
+      "target": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/auth/AuthView.tsx",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -35150,7 +35553,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -35162,7 +35565,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_auth_authview",
+      "target": "src_utils_bloomfilter",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/auth/AuthView.tsx",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -48637,7 +49052,7 @@
     },
     {
       "source": "cm_continuity_continuity_md_signflow_working_memory",
-      "target": "cm_continuity_next_actions",
+      "target": "cm_continuity_verification",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -48670,7 +49085,7 @@
     },
     {
       "source": "cm_continuity_continuity_md_signflow_working_memory",
-      "target": "cm_continuity_key_decisions",
+      "target": "cm_continuity_key_decisions_implementations",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -52999,7 +53414,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L41",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -53010,7 +53425,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L46",
+      "source_location": "L50",
       "weight": 1.0
     },
     {
@@ -54551,6 +54966,160 @@
       "confidence_score": 1.0,
       "source_file": "src/utils/aiMultiAgentDrafter.ts",
       "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_common_breached_passwords",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_fnv1a",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_disposable_email_domains",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_reserved_system_namespaces",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L222",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_murmurmix",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_breachedpasswordfilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_disposableemailfilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L254",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_reservednamespacefilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L258",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomsecuritycheckresult",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_ispasswordinbloombreachfilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L276",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_isemaildomaindisposable",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_isnamespacereserved",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L316",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_evaluatesignupsecuritybloom",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L333",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -57260,6 +57829,72 @@
       "weight": 1.0
     },
     {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_getstats",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_getfalsepositiverate",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_constructor",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_getindices",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_add",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_bloomfilter_bloomfilter",
+      "target": "src_utils_bloomfilter_bloomfilter_has",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/bloomFilter.ts",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
       "source": "src_utils_securitytokens_bruteforcedefender",
       "target": "src_utils_securitytokens_bruteforcedefender_getkey",
       "relation": "method",
@@ -57427,5 +58062,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "507a31e45ea227c4354146d8788401990fb6f313"
+  "built_at_commit": "83d0058c8e7b4254da55be6650ce058feeb9de20"
 }

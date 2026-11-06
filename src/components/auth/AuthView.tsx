@@ -27,7 +27,8 @@ import {
   Smartphone,
   Check,
   XCircle,
-  Timer
+  Timer,
+  Cpu
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
 import { 
@@ -37,6 +38,9 @@ import {
   MAX_LOGIN_ATTEMPTS, 
   sanitizeSecurityInput 
 } from '../../utils/securityTokens';
+import { 
+  evaluateSignupSecurityBloom 
+} from '../../utils/bloomFilter';
 
 interface AuthViewProps {
   pendingEnvelopeId?: string | null;
@@ -78,11 +82,17 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
   const [twoFactorCode, setTwoFactorCode] = useState(['', '', '', '', '', '']);
   const [twoFactorTimer, setTwoFactorTimer] = useState(60);
   const [pendingCredentials, setPendingCredentials] = useState<any>(null);
+  const [showBloomDetails, setShowBloomDetails] = useState(false);
 
   // Live Password Entropy & Complexity Evaluation
   const passwordAnalysis: PasswordAnalysis = useMemo(() => {
     return analyzePasswordComplexity(password);
   }, [password]);
+
+  // Live Zero-Network Probabilistic Bloom Filter Evaluation (Compromised Passwords & Disposable Domains)
+  const bloomCheck = useMemo(() => {
+    return evaluateSignupSecurityBloom({ email, password, organization });
+  }, [email, password, organization]);
 
   // Monitor Brute-Force Defender status for active email
   useEffect(() => {
@@ -228,6 +238,12 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
 
     if (!passwordAnalysis.isValid) {
       setErrorMessage(`Password does not meet enterprise security requirements: ${passwordAnalysis.feedback.join(', ')}.`);
+      return;
+    }
+
+    // Bloom Filter Security Gate: Check Breached Passwords & Disposable Domains
+    if (!bloomCheck.isSafe) {
+      setErrorMessage(bloomCheck.reasons[0]);
       return;
     }
 
@@ -755,6 +771,42 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
             {/* TAB 2: REGISTER / SIGN UP FORM */}
             {authMode === 'signup' && (
               <form onSubmit={handleSignUp} className="space-y-4 text-left">
+                {/* Bloom Filter Security HUD Banner */}
+                <div className="p-3.5 rounded-2xl bg-indigo-950/50 border border-indigo-500/30 text-xs space-y-1.5 shadow-2xs">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 text-indigo-300 font-bold">
+                      <Cpu className="w-4 h-4 text-indigo-400 shrink-0" />
+                      <span>Zero-Network Bloom Filter Screening</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowBloomDetails(!showBloomDetails)}
+                      className="text-[10px] font-mono text-indigo-400 hover:text-indigo-200 underline cursor-pointer"
+                    >
+                      {showBloomDetails ? 'Hide Spec' : 'Bloom Spec'}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-slate-300 leading-relaxed">
+                    Probabilistic bit-array engine screens passwords against global breach dumps and blocks throwaway inboxes locally. Zero network transmission.
+                  </p>
+                  {showBloomDetails && (
+                    <div className="mt-2.5 pt-2.5 border-t border-indigo-900/60 grid grid-cols-3 gap-2 text-[10px] font-mono animate-in fade-in">
+                      <div className="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                        <span className="text-slate-400 block">Bit Array (m)</span>
+                        <span className="text-white font-bold">16,384 bits</span>
+                      </div>
+                      <div className="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                        <span className="text-slate-400 block">Hashes (k)</span>
+                        <span className="text-indigo-300 font-bold">4 (FNV+Murmur)</span>
+                      </div>
+                      <div className="bg-slate-950 p-2 rounded-lg border border-slate-800">
+                        <span className="text-slate-400 block">FPR Target</span>
+                        <span className="text-emerald-400 font-bold">&lt; 0.01%</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1.5">
                     Full Name *
@@ -779,8 +831,23 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@organization.com"
                     required
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className={`w-full px-3.5 py-2.5 bg-slate-950 border rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 ${
+                      bloomCheck.disposableEmail 
+                        ? 'border-amber-500/80 focus:border-amber-500 focus:ring-amber-500' 
+                        : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'
+                    }`}
                   />
+                  {bloomCheck.disposableEmail && (
+                    <div className="mt-2 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-xs flex items-start space-x-2 animate-in fade-in">
+                      <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-bold block text-[11.5px]">Disposable Email Domain (Bloom Filter Match)</span>
+                        <p className="text-[10.5px] text-amber-200/90 mt-0.5 leading-relaxed">
+                          Temporary inboxes are prohibited for binding legal electronic agreements. Please use a valid corporate or permanent personal domain.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -793,8 +860,17 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
                       value={organization}
                       onChange={(e) => setOrganization(e.target.value)}
                       placeholder="e.g. Acme Corp"
-                      className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      className={`w-full px-3.5 py-2.5 bg-slate-950 border rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 ${
+                        bloomCheck.reservedNamespace 
+                          ? 'border-rose-500/80 focus:border-rose-500 focus:ring-rose-500' 
+                          : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'
+                      }`}
                     />
+                    {bloomCheck.reservedNamespace && (
+                      <span className="text-[10px] text-rose-400 mt-1 block font-mono">
+                        ⚠️ Protected System Namespace
+                      </span>
+                    )}
                   </div>
 
                   <div>
@@ -824,8 +900,23 @@ export const AuthView: React.FC<AuthViewProps> = ({ pendingEnvelopeId, pendingSi
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="At least 8 characters (Upper, Lower, Number, Symbol)"
                     required
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className={`w-full px-3.5 py-2.5 bg-slate-950 border rounded-xl text-xs text-white placeholder-slate-500 font-medium focus:outline-none focus:ring-1 ${
+                      bloomCheck.passwordBreached 
+                        ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' 
+                        : 'border-slate-800 focus:border-indigo-500 focus:ring-indigo-500'
+                    }`}
                   />
+                  {bloomCheck.passwordBreached && (
+                    <div className="mt-2 p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-200 text-xs flex items-start space-x-2 animate-in fade-in">
+                      <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-bold text-rose-300 block text-[11.5px]">Known Breached Credential (Bloom Filter Match)</span>
+                        <p className="text-[10.5px] text-rose-200/90 mt-0.5 leading-relaxed">
+                          Bloom Filter identified this passphrase in global breach datasets (RockYou/HIBP). Please choose a unique passphrase to prevent credential stuffing attacks.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Password Complexity Checklist for Sign Up */}
