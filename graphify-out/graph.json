@@ -170,7 +170,7 @@
       "file_type": "code",
       "norm_label": "authviewprops",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L45"
+      "source_location": "L44"
     },
     {
       "id": "src_utils_bloomfilter_bloomfilter",
@@ -2071,7 +2071,7 @@
       "file_type": "code",
       "norm_label": "authview()",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L50"
+      "source_location": "L49"
     },
     {
       "id": "src_utils_bloomfilter_bloomfilter_add",
@@ -9979,7 +9979,7 @@
       "node_kind": "heading",
       "norm_label": "verification",
       "source_file": ".cm/CONTINUITY.md",
-      "source_location": "L17"
+      "source_location": "L19"
     },
     {
       "id": "openspec_changes_security_hardening_auth_email_tasks",
@@ -26210,18 +26210,6 @@
     },
     {
       "source": "src_components_auth_authview_authview",
-      "target": "src_utils_securitytokens_bruteforcedefender_getstatus",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L101",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_auth_authview_authview",
       "target": "src_utils_securitytokens_sanitizesecurityinput",
       "relation": "calls",
       "_origin": "ast",
@@ -26229,7 +26217,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L136",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -26241,7 +26229,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L152",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -26253,7 +26241,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L57",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -26265,7 +26253,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L89",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -26277,7 +26265,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L94",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_auth_authview_authview",
+      "target": "src_utils_securitytokens_bruteforcedefender_getstatus",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/auth/AuthView.tsx",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -31521,7 +31521,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -31533,7 +31533,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31545,7 +31545,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31557,7 +31557,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31569,7 +31569,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31581,7 +31581,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -31593,7 +31593,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -35553,7 +35553,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L33",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -35565,7 +35565,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -35577,7 +35577,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -49058,7 +49058,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".cm/CONTINUITY.md",
-      "source_location": "L17",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -53414,7 +53414,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L45",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -53425,7 +53425,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/auth/AuthView.tsx",
-      "source_location": "L50",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -58062,5 +58062,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "83d0058c8e7b4254da55be6650ce058feeb9de20"
+  "built_at_commit": "62b72514c775bf35865866325e25ed9f98ec2703"
 }

@@ -283,7 +283,7 @@ export function isPasswordInBloomBreachFilter(password: string): { isBreached: b
   if (breachedPasswordFilter.has(clean) || breachedPasswordFilter.has(lower)) {
     return {
       isBreached: true,
-      reason: 'Password matches known compromised credentials from security breach datasets (RockYou/HIBP). Please choose a unique passphrase.'
+      reason: 'This password appears in known security breach datasets. Please choose a different, unique password.'
     };
   }
 
@@ -303,7 +303,7 @@ export function isEmailDomainDisposable(email: string): { isDisposable: boolean;
     return {
       isDisposable: true,
       domain,
-      reason: `Email domain "${domain}" is identified as a temporary/disposable inbox. Please use an authentic work or personal email.`
+      reason: `Temporary or disposable email domains ("${domain}") cannot be used. Please use a work or permanent email.`
     };
   }
 
@@ -320,7 +320,7 @@ export function isNamespaceReserved(name: string): { isReserved: boolean; reason
   if (reservedNamespaceFilter.has(clean)) {
     return {
       isReserved: true,
-      reason: `"${name}" is a protected system namespace. Please provide your company's full legal name.`
+      reason: `"${name}" is a reserved system name. Please enter your organization's legal name.`
     };
   }
 
