@@ -3,11 +3,10 @@
   "1": "downloadJsonBundle",
   "2": "net/http.ResponseWriter",
   "3": "dependencies",
-  "4": "securityTokens.ts",
+  "4": "NotarySessionView.tsx",
   "5": "notification-webhooks/src/server.ts",
   "6": "devDependencies",
-  "7": "signflow.ts",
-  "8": "aiEngine.ts",
+  "8": "signflow.ts",
   "9": "envelope.go",
   "10": "compilerOptions",
   "11": "rate_limiter.ts",
@@ -154,9 +153,8 @@
   "152": "Managed PE/CLI",
   "153": "notifications.ts",
   "154": "Design: Security Hardening for Login and Email Signing",
-  "155": "Recipient",
+  "155": "DocumentViewerCanvas.tsx",
   "156": "CONTINUITY.md — SignFlow Working Memory",
   "157": "tasks.md",
-  "158": "Envelope",
-  "159": "AINegotiationWorkbench.tsx"
+  "159": "InCeremonyNegotiationModal.tsx"
 }

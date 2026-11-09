@@ -372,9 +372,9 @@
     "semantic_hash": "a558ddff89c4b938c54ee41450d21ad9"
   },
   "src/components/prepare/DocumentPrepStudio.tsx": {
-    "mtime": 1793876987.4339871,
-    "seen": 1793877675.4608152,
-    "ast_hash": "d478fe793b15d712dbe79bbb315ec676",
+    "mtime": 1794209754.4170158,
+    "seen": 1794209899.8766792,
+    "ast_hash": "820bdf3367eaade50d7a052abcaaa92a",
     "semantic_hash": ""
   },
   "src/components/prepare/DocumentViewerCanvas.tsx": {
@@ -708,15 +708,15 @@
     "semantic_hash": ""
   },
   "src/utils/documentParser.ts": {
-    "mtime": 1788806772.2799232,
-    "seen": 1788806898.6181612,
-    "ast_hash": "70183f7f67c7cf0f059870f00c9aa8ee",
+    "mtime": 1794209657.378369,
+    "seen": 1794209899.8767526,
+    "ast_hash": "d2d743fe784f22829fef40732a14e20a",
     "semantic_hash": ""
   },
   "src/utils/pdfRasterizer.ts": {
-    "mtime": 1788806828.4482927,
-    "seen": 1788806898.6181731,
-    "ast_hash": "67375336fcd36276d044b1bf73b57b5f",
+    "mtime": 1794209795.0546913,
+    "seen": 1794209899.876769,
+    "ast_hash": "63405de301c138d902ed84a7438e2b12",
     "semantic_hash": ""
   },
   "src/utils/aiMultiAgentDrafter.ts": {

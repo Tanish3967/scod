@@ -4,6 +4,32 @@
   "graph": {},
   "nodes": [
     {
+      "id": "src_components_admin_emaildispatcherconsole_virtualemail",
+      "label": "VirtualEmail",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "virtualemail",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench_redlineclause",
+      "label": "RedlineClause",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "redlineclause",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L18"
+    },
+    {
       "id": "src_components_integrations_crmmapperview_fieldmapping",
       "label": "FieldMapping",
       "_callable": true,
@@ -30,6 +56,19 @@
       "source_location": "L16"
     },
     {
+      "id": "src_components_migration_legacymigrationimporterview_migrationjob",
+      "label": "MigrationJob",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "migrationjob",
+      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
+      "source_location": "L22"
+    },
+    {
       "id": "src_components_offline_offlinesigningqueueview_offlineenveloperecord",
       "label": "OfflineEnvelopeRecord",
       "_callable": true,
@@ -54,6 +93,32 @@
       "norm_label": "powerformitem",
       "source_file": "src/components/templates/PowerFormsView.tsx",
       "source_location": "L20"
+    },
+    {
+      "id": "src_context_signflowcontext_activetoast",
+      "label": "ActiveToast",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "activetoast",
+      "source_file": "src/context/SignFlowContext.tsx",
+      "source_location": "L80"
+    },
+    {
+      "id": "src_context_signflowcontext_toastnotification",
+      "label": "ToastNotification",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "toastnotification",
+      "source_file": "src/context/SignFlowContext.tsx",
+      "source_location": "L67"
     },
     {
       "id": "src_components_collaborate_cobrowsingroomview_auditevent",
@@ -106,19 +171,6 @@
       "norm_label": "metricgraphtype",
       "source_file": "src/components/dashboard/DashboardOverview.tsx",
       "source_location": "L36"
-    },
-    {
-      "id": "src_components_migration_legacymigrationimporterview_migrationjob",
-      "label": "MigrationJob",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "migrationjob",
-      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
-      "source_location": "L22"
     },
     {
       "id": "src_components_signatures_customsignaturemodal_customsignaturemodalprops",
@@ -309,24 +361,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "fieldtool",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L21"
-    },
-    {
-      "id": "src_components_signing_signsuccessmodal_signsuccessmodalprops",
-      "label": "SignSuccessModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 155,
-      "community_name": "Recipient",
-      "file_type": "code",
-      "norm_label": "signsuccessmodalprops",
-      "source_file": "src/components/signing/SignSuccessModal.tsx",
-      "source_location": "L7"
     },
     {
       "id": "src_types_signflow_fieldtype",
@@ -335,76 +374,24 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "fieldtype",
       "source_file": "src/types/signflow.ts",
       "source_location": "L40"
     },
     {
-      "id": "src_types_signflow_recipient",
-      "label": "Recipient",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 155,
-      "community_name": "Recipient",
-      "file_type": "code",
-      "norm_label": "recipient",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L158"
-    },
-    {
-      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanelprops",
-      "label": "RightInspectorPanelProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "rightinspectorpanelprops",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodalprops",
-      "label": "ShareEnvelopeModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "shareenvelopemodalprops",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_types_signflow_envelope",
-      "label": "Envelope",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "envelope",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L235"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench_redlineclause",
-      "label": "RedlineClause",
+      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodalprops",
+      "label": "InCeremonyNegotiationModalProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
-      "norm_label": "redlineclause",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
-      "source_location": "L18"
+      "norm_label": "inceremonynegotiationmodalprops",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_data_clauselibrary_clauseitem",
@@ -413,7 +400,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
       "norm_label": "clauseitem",
       "source_file": "src/data/clauseLibrary.ts",
@@ -498,6 +485,19 @@
       "source_location": "L202"
     },
     {
+      "id": "src_types_signflow_envelopeattachment",
+      "label": "EnvelopeAttachment",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "DocumentPrepStudio.tsx",
+      "file_type": "code",
+      "norm_label": "envelopeattachment",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L221"
+    },
+    {
       "id": "src_types_signflow_template",
       "label": "Template",
       "_callable": true,
@@ -534,20 +534,7 @@
       "file_type": "code",
       "norm_label": "pdfrasterizationresult",
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_context_signflowcontext_activetoast",
-      "label": "ActiveToast",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "SignFlowContext.tsx",
-      "file_type": "code",
-      "norm_label": "activetoast",
-      "source_file": "src/context/SignFlowContext.tsx",
-      "source_location": "L80"
+      "source_location": "L21"
     },
     {
       "id": "src_context_signflowcontext_signflowcontexttype",
@@ -576,17 +563,17 @@
       "source_location": "L89"
     },
     {
-      "id": "src_context_signflowcontext_toastnotification",
-      "label": "ToastNotification",
+      "id": "src_types_signflow_auditevent",
+      "label": "AuditEvent",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 20,
       "community_name": "SignFlowContext.tsx",
       "file_type": "code",
-      "norm_label": "toastnotification",
-      "source_file": "src/context/SignFlowContext.tsx",
-      "source_location": "L67"
+      "norm_label": "auditevent",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L273"
     },
     {
       "id": "src_types_signflow_negotiationamendment",
@@ -641,6 +628,19 @@
       "source_location": "L551"
     },
     {
+      "id": "src_types_signflow_userprofile",
+      "label": "UserProfile",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "userprofile",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L30"
+    },
+    {
       "id": "src_types_signflow_webhookendpoint",
       "label": "WebhookEndpoint",
       "_callable": true,
@@ -678,6 +678,32 @@
       "norm_label": "dbstats",
       "source_file": "src/utils/localDatabase.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "src_utils_securitytokens_secureusersession",
+      "label": "SecureUserSession",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "secureusersession",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L48"
+    },
+    {
+      "id": "src_utils_securitytokens_signingtokenpayload",
+      "label": "SigningTokenPayload",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "signingtokenpayload",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L17"
     },
     {
       "id": "src_utils_securitytokens_tokenverificationresult",
@@ -745,56 +771,43 @@
       "source_location": "L42"
     },
     {
-      "id": "src_components_admin_emaildispatcherconsole_virtualemail",
-      "label": "VirtualEmail",
+      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanelprops",
+      "label": "RightInspectorPanelProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "virtualemail",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
-      "source_location": "L21"
+      "norm_label": "rightinspectorpanelprops",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "source_location": "L16"
     },
     {
-      "id": "src_types_signflow_userprofile",
-      "label": "UserProfile",
+      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodalprops",
+      "label": "ShareEnvelopeModalProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "userprofile",
-      "source_file": "src/types/signflow.ts",
+      "norm_label": "shareenvelopemodalprops",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
       "source_location": "L30"
     },
     {
-      "id": "src_utils_securitytokens_secureusersession",
-      "label": "SecureUserSession",
+      "id": "src_components_signing_signsuccessmodal_signsuccessmodalprops",
+      "label": "SignSuccessModalProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "secureusersession",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L48"
-    },
-    {
-      "id": "src_utils_securitytokens_signingtokenpayload",
-      "label": "SigningTokenPayload",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "signingtokenpayload",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L17"
+      "norm_label": "signsuccessmodalprops",
+      "source_file": "src/components/signing/SignSuccessModal.tsx",
+      "source_location": "L7"
     },
     {
       "id": "src_types_signflow_agreementdocument",
@@ -810,17 +823,30 @@
       "source_location": "L210"
     },
     {
-      "id": "src_types_signflow_zerotrustproofbundle",
-      "label": "ZeroTrustProofBundle",
+      "id": "src_types_signflow_envelope",
+      "label": "Envelope",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "zerotrustproofbundle",
+      "norm_label": "envelope",
       "source_file": "src/types/signflow.ts",
-      "source_location": "L587"
+      "source_location": "L235"
+    },
+    {
+      "id": "src_types_signflow_recipient",
+      "label": "Recipient",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "recipient",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L158"
     },
     {
       "id": "src_utils_pdfflattener_flattenpdfoptions",
@@ -1005,188 +1031,6 @@
       "source_location": "L42"
     },
     {
-      "id": "src_types_signflow_agentexecutionstep",
-      "label": "AgentExecutionStep",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "agentexecutionstep",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L478"
-    },
-    {
-      "id": "src_types_signflow_aidraftstate",
-      "label": "AIDraftState",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "aidraftstate",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L333"
-    },
-    {
-      "id": "src_types_signflow_auditevent",
-      "label": "AuditEvent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "auditevent",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L273"
-    },
-    {
-      "id": "src_types_signflow_conditionalaction",
-      "label": "ConditionalAction",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "conditionalaction",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L65"
-    },
-    {
-      "id": "src_types_signflow_conditionaloperator",
-      "label": "ConditionalOperator",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "conditionaloperator",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L56"
-    },
-    {
-      "id": "src_types_signflow_contextenvelope",
-      "label": "ContextEnvelope",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "contextenvelope",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L464"
-    },
-    {
-      "id": "src_types_signflow_draftingsharedmemory",
-      "label": "DraftingSharedMemory",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "draftingsharedmemory",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L434"
-    },
-    {
-      "id": "src_types_signflow_dynamicscheduleinjection",
-      "label": "DynamicScheduleInjection",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "dynamicscheduleinjection",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L540"
-    },
-    {
-      "id": "src_types_signflow_envelopeattachment",
-      "label": "EnvelopeAttachment",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "envelopeattachment",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L221"
-    },
-    {
-      "id": "src_types_signflow_envelopestatus",
-      "label": "EnvelopeStatus",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "envelopestatus",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_types_signflow_multiagentdraftresult",
-      "label": "MultiAgentDraftResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "multiagentdraftresult",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L504"
-    },
-    {
-      "id": "src_types_signflow_powerformconfig",
-      "label": "PowerFormConfig",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "powerformconfig",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L103"
-    },
-    {
-      "id": "src_types_signflow_verificationqualitycertificate",
-      "label": "VerificationQualityCertificate",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "verificationqualitycertificate",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L488"
-    },
-    {
-      "id": "src_utils_aimultiagentdrafter_multiagentdraftrequest",
-      "label": "MultiAgentDraftRequest",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "multiagentdraftrequest",
-      "source_file": "src/utils/aiMultiAgentDrafter.ts",
-      "source_location": "L19"
-    },
-    {
       "id": "services_unified_backend_src_modules_database_databaseschema",
       "label": "DatabaseSchema",
       "_callable": true,
@@ -1369,6 +1213,19 @@
       "source_location": "L14"
     },
     {
+      "id": "src_types_signflow_zerotrustproofbundle",
+      "label": "ZeroTrustProofBundle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "zerotrustproofbundle",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L587"
+    },
+    {
       "id": "services_unified_backend_src_rate_limiter_edgeratelimiter",
       "label": "EdgeRateLimiter",
       "_callable": true,
@@ -1434,17 +1291,43 @@
       "source_location": "L48"
     },
     {
+      "id": "src_types_signflow_agentexecutionstep",
+      "label": "AgentExecutionStep",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "agentexecutionstep",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L478"
+    },
+    {
       "id": "src_types_signflow_aidraftclausesuggestion",
       "label": "AIDraftClauseSuggestion",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "aidraftclausesuggestion",
       "source_file": "src/types/signflow.ts",
       "source_location": "L322"
+    },
+    {
+      "id": "src_types_signflow_aidraftstate",
+      "label": "AIDraftState",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "aidraftstate",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L333"
     },
     {
       "id": "src_types_signflow_airiskanalysis",
@@ -1453,7 +1336,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "airiskanalysis",
       "source_file": "src/types/signflow.ts",
@@ -1466,11 +1349,102 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "airiskfinding",
       "source_file": "src/types/signflow.ts",
       "source_location": "L287"
+    },
+    {
+      "id": "src_types_signflow_conditionalaction",
+      "label": "ConditionalAction",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "conditionalaction",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L65"
+    },
+    {
+      "id": "src_types_signflow_conditionaloperator",
+      "label": "ConditionalOperator",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "conditionaloperator",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L56"
+    },
+    {
+      "id": "src_types_signflow_contextenvelope",
+      "label": "ContextEnvelope",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "contextenvelope",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L464"
+    },
+    {
+      "id": "src_types_signflow_draftingsharedmemory",
+      "label": "DraftingSharedMemory",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "draftingsharedmemory",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L434"
+    },
+    {
+      "id": "src_types_signflow_dynamicscheduleinjection",
+      "label": "DynamicScheduleInjection",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "dynamicscheduleinjection",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L540"
+    },
+    {
+      "id": "src_types_signflow_envelopestatus",
+      "label": "EnvelopeStatus",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "envelopestatus",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_types_signflow_multiagentdraftresult",
+      "label": "MultiAgentDraftResult",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "multiagentdraftresult",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L504"
     },
     {
       "id": "src_types_signflow_obligationitem",
@@ -1479,11 +1453,24 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "obligationitem",
       "source_file": "src/types/signflow.ts",
       "source_location": "L310"
+    },
+    {
+      "id": "src_types_signflow_powerformconfig",
+      "label": "PowerFormConfig",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "powerformconfig",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L103"
     },
     {
       "id": "src_types_signflow_signerguardianfinding",
@@ -1492,7 +1479,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "signerguardianfinding",
       "source_file": "src/types/signflow.ts",
@@ -1505,11 +1492,37 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "signerguardianreport",
       "source_file": "src/types/signflow.ts",
       "source_location": "L577"
+    },
+    {
+      "id": "src_types_signflow_verificationqualitycertificate",
+      "label": "VerificationQualityCertificate",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "verificationqualitycertificate",
+      "source_file": "src/types/signflow.ts",
+      "source_location": "L488"
+    },
+    {
+      "id": "src_utils_aimultiagentdrafter_multiagentdraftrequest",
+      "label": "MultiAgentDraftRequest",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "multiagentdraftrequest",
+      "source_file": "src/utils/aiMultiAgentDrafter.ts",
+      "source_location": "L19"
     },
     {
       "id": "services_unified_backend_src_modules_audit_auditledgerstore",
@@ -1562,19 +1575,6 @@
       "norm_label": "fieldpropertiesmodalprops",
       "source_file": "src/components/prepare/FieldPropertiesModal.tsx",
       "source_location": "L23"
-    },
-    {
-      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodalprops",
-      "label": "InCeremonyNegotiationModalProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "SigningExperience.tsx",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodalprops",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L19"
     },
     {
       "id": "src_components_signing_signaturemodal_signatureoutput",
@@ -1666,6 +1666,30 @@
       "source_location": "L36"
     },
     {
+      "id": "src_components_admin_emaildispatcherconsole_emaildispatcherconsole",
+      "label": "EmailDispatcherConsole()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "emaildispatcherconsole()",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L35"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench_ainegotiationworkbench",
+      "label": "AINegotiationWorkbench()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "ainegotiationworkbench()",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L29"
+    },
+    {
       "id": "src_components_clm_obligationtrackerhub_obligationtrackerhub",
       "label": "ObligationTrackerHub()",
       "_callable": true,
@@ -1690,6 +1714,18 @@
       "source_location": "L15"
     },
     {
+      "id": "src_components_dashboard_envelopepipeline_envelopepipeline",
+      "label": "EnvelopePipeline()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "envelopepipeline()",
+      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_components_dashboard_metriccards_metriccards",
       "label": "MetricCards()",
       "_callable": true,
@@ -1700,6 +1736,30 @@
       "norm_label": "metriccards()",
       "source_file": "src/components/dashboard/MetricCards.tsx",
       "source_location": "L13"
+    },
+    {
+      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanel",
+      "label": "RightInspectorPanel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "rightinspectorpanel()",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_components_envelopes_envelopevaultlist_envelopevaultlist",
+      "label": "EnvelopeVaultList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "envelopevaultlist()",
+      "source_file": "src/components/envelopes/EnvelopeVaultList.tsx",
+      "source_location": "L24"
     },
     {
       "id": "src_components_integrations_crmmapperview_crmmapperview",
@@ -1774,28 +1834,16 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_notary_idvbiometriccheckmodal_idvbiometriccheckmodal",
-      "label": "IDVBiometricCheckModal()",
+      "id": "src_components_migration_legacymigrationimporterview_legacymigrationimporterview",
+      "label": "LegacyMigrationImporterView()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "useSignFlow",
       "file_type": "code",
-      "norm_label": "idvbiometriccheckmodal()",
-      "source_file": "src/components/notary/IDVBiometricCheckModal.tsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_components_notary_notarysessionview_notarysessionview",
-      "label": "NotarySessionView()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "notarysessionview()",
-      "source_file": "src/components/notary/NotarySessionView.tsx",
-      "source_location": "L25"
+      "norm_label": "legacymigrationimporterview()",
+      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
+      "source_location": "L33"
     },
     {
       "id": "src_components_offline_offlinesigningqueueview_offlinesigningqueueview",
@@ -1870,6 +1918,18 @@
       "source_location": "L24"
     },
     {
+      "id": "src_components_certificate_certificateofcompletionmodal_certificateofcompletionmodal",
+      "label": "CertificateOfCompletionModal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "downloadJsonBundle",
+      "file_type": "code",
+      "norm_label": "certificateofcompletionmodal()",
+      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
+      "source_location": "L24"
+    },
+    {
       "id": "src_components_collaborate_cobrowsingroomview_cobrowsingroomview",
       "label": "CoBrowsingRoomView()",
       "_callable": true,
@@ -1906,18 +1966,6 @@
       "source_location": "L23"
     },
     {
-      "id": "src_components_migration_legacymigrationimporterview_legacymigrationimporterview",
-      "label": "LegacyMigrationImporterView()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "legacymigrationimporterview()",
-      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
-      "source_location": "L33"
-    },
-    {
       "id": "src_components_notary_notaryjournalview_notaryjournalview",
       "label": "NotaryJournalView()",
       "_callable": true,
@@ -1940,6 +1988,18 @@
       "norm_label": "documentprepstudio()",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
       "source_location": "L98"
+    },
+    {
+      "id": "src_components_signing_signsuccessmodal_signsuccessmodal",
+      "label": "SignSuccessModal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "downloadJsonBundle",
+      "file_type": "code",
+      "norm_label": "signsuccessmodal()",
+      "source_file": "src/components/signing/SignSuccessModal.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_utils_downloadutils_downloadcsvfile",
@@ -2000,6 +2060,18 @@
       "norm_label": "sanitizefilename()",
       "source_file": "src/utils/downloadUtils.ts",
       "source_location": "L9"
+    },
+    {
+      "id": "src_utils_pdfflattener_downloadflattenedenvelopepdf",
+      "label": "downloadFlattenedEnvelopePdf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "downloadJsonBundle",
+      "file_type": "code",
+      "norm_label": "downloadflattenedenvelopepdf()",
+      "source_file": "src/utils/pdfFlattener.ts",
+      "source_location": "L611"
     },
     {
       "id": "src_components_signatures_customsignaturemodal_customsignaturemodal",
@@ -2475,7 +2547,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "documentviewercanvas()",
       "source_file": "src/components/prepare/DocumentViewerCanvas.tsx",
@@ -2487,47 +2559,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "fieldpalette()",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L47"
     },
     {
-      "id": "src_components_dashboard_rightinspectorpanel_rightinspectorpanel",
-      "label": "RightInspectorPanel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "rightinspectorpanel()",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodal",
-      "label": "ShareEnvelopeModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "shareenvelopemodal()",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L36"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench_ainegotiationworkbench",
-      "label": "AINegotiationWorkbench()",
+      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodal",
+      "label": "InCeremonyNegotiationModal()",
       "_callable": true,
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
-      "norm_label": "ainegotiationworkbench()",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
-      "source_location": "L29"
+      "norm_label": "inceremonynegotiationmodal()",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
+      "source_location": "L28"
     },
     {
       "id": "src_components_envelopes_createenvelopemodal_createenvelopemodal",
@@ -2647,7 +2695,31 @@
       "file_type": "code",
       "norm_label": "rasterizepdftopages()",
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L23"
+      "source_location": "L188"
+    },
+    {
+      "id": "src_utils_pdfrasterizer_renderpdfwithpdflibfallback",
+      "label": "renderPdfWithPdfLibFallback()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "DocumentPrepStudio.tsx",
+      "file_type": "code",
+      "norm_label": "renderpdfwithpdflibfallback()",
+      "source_file": "src/utils/pdfRasterizer.ts",
+      "source_location": "L31"
+    },
+    {
+      "id": "src_context_signflowcontext_getinitialurlroutestate",
+      "label": "getInitialUrlRouteState()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "getinitialurlroutestate()",
+      "source_file": "src/context/SignFlowContext.tsx",
+      "source_location": "L254"
     },
     {
       "id": "src_context_signflowcontext_signflowprovider",
@@ -2696,6 +2768,18 @@
       "norm_label": "generateautopilotobligations()",
       "source_file": "src/utils/contractAutopilot.ts",
       "source_location": "L115"
+    },
+    {
+      "id": "src_utils_cryptoutils_getmockdevicefingerprint",
+      "label": "getMockDeviceFingerprint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "getmockdevicefingerprint()",
+      "source_file": "src/utils/cryptoUtils.ts",
+      "source_location": "L59"
     },
     {
       "id": "src_utils_localdatabase_deleteenvelopefromdb",
@@ -2852,6 +2936,90 @@
       "norm_label": "saveenvelopetodb()",
       "source_file": "src/utils/localDatabase.ts",
       "source_location": "L191"
+    },
+    {
+      "id": "src_utils_securitytokens_computetokenhmac",
+      "label": "computeTokenHmac()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "computetokenhmac()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "src_utils_securitytokens_createsecuresession",
+      "label": "createSecureSession()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "createsecuresession()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L312"
+    },
+    {
+      "id": "src_utils_securitytokens_generatesecuresigningurl",
+      "label": "generateSecureSigningUrl()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "generatesecuresigningurl()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L184"
+    },
+    {
+      "id": "src_utils_securitytokens_generatesigningtoken",
+      "label": "generateSigningToken()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "generatesigningtoken()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L96"
+    },
+    {
+      "id": "src_utils_securitytokens_timingsafeequalstring",
+      "label": "timingSafeEqualString()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "timingsafeequalstring()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L84"
+    },
+    {
+      "id": "src_utils_securitytokens_validatesecuresession",
+      "label": "validateSecureSession()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "validatesecuresession()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L335"
+    },
+    {
+      "id": "src_utils_securitytokens_verifysigningtoken",
+      "label": "verifySigningToken()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "verifysigningtoken()",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L118"
     },
     {
       "id": "tools_test_phase2_sharding_cache_gethashkey",
@@ -3142,172 +3310,40 @@
       "source_location": "L58"
     },
     {
-      "id": "src_components_admin_emaildispatcherconsole_emaildispatcherconsole",
-      "label": "EmailDispatcherConsole()",
+      "id": "src_components_notary_idvbiometriccheckmodal_idvbiometriccheckmodal",
+      "label": "IDVBiometricCheckModal()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "securityTokens.ts",
+      "community_name": "NotarySessionView.tsx",
       "file_type": "code",
-      "norm_label": "emaildispatcherconsole()",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
-      "source_location": "L35"
+      "norm_label": "idvbiometriccheckmodal()",
+      "source_file": "src/components/notary/IDVBiometricCheckModal.tsx",
+      "source_location": "L4"
     },
     {
-      "id": "src_context_signflowcontext_getinitialurlroutestate",
-      "label": "getInitialUrlRouteState()",
+      "id": "src_components_notary_notarysessionview_notarysessionview",
+      "label": "NotarySessionView()",
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "securityTokens.ts",
+      "community_name": "NotarySessionView.tsx",
       "file_type": "code",
-      "norm_label": "getinitialurlroutestate()",
-      "source_file": "src/context/SignFlowContext.tsx",
-      "source_location": "L254"
+      "norm_label": "notarysessionview()",
+      "source_file": "src/components/notary/NotarySessionView.tsx",
+      "source_location": "L25"
     },
     {
-      "id": "src_utils_cryptoutils_getmockdevicefingerprint",
-      "label": "getMockDeviceFingerprint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "getmockdevicefingerprint()",
-      "source_file": "src/utils/cryptoUtils.ts",
-      "source_location": "L59"
-    },
-    {
-      "id": "src_utils_securitytokens_computetokenhmac",
-      "label": "computeTokenHmac()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "computetokenhmac()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L60"
-    },
-    {
-      "id": "src_utils_securitytokens_createsecuresession",
-      "label": "createSecureSession()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "createsecuresession()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L312"
-    },
-    {
-      "id": "src_utils_securitytokens_generatesecuresigningurl",
-      "label": "generateSecureSigningUrl()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "generatesecuresigningurl()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L184"
-    },
-    {
-      "id": "src_utils_securitytokens_generatesigningtoken",
-      "label": "generateSigningToken()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "generatesigningtoken()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L96"
-    },
-    {
-      "id": "src_utils_securitytokens_timingsafeequalstring",
-      "label": "timingSafeEqualString()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "timingsafeequalstring()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L84"
-    },
-    {
-      "id": "src_utils_securitytokens_validatesecuresession",
-      "label": "validateSecureSession()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "validatesecuresession()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L335"
-    },
-    {
-      "id": "src_utils_securitytokens_verifysigningtoken",
-      "label": "verifySigningToken()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "verifysigningtoken()",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L118"
-    },
-    {
-      "id": "src_components_certificate_certificateofcompletionmodal_certificateofcompletionmodal",
-      "label": "CertificateOfCompletionModal()",
+      "id": "src_components_prepare_shareenvelopemodal_shareenvelopemodal",
+      "label": "ShareEnvelopeModal()",
       "_callable": true,
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "certificateofcompletionmodal()",
-      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_components_compliance_universalproofverifierview_universalproofverifierview",
-      "label": "UniversalProofVerifierView()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "universalproofverifierview()",
-      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_components_signing_signsuccessmodal_signsuccessmodal",
-      "label": "SignSuccessModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "signsuccessmodal()",
-      "source_file": "src/components/signing/SignSuccessModal.tsx",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_utils_cryptoutils_sha256",
-      "label": "sha256()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "sha256()",
-      "source_file": "src/utils/cryptoUtils.ts",
-      "source_location": "L15"
+      "norm_label": "shareenvelopemodal()",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
+      "source_location": "L36"
     },
     {
       "id": "src_utils_pdfflattener_appendcertificateofcompletion",
@@ -3346,18 +3382,6 @@
       "source_location": "L29"
     },
     {
-      "id": "src_utils_pdfflattener_downloadflattenedenvelopepdf",
-      "label": "downloadFlattenedEnvelopePdf()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "downloadflattenedenvelopepdf()",
-      "source_file": "src/utils/pdfFlattener.ts",
-      "source_location": "L611"
-    },
-    {
       "id": "src_utils_pdfflattener_flattenenvelopetopdf",
       "label": "flattenEnvelopeToPdf()",
       "_callable": true,
@@ -3380,42 +3404,6 @@
       "norm_label": "rendercalligraphytopng()",
       "source_file": "src/utils/pdfFlattener.ts",
       "source_location": "L43"
-    },
-    {
-      "id": "src_utils_proofexporter_downloadproofbundle",
-      "label": "downloadProofBundle()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "downloadproofbundle()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L210"
-    },
-    {
-      "id": "src_utils_proofexporter_generatezerotrustproofbundle",
-      "label": "generateZeroTrustProofBundle()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "generatezerotrustproofbundle()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_utils_proofexporter_verifyzerotrustproofoffline",
-      "label": "verifyZeroTrustProofOffline()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "verifyzerotrustproofoffline()",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L108"
     },
     {
       "id": "tools_verify_proof_main",
@@ -3898,54 +3886,6 @@
       "source_location": "L17"
     },
     {
-      "id": "src_components_ai_aidraftingstudio_aidraftingstudio",
-      "label": "AIDraftingStudio()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "aidraftingstudio()",
-      "source_file": "src/components/ai/AIDraftingStudio.tsx",
-      "source_location": "L29"
-    },
-    {
-      "id": "src_components_dashboard_envelopepipeline_envelopepipeline",
-      "label": "EnvelopePipeline()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "envelopepipeline()",
-      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_utils_aimultiagentdrafter_executemultiagentdraft",
-      "label": "executeMultiAgentDraft()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "executemultiagentdraft()",
-      "source_file": "src/utils/aiMultiAgentDrafter.ts",
-      "source_location": "L191"
-    },
-    {
-      "id": "src_utils_aimultiagentdrafter_generaterichsectionprose",
-      "label": "generateRichSectionProse()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "generaterichsectionprose()",
-      "source_file": "src/utils/aiMultiAgentDrafter.ts",
-      "source_location": "L130"
-    },
-    {
       "id": "services_unified_backend_src_modules_docusign_v2_1_createdocusignrouter",
       "label": "createDocusignRouter()",
       "_callable": true,
@@ -4210,15 +4150,15 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_envelopes_envelopevaultlist_envelopevaultlist",
-      "label": "EnvelopeVaultList()",
+      "id": "src_components_compliance_universalproofverifierview_universalproofverifierview",
+      "label": "UniversalProofVerifierView()",
       "_callable": true,
       "_origin": "ast",
       "community": 77,
       "community_name": "cryptoUtils.ts",
       "file_type": "code",
-      "norm_label": "envelopevaultlist()",
-      "source_file": "src/components/envelopes/EnvelopeVaultList.tsx",
+      "norm_label": "universalproofverifierview()",
+      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
       "source_location": "L24"
     },
     {
@@ -4232,6 +4172,30 @@
       "norm_label": "recipientconfigpanel()",
       "source_file": "src/components/prepare/RecipientConfigPanel.tsx",
       "source_location": "L18"
+    },
+    {
+      "id": "src_utils_aiengine_detectsmartfields",
+      "label": "detectSmartFields()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "detectsmartfields()",
+      "source_file": "src/utils/aiEngine.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_utils_aiengine_generatecontractdraft",
+      "label": "generateContractDraft()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "generatecontractdraft()",
+      "source_file": "src/utils/aiEngine.ts",
+      "source_location": "L259"
     },
     {
       "id": "src_utils_cryptoutils_formattimestamp",
@@ -4294,6 +4258,18 @@
       "source_location": "L68"
     },
     {
+      "id": "src_utils_cryptoutils_sha256",
+      "label": "sha256()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "sha256()",
+      "source_file": "src/utils/cryptoUtils.ts",
+      "source_location": "L15"
+    },
+    {
       "id": "src_utils_obligationextractor_extractobligationsfromenvelope",
       "label": "extractObligationsFromEnvelope()",
       "_callable": true,
@@ -4304,6 +4280,42 @@
       "norm_label": "extractobligationsfromenvelope()",
       "source_file": "src/utils/obligationExtractor.ts",
       "source_location": "L110"
+    },
+    {
+      "id": "src_utils_proofexporter_downloadproofbundle",
+      "label": "downloadProofBundle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "downloadproofbundle()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L210"
+    },
+    {
+      "id": "src_utils_proofexporter_generatezerotrustproofbundle",
+      "label": "generateZeroTrustProofBundle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "generatezerotrustproofbundle()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_utils_proofexporter_verifyzerotrustproofoffline",
+      "label": "verifyZeroTrustProofOffline()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "verifyzerotrustproofoffline()",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L108"
     },
     {
       "id": "services_unified_backend_src_rate_limiter_createratelimiter",
@@ -4510,12 +4522,24 @@
       "source_location": "L141"
     },
     {
+      "id": "src_components_ai_aidraftingstudio_aidraftingstudio",
+      "label": "AIDraftingStudio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "aidraftingstudio()",
+      "source_file": "src/components/ai/AIDraftingStudio.tsx",
+      "source_location": "L29"
+    },
+    {
       "id": "src_components_ai_ailegalhub_ailegalhub",
       "label": "AILegalHub()",
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "ailegalhub()",
       "source_file": "src/components/ai/AILegalHub.tsx",
@@ -4527,7 +4551,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "airiskscanner()",
       "source_file": "src/components/ai/AIRiskScanner.tsx",
@@ -4539,7 +4563,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "contractqabot()",
       "source_file": "src/components/ai/ContractQABot.tsx",
@@ -4551,7 +4575,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "obligationcalendartracker()",
       "source_file": "src/components/ai/ObligationCalendarTracker.tsx",
@@ -4563,7 +4587,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "signeraidrawer()",
       "source_file": "src/components/signing/SignerAIDrawer.tsx",
@@ -4575,7 +4599,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "analyzedocumentrisk()",
       "source_file": "src/utils/aiEngine.ts",
@@ -4587,7 +4611,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "analyzesignerguardianrisks()",
       "source_file": "src/utils/aiEngine.ts",
@@ -4599,35 +4623,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "answercontractquestion()",
       "source_file": "src/utils/aiEngine.ts",
       "source_location": "L337"
-    },
-    {
-      "id": "src_utils_aiengine_detectsmartfields",
-      "label": "detectSmartFields()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "detectsmartfields()",
-      "source_file": "src/utils/aiEngine.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_utils_aiengine_generatecontractdraft",
-      "label": "generateContractDraft()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "aiEngine.ts",
-      "file_type": "code",
-      "norm_label": "generatecontractdraft()",
-      "source_file": "src/utils/aiEngine.ts",
-      "source_location": "L259"
     },
     {
       "id": "src_utils_aiengine_generatesignersummary",
@@ -4635,11 +4635,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "generatesignersummary()",
       "source_file": "src/utils/aiEngine.ts",
       "source_location": "L299"
+    },
+    {
+      "id": "src_utils_aimultiagentdrafter_executemultiagentdraft",
+      "label": "executeMultiAgentDraft()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "executemultiagentdraft()",
+      "source_file": "src/utils/aiMultiAgentDrafter.ts",
+      "source_location": "L191"
+    },
+    {
+      "id": "src_utils_aimultiagentdrafter_generaterichsectionprose",
+      "label": "generateRichSectionProse()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "generaterichsectionprose()",
+      "source_file": "src/utils/aiMultiAgentDrafter.ts",
+      "source_location": "L130"
     },
     {
       "id": "services_unified_backend_src_modules_audit_auditledgerstore_calculatehash",
@@ -4748,18 +4772,6 @@
       "norm_label": "fieldpropertiesmodal()",
       "source_file": "src/components/prepare/FieldPropertiesModal.tsx",
       "source_location": "L31"
-    },
-    {
-      "id": "src_components_signing_inceremonynegotiationmodal_inceremonynegotiationmodal",
-      "label": "InCeremonyNegotiationModal()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "SigningExperience.tsx",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodal()",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L28"
     },
     {
       "id": "src_components_signing_mobileqrmodal_mobileqrmodal",
@@ -4881,6 +4893,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_admin_emaildispatcherconsole",
+      "label": "EmailDispatcherConsole.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "emaildispatcherconsole.tsx",
+      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_clm_ainegotiationworkbench",
+      "label": "AINegotiationWorkbench.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "useSignFlow",
+      "file_type": "code",
+      "norm_label": "ainegotiationworkbench.tsx",
+      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_compliance_qestspverificationview",
       "label": "QESTSPVerificationView.tsx",
       "_origin": "ast",
@@ -4958,25 +4992,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_notary_idvbiometriccheckmodal",
-      "label": "IDVBiometricCheckModal.tsx",
+      "id": "src_components_migration_legacymigrationimporterview",
+      "label": "LegacyMigrationImporterView.tsx",
       "_origin": "ast",
       "community": 0,
       "community_name": "useSignFlow",
       "file_type": "code",
-      "norm_label": "idvbiometriccheckmodal.tsx",
-      "source_file": "src/components/notary/IDVBiometricCheckModal.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_notary_notarysessionview",
-      "label": "NotarySessionView.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "useSignFlow",
-      "file_type": "code",
-      "norm_label": "notarysessionview.tsx",
-      "source_file": "src/components/notary/NotarySessionView.tsx",
+      "norm_label": "legacymigrationimporterview.tsx",
+      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
       "source_location": "L1"
     },
     {
@@ -5035,6 +5058,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_certificate_certificateofcompletionmodal",
+      "label": "CertificateOfCompletionModal.tsx",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "downloadJsonBundle",
+      "file_type": "code",
+      "norm_label": "certificateofcompletionmodal.tsx",
+      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_collaborate_cobrowsingroomview",
       "label": "CoBrowsingRoomView.tsx",
       "_origin": "ast",
@@ -5065,17 +5099,6 @@
       "file_type": "code",
       "norm_label": "localdatabasemanagerview.tsx",
       "source_file": "src/components/database/LocalDatabaseManagerView.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_migration_legacymigrationimporterview",
-      "label": "LegacyMigrationImporterView.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "downloadJsonBundle",
-      "file_type": "code",
-      "norm_label": "legacymigrationimporterview.tsx",
-      "source_file": "src/components/migration/LegacyMigrationImporterView.tsx",
       "source_location": "L1"
     },
     {
@@ -9870,7 +9893,7 @@
       "label": "DocumentViewerCanvas.tsx",
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "documentviewercanvas.tsx",
       "source_file": "src/components/prepare/DocumentViewerCanvas.tsx",
@@ -9881,7 +9904,7 @@
       "label": "FieldPalette.tsx",
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "fieldpalette.tsx",
       "source_file": "src/components/prepare/FieldPalette.tsx",
@@ -9892,22 +9915,11 @@
       "label": "FIELD_TOOLS",
       "_origin": "ast",
       "community": 155,
-      "community_name": "Recipient",
+      "community_name": "DocumentViewerCanvas.tsx",
       "file_type": "code",
       "norm_label": "field_tools",
       "source_file": "src/components/prepare/FieldPalette.tsx",
       "source_location": "L29"
-    },
-    {
-      "id": "src_components_signing_signsuccessmodal",
-      "label": "SignSuccessModal.tsx",
-      "_origin": "ast",
-      "community": 155,
-      "community_name": "Recipient",
-      "file_type": "code",
-      "norm_label": "signsuccessmodal.tsx",
-      "source_file": "src/components/signing/SignSuccessModal.tsx",
-      "source_location": "L1"
     },
     {
       "id": "cm_continuity",
@@ -10006,36 +10018,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_dashboard_rightinspectorpanel",
-      "label": "RightInspectorPanel.tsx",
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "rightinspectorpanel.tsx",
-      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_prepare_shareenvelopemodal",
-      "label": "ShareEnvelopeModal.tsx",
-      "_origin": "ast",
-      "community": 158,
-      "community_name": "Envelope",
-      "file_type": "code",
-      "norm_label": "shareenvelopemodal.tsx",
-      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_clm_ainegotiationworkbench",
-      "label": "AINegotiationWorkbench.tsx",
+      "id": "src_components_signing_inceremonynegotiationmodal",
+      "label": "InCeremonyNegotiationModal.tsx",
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
-      "norm_label": "ainegotiationworkbench.tsx",
-      "source_file": "src/components/clm/AINegotiationWorkbench.tsx",
+      "norm_label": "inceremonynegotiationmodal.tsx",
+      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
       "source_location": "L1"
     },
     {
@@ -10043,7 +10033,7 @@
       "label": "clauseLibrary.ts",
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
       "norm_label": "clauselibrary.ts",
       "source_file": "src/data/clauseLibrary.ts",
@@ -10054,7 +10044,7 @@
       "label": "CLAUSE_LIBRARY",
       "_origin": "ast",
       "community": 159,
-      "community_name": "AINegotiationWorkbench.tsx",
+      "community_name": "InCeremonyNegotiationModal.tsx",
       "file_type": "code",
       "norm_label": "clause_library",
       "source_file": "src/data/clauseLibrary.ts",
@@ -11232,6 +11222,50 @@
       "norm_label": "localdatabase.ts",
       "source_file": "src/utils/localDatabase.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_utils_securitytokens",
+      "label": "securityTokens.ts",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "securitytokens.ts",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_securitytokens_default_signing_link_ttl_ms",
+      "label": "DEFAULT_SIGNING_LINK_TTL_MS",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "default_signing_link_ttl_ms",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_utils_securitytokens_enterprise_session_ttl_ms",
+      "label": "ENTERPRISE_SESSION_TTL_MS",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "enterprise_session_ttl_ms",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_utils_securitytokens_lockout_duration_ms",
+      "label": "LOCKOUT_DURATION_MS",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "SignFlowContext.tsx",
+      "file_type": "code",
+      "norm_label": "lockout_duration_ms",
+      "source_file": "src/utils/securityTokens.ts",
+      "source_location": "L15"
     },
     {
       "id": "tools_test_phase2_sharding_cache",
@@ -12728,59 +12762,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_admin_emaildispatcherconsole",
-      "label": "EmailDispatcherConsole.tsx",
+      "id": "src_components_notary_idvbiometriccheckmodal",
+      "label": "IDVBiometricCheckModal.tsx",
       "_origin": "ast",
       "community": 4,
-      "community_name": "securityTokens.ts",
+      "community_name": "NotarySessionView.tsx",
       "file_type": "code",
-      "norm_label": "emaildispatcherconsole.tsx",
-      "source_file": "src/components/admin/EmailDispatcherConsole.tsx",
+      "norm_label": "idvbiometriccheckmodal.tsx",
+      "source_file": "src/components/notary/IDVBiometricCheckModal.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_utils_securitytokens",
-      "label": "securityTokens.ts",
+      "id": "src_components_notary_notarysessionview",
+      "label": "NotarySessionView.tsx",
       "_origin": "ast",
       "community": 4,
-      "community_name": "securityTokens.ts",
+      "community_name": "NotarySessionView.tsx",
       "file_type": "code",
-      "norm_label": "securitytokens.ts",
-      "source_file": "src/utils/securityTokens.ts",
+      "norm_label": "notarysessionview.tsx",
+      "source_file": "src/components/notary/NotarySessionView.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_utils_securitytokens_default_signing_link_ttl_ms",
-      "label": "DEFAULT_SIGNING_LINK_TTL_MS",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "default_signing_link_ttl_ms",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "src_utils_securitytokens_enterprise_session_ttl_ms",
-      "label": "ENTERPRISE_SESSION_TTL_MS",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "enterprise_session_ttl_ms",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_utils_securitytokens_lockout_duration_ms",
-      "label": "LOCKOUT_DURATION_MS",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "securityTokens.ts",
-      "file_type": "code",
-      "norm_label": "lockout_duration_ms",
-      "source_file": "src/utils/securityTokens.ts",
-      "source_location": "L15"
     },
     {
       "id": "graph_report",
@@ -13889,25 +13890,36 @@
       "source_location": "L265"
     },
     {
-      "id": "src_components_certificate_certificateofcompletionmodal",
-      "label": "CertificateOfCompletionModal.tsx",
+      "id": "src_components_dashboard_rightinspectorpanel",
+      "label": "RightInspectorPanel.tsx",
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "certificateofcompletionmodal.tsx",
-      "source_file": "src/components/certificate/CertificateOfCompletionModal.tsx",
+      "norm_label": "rightinspectorpanel.tsx",
+      "source_file": "src/components/dashboard/RightInspectorPanel.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_compliance_universalproofverifierview",
-      "label": "UniversalProofVerifierView.tsx",
+      "id": "src_components_prepare_shareenvelopemodal",
+      "label": "ShareEnvelopeModal.tsx",
       "_origin": "ast",
       "community": 44,
       "community_name": "pdfFlattener.ts",
       "file_type": "code",
-      "norm_label": "universalproofverifierview.tsx",
-      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
+      "norm_label": "shareenvelopemodal.tsx",
+      "source_file": "src/components/prepare/ShareEnvelopeModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_signing_signsuccessmodal",
+      "label": "SignSuccessModal.tsx",
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "pdfFlattener.ts",
+      "file_type": "code",
+      "norm_label": "signsuccessmodal.tsx",
+      "source_file": "src/components/signing/SignSuccessModal.tsx",
       "source_location": "L1"
     },
     {
@@ -13920,28 +13932,6 @@
       "norm_label": "pdfflattener.ts",
       "source_file": "src/utils/pdfFlattener.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "src_utils_proofexporter",
-      "label": "proofExporter.ts",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "code",
-      "norm_label": "proofexporter.ts",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "docref_rfc_3161",
-      "label": "RFC-3161",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": "pdfFlattener.ts",
-      "file_type": "concept",
-      "norm_label": "rfc-3161",
-      "source_file": "src/utils/proofExporter.ts",
-      "source_location": "L5"
     },
     {
       "id": "tools_verify_proof",
@@ -19838,61 +19828,6 @@
       "source_location": "L75"
     },
     {
-      "id": "src_components_ai_aidraftingstudio",
-      "label": "AIDraftingStudio.tsx",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "aidraftingstudio.tsx",
-      "source_file": "src/components/ai/AIDraftingStudio.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_dashboard_envelopepipeline",
-      "label": "EnvelopePipeline.tsx",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "envelopepipeline.tsx",
-      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_types_signflow",
-      "label": "signflow.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "signflow.ts",
-      "source_file": "src/types/signflow.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_utils_aimultiagentdrafter",
-      "label": "aiMultiAgentDrafter.ts",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "aimultiagentdrafter.ts",
-      "source_file": "src/utils/aiMultiAgentDrafter.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_utils_aimultiagentdrafter_contract_section_blueprints",
-      "label": "CONTRACT_SECTION_BLUEPRINTS",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "signflow.ts",
-      "file_type": "code",
-      "norm_label": "contract_section_blueprints",
-      "source_file": "src/utils/aiMultiAgentDrafter.ts",
-      "source_location": "L31"
-    },
-    {
       "id": "go_type_net_http_handler",
       "label": "net/http.Handler",
       "_origin": "ast",
@@ -20246,6 +20181,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_compliance_universalproofverifierview",
+      "label": "UniversalProofVerifierView.tsx",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "universalproofverifierview.tsx",
+      "source_file": "src/components/compliance/UniversalProofVerifierView.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_envelopes_envelopevaultlist",
       "label": "EnvelopeVaultList.tsx",
       "_origin": "ast",
@@ -20301,6 +20247,28 @@
       "source_location": "L4"
     },
     {
+      "id": "src_utils_proofexporter",
+      "label": "proofExporter.ts",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "code",
+      "norm_label": "proofexporter.ts",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "docref_rfc_3161",
+      "label": "RFC-3161",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "cryptoUtils.ts",
+      "file_type": "concept",
+      "norm_label": "rfc-3161",
+      "source_file": "src/utils/proofExporter.ts",
+      "source_location": "L5"
+    },
+    {
       "id": "services_unified_backend_src_rate_limiter",
       "label": "unified-backend/src/rate_limiter.ts",
       "_origin": "ast",
@@ -20334,11 +20302,22 @@
       "source_location": "L15"
     },
     {
+      "id": "src_components_ai_aidraftingstudio",
+      "label": "AIDraftingStudio.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "aidraftingstudio.tsx",
+      "source_file": "src/components/ai/AIDraftingStudio.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_ai_ailegalhub",
       "label": "AILegalHub.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "ailegalhub.tsx",
       "source_file": "src/components/ai/AILegalHub.tsx",
@@ -20349,7 +20328,7 @@
       "label": "AIRiskScanner.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "airiskscanner.tsx",
       "source_file": "src/components/ai/AIRiskScanner.tsx",
@@ -20360,7 +20339,7 @@
       "label": "ContractQABot.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "contractqabot.tsx",
       "source_file": "src/components/ai/ContractQABot.tsx",
@@ -20371,10 +20350,21 @@
       "label": "ObligationCalendarTracker.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "obligationcalendartracker.tsx",
       "source_file": "src/components/ai/ObligationCalendarTracker.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_dashboard_envelopepipeline",
+      "label": "EnvelopePipeline.tsx",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "envelopepipeline.tsx",
+      "source_file": "src/components/dashboard/EnvelopePipeline.tsx",
       "source_location": "L1"
     },
     {
@@ -20382,10 +20372,21 @@
       "label": "SignerAIDrawer.tsx",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "signeraidrawer.tsx",
       "source_file": "src/components/signing/SignerAIDrawer.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_types_signflow",
+      "label": "signflow.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "signflow.ts",
+      "source_file": "src/types/signflow.ts",
       "source_location": "L1"
     },
     {
@@ -20393,11 +20394,33 @@
       "label": "aiEngine.ts",
       "_origin": "ast",
       "community": 8,
-      "community_name": "aiEngine.ts",
+      "community_name": "signflow.ts",
       "file_type": "code",
       "norm_label": "aiengine.ts",
       "source_file": "src/utils/aiEngine.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_utils_aimultiagentdrafter",
+      "label": "aiMultiAgentDrafter.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "aimultiagentdrafter.ts",
+      "source_file": "src/utils/aiMultiAgentDrafter.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_aimultiagentdrafter_contract_section_blueprints",
+      "label": "CONTRACT_SECTION_BLUEPRINTS",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "signflow.ts",
+      "file_type": "code",
+      "norm_label": "contract_section_blueprints",
+      "source_file": "src/utils/aiMultiAgentDrafter.ts",
+      "source_location": "L31"
     },
     {
       "id": "agents_skills_cm_continuity_skill",
@@ -24215,17 +24238,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_signing_inceremonynegotiationmodal",
-      "label": "InCeremonyNegotiationModal.tsx",
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "SigningExperience.tsx",
-      "file_type": "code",
-      "norm_label": "inceremonynegotiationmodal.tsx",
-      "source_file": "src/components/signing/InCeremonyNegotiationModal.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_signing_mobileqrmodal",
       "label": "MobileQRModal.tsx",
       "_origin": "ast",
@@ -26906,6 +26918,30 @@
     },
     {
       "source": "src_components_prepare_documentprepstudio_documentprepstudio",
+      "target": "src_utils_documentparser_parseuploadeddocument",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L288",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_prepare_documentprepstudio_documentprepstudio",
+      "target": "src_utils_cryptoutils_generateuuid",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_prepare_documentprepstudio_documentprepstudio",
       "target": "src_utils_documentparser_calculatefilesha256",
       "relation": "calls",
       "_origin": "ast",
@@ -26913,7 +26949,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L285",
+      "source_location": "L327",
       "weight": 1.0
     },
     {
@@ -26925,7 +26961,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L294",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
@@ -26937,7 +26973,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L326",
+      "source_location": "L368",
       "weight": 1.0
     },
     {
@@ -26949,7 +26985,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L410",
+      "source_location": "L452",
       "weight": 1.0
     },
     {
@@ -26961,7 +26997,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L417",
+      "source_location": "L459",
       "weight": 1.0
     },
     {
@@ -26973,7 +27009,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
-      "source_location": "L745",
+      "source_location": "L818",
       "weight": 1.0
     },
     {
@@ -28345,6 +28381,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_utils_pdfrasterizer_rasterizepdftopages",
+      "target": "src_utils_pdfrasterizer_renderpdfwithpdflibfallback",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/pdfRasterizer.ts",
+      "source_location": "L269",
+      "weight": 1.0
+    },
+    {
       "source": "src_utils_proofexporter_downloadproofbundle",
       "target": "src_utils_proofexporter_generatezerotrustproofbundle",
       "relation": "calls",
@@ -29661,7 +29709,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L15",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -32522,6 +32570,18 @@
     },
     {
       "source": "src_components_prepare_documentprepstudio",
+      "target": "src_types_signflow_agreementdocument",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_prepare_documentprepstudio",
       "target": "src_types_signflow_authtype",
       "relation": "imports",
       "_origin": "ast",
@@ -32654,6 +32714,18 @@
     },
     {
       "source": "src_components_prepare_documentprepstudio",
+      "target": "src_utils_cryptoutils_generateuuid",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_prepare_documentprepstudio",
       "target": "src_utils_cryptoutils_sha256",
       "relation": "imports",
       "_origin": "ast",
@@ -32715,6 +32787,18 @@
     {
       "source": "src_components_prepare_documentprepstudio",
       "target": "src_utils_documentparser_formatfilesize",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/prepare/DocumentPrepStudio.tsx",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_prepare_documentprepstudio",
+      "target": "src_utils_documentparser_parseuploadeddocument",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -34557,7 +34641,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L7",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -37149,7 +37233,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L7",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -55784,24 +55868,35 @@
     },
     {
       "source": "src_utils_pdfrasterizer",
-      "target": "src_utils_pdfrasterizer_pdfrasterizationresult",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L14",
-      "weight": 1.0
-    },
-    {
-      "source": "src_utils_pdfrasterizer",
       "target": "src_utils_pdfrasterizer_rasterizepdftopages",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/utils/pdfRasterizer.ts",
-      "source_location": "L23",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_pdfrasterizer",
+      "target": "src_utils_pdfrasterizer_pdfrasterizationresult",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/pdfRasterizer.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_pdfrasterizer",
+      "target": "src_utils_pdfrasterizer_renderpdfwithpdflibfallback",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/pdfRasterizer.ts",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -58062,5 +58157,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "62b72514c775bf35865866325e25ed9f98ec2703"
+  "built_at_commit": "6201c3b848c91df11db5e6f5397a9df8e8e5d5fc"
 }

@@ -72,13 +72,13 @@ import {
   ListPlus
 } from 'lucide-react';
 import { useSignFlow } from '../../context/SignFlowContext';
-import { FieldType, DocumentField, CustomSignature, Recipient, AuthType, EnvelopeAttachment } from '../../types/signflow';
+import { FieldType, DocumentField, CustomSignature, Recipient, AuthType, EnvelopeAttachment, AgreementDocument } from '../../types/signflow';
 import { CustomSignatureModal } from '../signatures/CustomSignatureModal';
 import { ShareEnvelopeModal } from './ShareEnvelopeModal';
 import { FieldPropertiesModal } from './FieldPropertiesModal';
-import { formatTimestamp, sha256, generateFullSha256 } from '../../utils/cryptoUtils';
+import { formatTimestamp, sha256, generateFullSha256, generateUUID } from '../../utils/cryptoUtils';
 import { downloadJsonBundle, downloadFile, generateCsvString } from '../../utils/downloadUtils';
-import { calculateFileSha256, formatFileSize } from '../../utils/documentParser';
+import { calculateFileSha256, formatFileSize, parseUploadedDocument } from '../../utils/documentParser';
 import { downloadFlattenedEnvelopePdf } from '../../utils/pdfFlattener';
 
 interface AttachmentItem {
@@ -276,6 +276,48 @@ export const DocumentPrepStudio: React.FC = () => {
     };
     addFieldToEnvelope(activeEnvelope.id, newField);
     notify('success', 'Field Added', `Placed ${type.replace('_', ' ')} field on page ${activePage}.`);
+  };
+
+  // Upload or Replace Agreement Document (PDF/DOCX/TXT/Images) with genuine visual page rendering
+  const handleDocumentUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0 || !activeEnvelope) return;
+    const file = files[0];
+
+    try {
+      notify('info', 'Processing Document', `Rasterizing pages from "${file.name}"...`);
+      const parsed = await parseUploadedDocument(file);
+
+      if (parsed.pages.length > 0) {
+        const updatedDoc: AgreementDocument = {
+          id: 'doc-' + generateUUID().slice(0, 6),
+          name: parsed.name,
+          size: parsed.sizeFormatted,
+          fileType: parsed.fileType,
+          sha256Hash: parsed.sha256Hash,
+          fileUrl: parsed.fileUrl,
+          rawData: parsed.rawData,
+          pages: parsed.pages
+        };
+
+        const newFinalPage = parsed.pages.length;
+        // Keep signature fields on the new document, repositioning if prior page exceeded page count
+        const updatedFields = (activeEnvelope.fields || []).map(f => ({
+          ...f,
+          page: Math.min(f.page, newFinalPage)
+        }));
+
+        updateEnvelope(activeEnvelope.id, {
+          title: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+          documents: [updatedDoc],
+          fields: updatedFields
+        });
+
+        setActivePage(1);
+        notify('success', 'Document Uploaded', `Successfully loaded ${parsed.pages.length} visual page(s) from "${file.name}".`);
+      }
+    } catch (err: any) {
+      notify('error', 'Upload Error', err?.message || 'Failed to parse uploaded PDF.');
+    }
   };
 
   // Add Attachment Handler
@@ -566,6 +608,22 @@ export const DocumentPrepStudio: React.FC = () => {
               </button>
             </div>
 
+            {/* Upload / Replace Document Button */}
+            <button
+              onClick={() => {
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.pdf,.docx,.doc,.txt,.png,.jpg';
+                fileInput.onchange = (e) => handleDocumentUpload((e.target as HTMLInputElement).files);
+                fileInput.click();
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center space-x-1.5 shadow-2xs transition-colors cursor-pointer hover:border-indigo-300 hover:text-indigo-600"
+              title="Upload PDF/DOCX to replace document pages"
+            >
+              <UploadCloud className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Upload Doc</span>
+            </button>
+
             {/* Share Button */}
             <button
               onClick={() => setShowShareModal(true)}
@@ -588,6 +646,21 @@ export const DocumentPrepStudio: React.FC = () => {
 
               {showStudioActionsMenu && (
                 <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl p-1.5 z-50 text-xs space-y-0.5 animate-in fade-in slide-in-from-top-2">
+                  <button
+                    onClick={() => {
+                      setShowStudioActionsMenu(false);
+                      const fileInput = document.createElement('input');
+                      fileInput.type = 'file';
+                      fileInput.accept = '.pdf,.docx,.doc,.txt,.png,.jpg';
+                      fileInput.onchange = (e) => handleDocumentUpload((e.target as HTMLInputElement).files);
+                      fileInput.click();
+                    }}
+                    className="w-full text-left p-2 rounded-xl text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium flex items-center space-x-2 transition-colors cursor-pointer"
+                  >
+                    <UploadCloud className="w-3.5 h-3.5 text-indigo-600" />
+                    <span>Upload / Replace Document</span>
+                  </button>
+
                   <button
                     onClick={() => {
                       setShowStudioActionsMenu(false);
@@ -857,11 +930,11 @@ export const DocumentPrepStudio: React.FC = () => {
                       const fileInput = document.createElement('input');
                       fileInput.type = 'file';
                       fileInput.accept = '.pdf,.docx,.doc,.txt,.png,.jpg';
-                      fileInput.onchange = (e) => handleFileUpload((e.target as HTMLInputElement).files);
+                      fileInput.onchange = (e) => handleDocumentUpload((e.target as HTMLInputElement).files);
                       fileInput.click();
                     }}
                     className="w-9 h-9 rounded-xl border border-dashed border-slate-300 hover:border-indigo-500 text-slate-400 hover:text-indigo-600 flex items-center justify-center cursor-pointer transition-colors"
-                    title="Add Page / Upload Attachment"
+                    title="Upload PDF Document / Replace Pages"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -882,13 +955,14 @@ export const DocumentPrepStudio: React.FC = () => {
                             const fileInput = document.createElement('input');
                             fileInput.type = 'file';
                             fileInput.accept = '.pdf,.docx,.doc,.txt,.png,.jpg';
-                            fileInput.onchange = (e) => handleFileUpload((e.target as HTMLInputElement).files);
+                            fileInput.onchange = (e) => handleDocumentUpload((e.target as HTMLInputElement).files);
                             fileInput.click();
                           }}
-                          className="p-1 rounded-md text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors cursor-pointer"
-                          title="Upload additional PDF/DOCX schedules or exhibits"
+                          className="px-2 py-0.5 rounded-md text-[11px] font-semibold text-indigo-600 hover:bg-indigo-50 border border-indigo-200/60 transition-colors cursor-pointer flex items-center space-x-1"
+                          title="Upload PDF to render document pages"
                         >
-                          <Plus className="w-3.5 h-3.5" />
+                          <UploadCloud className="w-3 h-3 text-indigo-600" />
+                          <span>Upload PDF</span>
                         </button>
                         <button
                           onClick={() => setIsLeftSidebarCollapsed(true)}
@@ -1242,55 +1316,6 @@ export const DocumentPrepStudio: React.FC = () => {
                             <h4 key={pIdx} className="text-xs font-bold text-slate-900 pt-2 text-indigo-950 font-display">
                               {paragraph.replace('#### ', '')}
                             </h4>
-                          );
-                        }
-
-                        // PDF Ingestion Metadata Card Check
-                        if (paragraph.includes('**PDF Document**:') || paragraph.includes('**Cryptographic Checksum**:')) {
-                          const docName = paragraph.match(/\*\*PDF Document\*\*:\s*`([^`]+)`/)?.[1] || activeEnvelope?.documents?.[0]?.name || 'Document.pdf';
-                          const docSize = paragraph.match(/\(([^)]+)\)/)?.[1] || activeEnvelope?.documents?.[0]?.size || '62.9 KB';
-                          const checksum = paragraph.match(/`sha256-([^`]+)`/)?.[1] || activeEnvelope?.documents?.[0]?.sha256Hash || 'verified-hash';
-
-                          return (
-                            <div key={pIdx} className="p-4 rounded-xl bg-slate-50/90 border border-slate-200/90 shadow-2xs space-y-3 my-2">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
-                                    <FileText className="w-4 h-4" />
-                                  </div>
-                                  <div>
-                                    <span className="text-[11px] font-bold text-slate-900 block">{docName}</span>
-                                    <span className="text-[10px] text-slate-400 font-mono">{docSize} • High-Fidelity PDF Vector</span>
-                                  </div>
-                                </div>
-                                <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
-                                  ✓ Ingested & Verified
-                                </span>
-                              </div>
-
-                              {/* Checksum Bar with 1-Click Copy */}
-                              <div className="p-2 rounded-lg bg-white border border-slate-200 flex items-center justify-between font-mono text-[10px] text-slate-600">
-                                <div className="flex items-center space-x-1.5 truncate pr-2">
-                                  <Hash className="w-3 h-3 text-indigo-500 shrink-0" />
-                                  <span className="font-bold text-slate-700 shrink-0">SHA-256:</span>
-                                  <span className="truncate">{checksum.startsWith('sha256-') ? checksum : `sha256-${checksum}`}</span>
-                                </div>
-                                <button
-                                  onClick={() => {
-                                    navigator.clipboard.writeText(checksum);
-                                    notify('success', 'SHA-256 Copied', 'Cryptographic fingerprint copied to clipboard.');
-                                  }}
-                                  className="p-1 rounded text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
-                                  title="Copy Checksum"
-                                >
-                                  <Copy className="w-3 h-3" />
-                                </button>
-                              </div>
-
-                              <p className="text-[10.5px] text-slate-500 italic leading-snug">
-                                The genuine PDF document has been securely ingested and anchored into the SHA-256 Merkle chain. Signature fields, biometric stamps, and legal verification tags will be affixed directly to this agreement.
-                              </p>
-                            </div>
                           );
                         }
 

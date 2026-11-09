@@ -357,19 +357,43 @@ export async function parseUploadedDocument(file: File): Promise<ParsedDocumentR
     }
 
     if (generatedPages.length === 0) {
-      // PDF with binary streams: provide clean preview wrapper
-      extractedText = `### ${cleanName.toUpperCase()}\n\n**PDF Document**: \`${file.name}\` (${formattedSize})\n**Cryptographic Checksum**: \`${sha256Hash}\`\n\n*The genuine PDF file has been securely ingested into the High-Fidelity Studio.*`;
+      extractedText = `${cleanName} - Document Ingested`;
       
+      let fallbackImg: string | undefined;
+      if (typeof document !== 'undefined') {
+        const c = document.createElement('canvas');
+        c.width = 1000;
+        c.height = 1414;
+        const cx = c.getContext('2d');
+        if (cx) {
+          cx.fillStyle = '#ffffff';
+          cx.fillRect(0, 0, 1000, 1414);
+          cx.strokeStyle = '#e2e8f0';
+          cx.lineWidth = 2;
+          cx.strokeRect(16, 16, 968, 1382);
+          cx.fillStyle = '#0f172a';
+          cx.font = 'bold 24px serif';
+          cx.fillText(cleanName, 48, 80);
+          cx.strokeStyle = '#cbd5e1';
+          cx.beginPath();
+          cx.moveTo(48, 96);
+          cx.lineTo(952, 96);
+          cx.stroke();
+          cx.fillStyle = '#64748b';
+          for (let l = 0; l < 25; l++) {
+            const w = (904) * (0.6 + ((l * 23) % 35) / 100);
+            cx.fillRect(48, 140 + l * 32, w, 8);
+          }
+          fallbackImg = c.toDataURL('image/png');
+        }
+      }
+
       generatedPages = [
         {
           pageNumber: 1,
           title: `1. ${cleanName} (Page 1)`,
-          content: extractedText
-        },
-        {
-          pageNumber: 2,
-          title: `2. Signature & Execution Page`,
-          content: `### EXECUTION & SIGNATURES\n\nIn Witness Whereof, the parties have executed **${file.name}** as of the cryptographic timestamp recorded in the immutable audit ledger.`
+          content: `### ${cleanName}\n\nDocument page 1 ready for signature routing.`,
+          imageUrl: fallbackImg
         }
       ];
     }
